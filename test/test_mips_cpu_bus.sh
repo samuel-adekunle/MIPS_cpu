@@ -2,15 +2,14 @@
 set -eou pipefail
 VARIANT="bus"
 DIRECTORY="$1"
-FLAGS="-g 2012 -Wall"
 
 if [ $# -ge 2 ]
 then
     TESTCASE="$2"
     #test for one
-    ./run_instruction_testcase.sh ${TESTCASE}
+    ./test/run_instruction_testcase.sh ${DIRECTORY} ${TESTCASE}
 else
     #test all
-    ./run_all_testcases.sh
+    ./test/run_all_testcases.sh ${DIRECTORY}
 
 fi

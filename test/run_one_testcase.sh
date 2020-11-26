@@ -3,13 +3,15 @@ set -eou pipefail
 
 # Can be used to echo commands
 # set -o xtrace
-
-TESTCASE="$1"
+DIRECTORY="$1"
+TESTCASE="$2"
 INSTRUCTION=$(echo $TESTCASE | cut -d _ -f 1)
+FLAGS="-g 2012 -Wall"
+echo "${DIRECTORY}"
 >&2 echo "  1 - Assembling input file"
 #bin/assembler <test/0-assembly/${TESTCASE}.asm.txt >test/1-binary/${TESTCASE}.hex.txt
 
->&2 echo " 2 - Compiling test-bench"
+>&2 echo " 2 - Compiling test-bench and CPU from ${DIRECTORY}"
 # Compile a specific simulator for this variant and testbench.
 # -s specifies exactly which testbench should be top-level
 # The -P command is used to modify the RAM_INIT_FILE parameter on the test-bench at compile-time
@@ -58,6 +60,7 @@ NOTHING=""
 #some iff things with comments
 COMMENT="yeet"
 >&2 echo "Checking RAM"
+##check some stuff
 # Based on whether differences were found, either pass or fail
 if [[ "${RESULT}" -ne 0 ]] ; then
    echo "  ${TESTCASE} ${INSTRUCTION} Fail ${COMMENT}"
