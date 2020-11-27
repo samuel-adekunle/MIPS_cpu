@@ -13,7 +13,7 @@ module Registers (
 ); 
 
 //32 32-bit registers. Initialise register values using regmem.txt 
-logic [15:0] register [0:31]; 
+logic [31:0] register [0:31]; 
 
 initial begin 
 	$readmemh("regmem.txt", reg_mem, 0, 31); 
