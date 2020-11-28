@@ -4,7 +4,7 @@ module ALU (
     input logic [31:0] Data1,
     input logic [31:0] Data2,
     output logic zero,
-    output logic [31:0] ALUresult
+    output logic [31:0] ALUresult,
     output logic [31:0] HI,
     output logic [31:0] LO
 	
@@ -25,9 +25,11 @@ module ALU (
 	    3: begin //division
 		LO <= $signed(Data1)/$signed(Data2); //LO contains quotient
 		HI <= $signed(Data1)%$signed(Data2); //HI contains remainder 
+	    end
 	    4: begin //division unsigned
 		LO <= Data1/Data2; 
 		HI <= Data1%Data2; 
+	    end
 
 	    11: begin
 		MultRes <= $signed(Data1)*$signed(Data2); //multiplication
