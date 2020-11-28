@@ -2,6 +2,8 @@ module mips_cpu_harvard_tb;
     timeunit 1ns / 10ps;
 
     parameter RAM_INIT_FILE = "test/01-binary/addiu_1.txt";
+    parameter DATA_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
+    parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter TIMEOUT_CYCLES = 10000;
 
     logic clk;
@@ -19,9 +21,12 @@ module mips_cpu_harvard_tb;
     logic[31:0] data_readdata;
     
    
-    RAM_32x4096_harvard #(RAM_INIT_FILE) ramInst(.clk(clk), .instr_address(instr_address), .instr_readdata(instr_readdata), 
-    .data_write(data_write), .data_read(data_read),.data_address(data_address), .data_writedata(data_writedata),
-    .data_readdata(data_readdata));
+    // RAM_32x4096_harvard #(RAM_INIT_FILE) ramInst(.clk(clk), .instr_address(instr_address), .instr_readdata(instr_readdata), 
+    // .data_write(data_write), .data_read(data_read),.data_address(data_address), .data_writedata(data_writedata),
+    // .data_readdata(data_readdata));
+    data_mem #(DATA_MEM_INIT_FILE) dataInst(.address(data_address), .WriteData(data_writedata), .MemWrite(data_write), 
+    .MemRead(data_read), .clock(clock), .ReadData(data_readdata));
+    instr_mem #(INSTR_MEM_INIT_FILE) instrInst(.address(instr_address), .clock(clk), .instr(instr_readdata));
     
     mips_cpu_harvard cpuInst(.clk(clk), .reset(reset), .active(active), .register_v0(register_v0),.clk_enable(clk_enable),
     .instr_address(instr_address), .instr_readdata(instr_readdata), .data_address(data_address), .data_write(data_write),
