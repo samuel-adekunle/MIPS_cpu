@@ -6,14 +6,14 @@ module Registers (
 	input logic [4:0] ReadReg2,  
 	input logic [4:0] WriteReg,  
 	//WriteData: 32-bit input to be written into a register 
-	input logic [31:0] WriteData; 
+	input logic [31:0] WriteData,
 	//32-bit data read from registers selected by ReadReg, WriteReg 
 	output logic [31:0] ReadData1,  
 	output logic [31:0] ReadData2 
 ); 
 
 //32 32-bit registers. Initialise register values using regmem.txt 
-logic [15:0] register [0:31]; 
+logic [31:0] register [0:31]; 
 
 initial begin 
 	$readmemh("regmem.txt", reg_mem, 0, 31); 

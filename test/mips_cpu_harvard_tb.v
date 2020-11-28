@@ -18,11 +18,15 @@ module mips_cpu_harvard_tb;
     logic[31:0] data_writedata;
     logic[31:0] data_readdata;
     
-    //this is wrong for now
-    RAM_16x4096 #(RAM_INIT_FILE) ramInst(clk, instr_address, data_write, data_read, data_writedata, data_readdata);
+   
+    RAM_32x4096_harvard #(RAM_INIT_FILE) ramInst(.clk(clk), .instr_address(instr_address), .instr_readdata(instr_readdata), 
+    .data_write(data_write), .data_read(data_read),.data_address(data_address), .data_writedata(data_writedata),
+    .data_readdata(data_readdata));
     
-    mips_cpu_harvard cpuInst(clk, reset, active, register_v0, clk_enable,instr_address, instr_readdata, data_address, data_write, data_read, data_writedata, data_readdata);
-
+    mips_cpu_harvard cpuInst(.clk(clk), .reset(reset), .active(active), .register_v0(register_v0),.clk_enable(clk_enable),
+    .instr_address(instr_address), .instr_readdata(instr_readdata), .data_address(data_address), .data_write(data_write),
+    .data_read(data_read), .data_writedata(data_writedata), .data_readdata(data_readdata));
+    
     // Generate clock
     initial begin
         clk=0;
@@ -39,24 +43,27 @@ module mips_cpu_harvard_tb;
 
     initial begin
         reset <= 0;
-
+        //active<=1;
         @(posedge clk);
         reset <= 1;
 
         @(posedge clk);
         reset <= 0;
-
+        
         @(posedge clk);
         assert(active==1)
         else $display("TB : CPU did not set active=1 after reset.");
 
         while (active) begin
             @(posedge clk);
+            $display("CPU : V0 :", register_v0);
+            
         end
 
-        $display("TB : finished; running=0");
-
+        $display("TB : finished; active=0");
+        $display("CPU : V0 :", register_v0);
         $finish;
+        
         
     end
 

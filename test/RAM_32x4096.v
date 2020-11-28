@@ -8,7 +8,7 @@ module RAM_16x4096(
 );
     parameter RAM_INIT_FILE = "";
 
-    reg [31:0] memory [4095:0];
+    reg [31:0] memory [0:4095];
 
     initial begin
         integer i;
