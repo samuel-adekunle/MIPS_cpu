@@ -41,9 +41,13 @@ module mips_cpu_harvard(
 		WB = 3'd4,
         	HALTED = 3'd5
     	} state_t;
-
+	
+	//Registers
 	logic[31:0] pc, pc_next;
-    	logic[31:0] acc; //EDIT THIS TO 32 REGISTERS
+    	logic[31:0] register [0:31]; //register file with 32 32-bit registers
+	logic[4:0] ReadReg1;
+	logic[4:0] ReadReg2;
+	logic[4:0] WriteReg;
 
     	logic[31:0] instr;
     	opcode_t instr_opcode;
@@ -89,7 +93,7 @@ module mips_cpu_harvard(
             active <= 1;
         end
         else if (state==IF) begin
-            $display("CPU : INFO  : Fetching, address=%-h.", pc);
+            $display("CPU : INFO  : Fetching, address=%h.", pc);
             instr <= instr_readdata;
             state <= ID;
         end
@@ -99,7 +103,7 @@ module mips_cpu_harvard(
                 OPCODE_ADDIU: begin
                     acc <= readdata;
                     pc <= pc_increment;
-                    state <= EX;
+                    state <= FETCH_INSTR;
                 end
                 OPCODE_LW: begin
                     pc <= pc_increment;
@@ -119,13 +123,7 @@ module mips_cpu_harvard(
 		    endcase
             endcase
         end
-	else if (state==EX) begin
-	     $display("CPU : INFO  : Executing, opcode=%h, acc=%h, imm=%h, readdata=%x", instr_opcode, acc, instr_constant, readdata);
-	     case(instr_opcode) 
-		OPCODE_ADDIU: begin
-			writedata <= ReadData1 + ReadData2;
-			state <= IF; 
-		
+	else if (state==EX) 
 
 	else if (state==MEM) 
 
