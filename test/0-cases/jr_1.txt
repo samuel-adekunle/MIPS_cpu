@@ -1,0 +1,2 @@
+jr $ra; //should halt 
+lw $v0, 10($zero);// appear as no op if not implemented
