@@ -37,7 +37,7 @@ module ALU (
 		HI <= MultRes[31:0];
 	    end
 	    12: begin 
-		MultRes <= Data1*Data2	//multiplication unsigned
+		MultRes <= Data1*Data2;	//multiplication unsigned
 		LO <= MultRes[63:32];
 		HI <= MultRes[31:0];
     	    end

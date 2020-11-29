@@ -5,7 +5,7 @@ module mux32 (
 	output logic [31:0] Output
 );
 	
-	always_comb begin
+	always@(InputA, InputB, CtlSig) begin
 		case (CtlSig)
 			0: Output <= InputA;
 			1: Output <= InputB;

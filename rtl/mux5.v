@@ -5,7 +5,7 @@ module mux5 (
 	output logic [4:0] WriteReg
 );
 
-	always_comb begin
+	always@(inst20_16, inst15_11, RegDst) begin
 		case(RegDst) 
 			0 : WriteReg <= inst20_16;
 			1 : WriteReg <= inst15_11;
