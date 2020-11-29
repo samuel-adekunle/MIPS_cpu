@@ -134,7 +134,7 @@ string I_TypeProcess(vector<string> &params){
     }
      // op rt imm(rs)
     else if(op == "lw" || op == "sw" || op == "lb" || op == "lbu" || op == "lh" ||
-            op == "lhu" || op == "sb" || op == "sb" || op == "sh"){
+            op == "lhu" || op == "sb" || op == "lwl"|| op == "lwr" || op == "sh"){
         Rt = registerCode(params[1]);
         //get the thing in the reg
         string reg = params[2];
@@ -162,6 +162,10 @@ string I_TypeProcess(vector<string> &params){
             opcode = "101000";
         else if(op == "sh")
             opcode = "101001";
+        else if(op == "lwl")
+            opcode = "100010";
+        else if(op == "lwr")
+            opcode = "100110";
     }
 
     // op rt imm
@@ -332,9 +336,9 @@ string J_TypeProcess(vector<string> &params){
 }
 int main(int argc, const char * argv[]) {
     set<string>I_TYPE{"addiu","andi","beq","bgez","bgezal","bgtz","blez","bltz","bltzal",
-    "bne","lb","lbu","lh","lhu","lui","lw","ori","sb","sh","slti","sltiu","sw","xori"};
+    "bne","lb","lbu","lh","lhu","lui","lw","lwl","lwr","ori","sb","sh","slti","sltiu","sw","xori"};
     set<string>R_TYPE{"addu","and","div","divu","jr","jalr","mfhi","mthi","mflo","mtlo","mult","multu",
-    "or","sll","sllv","slt","slti","sltiu","sltu","sra","srav","srl","srlv","subu","xor"};
+    "or","sll","sllv","slt","sltu","sra","srav","srl","srlv","subu","xor"};
     set<string>J_TYPE{"j", "jal"};
     if (argv[1] == NULL) {
         printf("no file specified\n");
