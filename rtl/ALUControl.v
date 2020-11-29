@@ -5,7 +5,7 @@ module ALUControl (
 	output logic [3:0] ALUCtl
 );
 
-    always_comb begin
+    always@(ALUOp, FunctCode) begin
         if (ALUOp == 3'b000)
         begin
             ALUCtl<=2; //addition (LW, SW, ADDU, ADDIU)   
