@@ -1,7 +1,7 @@
 module mips_cpu_harvard_tb;
     timeunit 1ns / 10ps;
 
-    parameter RAM_INIT_FILE = "test/01-binary/addiu_1.txt";
+    // parameter RAM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter DATA_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter TIMEOUT_CYCLES = 10000;
@@ -71,7 +71,4 @@ module mips_cpu_harvard_tb;
         
         
     end
-
-    
-
 endmodule

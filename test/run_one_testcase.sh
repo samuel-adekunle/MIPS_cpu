@@ -11,7 +11,7 @@ VARIANT="harvard"
 
 ##assemble test case
 #bin/assembler <test/0-assembly/${TESTCASE}.asm.txt >test/1-binary/${TESTCASE}.hex.txt
-
+./test/test_cases "test/0-cases/${TESTCASE}.txt" "test/1-binary/${TESTCASE}.hex.txt" "test/4-reference/${TESTCASE}.txt"
 ##compile test bench
 # iverilog -g 2012 \
 #    ${DIRECTORY}/*.v test/*.v  -s mips_cpu_${VARIANT}_tb \
@@ -76,7 +76,7 @@ fi
 
 # Based on whether differences were found, either pass or fail
 if [[ "${REG_RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTRUCTION} Fail ${COMMENT}"
+   echo "${TESTCASE} ${INSTRUCTION} Fail ${COMMENT}"
 else
-   echo "  ${TESTCASE} ${INSTRUCTION} Pass ${COMMENT}"
+   echo "${TESTCASE} ${INSTRUCTION} Pass ${COMMENT}"
 fi

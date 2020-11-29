@@ -8,7 +8,7 @@ module PC_1 (
 
  
 
-always_ff @(posedge clock) begin 
+always_ff @(posedge clk) begin 
 	if (reset) begin 
 		PCout <= 32'hBFC00000; 
 	end  

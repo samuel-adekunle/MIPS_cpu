@@ -9,6 +9,7 @@
 #include <iomanip> 
 #include <cassert>
 #include <algorithm>
+
 using namespace std;
 
 string reset_vector = "10111111110000000000000000000000";
@@ -31,7 +32,7 @@ string bintohex(const string &s){
         if(n<=9)
             out.push_back('0' + n);
         else
-            out.push_back('A' + n - 10);
+            out.push_back('a' + n - 10);
     }
 
     return out;
@@ -359,11 +360,12 @@ string J_TypeProcess(vector<string> &params){
 
 
 void run_test(string inpf, string outf, string compf){ //input, output, copy of expected out
+
     string memloc;
     string data;
     string line;
     int temp=0;
-    //memloc = reset_vector;
+    // //memloc = reset_vector;
     ifstream infile; 
     infile.open(inpf); 
     vector<string>lines;
@@ -405,6 +407,8 @@ void run_test(string inpf, string outf, string compf){ //input, output, copy of 
     outfile.close();
     compfile.close();
 }
-int main(){
-    run_test("0-cases/sw_1.txt", "1-binary/sw_1.txt", "4-reference/sw_1.txt");
+int main(int argc, char *argv[]){
+
+    run_test(argv[1], argv[2], argv[3]);
 }
+//"0-cases/sw_1.txt", "1-binary/sw_1.txt", "4-reference/sw_1.txt"

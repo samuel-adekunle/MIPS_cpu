@@ -37,9 +37,9 @@ end
 
 always_ff @(negedge clock) begin 
 	if (MemRead) begin 
-		if (address==0x0) begin
-			ReadData <= Zero;
-		end
+		// if (address==0) begin
+		// 	ReadData <= Zero;
+		// end
 		ReadData <= Mem[address>>2]; 
 	end 
 	
@@ -47,7 +47,7 @@ end
 
 endmodule 
 
- 
+
  
 
  

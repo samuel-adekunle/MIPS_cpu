@@ -1,2 +1,2 @@
-jr $ra; //should halt 
-lw $v0, 10($zero);
+jr $ra  
+lw $v0, 10($zero)

@@ -9,6 +9,7 @@ module instr_mem(
 //initialise the content at each address using a text file containing the instructions. 
 parameter INSTR_INIT_FILE = "";
 reg [31:0] memory [0:4095]; 
+//reg [31:0] target;
 
 // initial begin 
 // 	$readmemh(INSTR_INIT_FILE, memory); 
@@ -16,7 +17,7 @@ reg [31:0] memory [0:4095];
 initial begin
 	integer i;
 	/* Initialise to zero by default */
-	for (i=0; i<4095; i++) begin
+	for (i=0; i<4096; i++) begin
 		memory[i]=0;
 	end
 	/* Load contents from file if specified */
@@ -25,12 +26,12 @@ initial begin
 		$readmemb(INSTR_INIT_FILE, memory);
 	end
 end
-//we use byte addressing hence 2 LSB is ignored 
-always_ff @(posedge clock) begin 
-	instr <= memory[(address-0xBFC00000)>>2]; 
-end 
+	// always_comb begin
+	// 	target = address-32'hBFC00000;
+	// end
+	//we use byte addressing hence 2 LSB is ignored 
+	always_ff @(posedge clock) begin 
+		instr <= memory[address>>2]; 
+	end 
 
 endmodule 
-
- 
-

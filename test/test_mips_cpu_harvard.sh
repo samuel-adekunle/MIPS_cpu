@@ -3,6 +3,8 @@ set -eou pipefail
 VARIANT="harvard"
 DIRECTORY="$1"
 
+#compile utils?
+g++ ./test/test_cases.cpp -o test/test_cases
 
 if [ $# -ge 2 ]
 then
