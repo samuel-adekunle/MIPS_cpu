@@ -162,8 +162,6 @@ string I_TypeProcess(vector<string> &params){
             opcode = "101000";
         else if(op == "sh")
             opcode = "101001";
-        else
-            ;
     }
 
     // op rt imm
@@ -207,6 +205,117 @@ string I_TypeProcess(vector<string> &params){
     }
     return(opcode+Rs+Rt+imm);
 }
+string R_TypeProcess(vector<string> &params){
+    string op = params[0];
+    string opcode="000000", Rt, Rd, Rs, shamt, funct;
+    //op rd rt shamt
+    if(op == "sll" || op == "srl" || op == "sra"){
+        Rd = registerCode(params[1]);
+        Rt = registerCode(params[2]);
+        Rs = "00000";
+        bitset<5> y(params[3]);
+        shamt = y.to_string<char,string::traits_type,string::allocator_type>(); 
+        if (op =="sll"){
+            funct =  "000000"; 
+        }else if(op == "srl"){
+            funct ="000010";
+        }else if(op == "sra"){
+            funct ="000011";
+        }
+    }
+    //op rd rt rs
+    else if (op == "sllv" || op == "srlv" || op == "srav"){
+        Rd = registerCode(params[1]);
+        Rt = registerCode(params[2]);
+        Rs = registerCode(params[3]);
+        shamt ="00000"; 
+        if (op =="sllv"){
+            funct =  "000100"; 
+        }else if(op == "srlv"){
+            funct ="000110";
+        }else if(op == "srav"){
+            funct ="000111";
+        }
+    }
+    //op rd rs
+    else if (op == "jalr"){
+        Rd = registerCode(params[1]);
+        Rt = "00000";
+        Rs = registerCode(params[2]);
+        shamt ="00000";
+        funct = "001001";
+    }
+    //op rs rt
+    else if (op == "mult" || op == "multu" || op == "div" ||op == "divu"){
+        Rd = "00000";
+        Rt = registerCode(params[2]);
+        Rs = registerCode(params[1]);
+        shamt ="00000";
+        if (op =="mult"){
+            funct =  "011000"; 
+        }else if(op == "multu"){
+            funct ="011001";
+        }else if(op == "div"){
+            funct ="011010";
+        }else if(op == "divu"){
+            funct ="011011";
+        }
+    }
+    //op rd rs rt
+    else if (op == "add"||op == "addu" ||op == "sub"||op == "subu"||op == "and"||op == "or"||
+    op == "xor" || op == "not"||op == "nor"||op == "slt"||op == "sltu"){
+        Rd = registerCode(params[1]);
+        Rt = registerCode(params[3]);
+        Rs = registerCode(params[2]);
+        shamt ="00000";
+        if (op == "add"){
+            funct = "100000";
+        }else if (op == "addu"){
+            funct = "100001";
+        }else if(op == "sub"){
+            funct = "100010";
+        }else if (op == "subu"){
+            funct = "100011";
+        }else if(op == "and"){
+            funct = "100100";
+        }else if(op == "or"){
+            funct = "100101";
+        }else if (op == "xor"){
+            funct = "100110";
+        }else if(op == "slt"){
+            funct = "101010";
+        }else if (op == "sltu"){
+            funct = "101011";
+        }
+
+    }
+    //op rs
+    else if (op=="jr" || op == "mthi" || op == "mtlo"){
+        Rs=registerCode(params[1]);
+        Rd = "00000";
+        Rt = "00000";
+        shamt = "00000";
+        if (op == "jr")
+            funct = "001000";
+        else if (op == "mthi")
+            funct = "010001";
+        else if (op == "mtlo")
+            funct = "010011";
+    }
+    //op rd
+    else if(op == "mfhi" || op == "mflo"){
+        Rd=registerCode(params[1]);
+        Rs = "00000";
+        Rt = "00000";
+        shamt = "00000";
+        if (op == "mfhi")
+            funct = "010000";
+        else if (op == "mflo")
+            funct = "010010";
+    }
+    return (opcode+Rs+Rt+Rd+shamt+funct);
+
+}
 
 string J_TypeProcess(vector<string> &params){
     string op = params[0];
@@ -224,9 +333,9 @@ string J_TypeProcess(vector<string> &params){
 int main(int argc, const char * argv[]) {
     set<string>I_TYPE{"addiu","andi","beq","bgez","bgezal","bgtz","blez","bltz","bltzal",
     "bne","lb","lbu","lh","lhu","lui","lw","ori","sb","sh","slti","sltiu","sw","xori"};
-    set<string>R_TYPE{"addu","and","div","divu","jr","mfhi","mthi","mflo","mtlo","mult","multu",
+    set<string>R_TYPE{"addu","and","div","divu","jr","jalr","mfhi","mthi","mflo","mtlo","mult","multu",
     "or","sll","sllv","slt","slti","sltiu","sltu","sra","srav","srl","srlv","subu","xor"};
-    set<string>J_TYPE{"j", "jal", "jalr"};
+    set<string>J_TYPE{"j", "jal"};
     if (argv[1] == NULL) {
         printf("no file specified\n");
         return 0;
@@ -240,9 +349,9 @@ int main(int argc, const char * argv[]) {
         }
     file.close();
     }
-    cout << hex;    // Print everything in hex
-    cout << setw(8); // Always print 8 digits
-    cout << setfill('0'); // Pad with 0 digit
+    // cout << hex;    // Print everything in hex
+    // cout << setw(8); // Always print 8 digits
+    // cout << setfill('0'); // Pad with 0 digit
 
     for (int i = 0;i<lines.size();i++){
         string line = lines[i];
@@ -254,7 +363,7 @@ int main(int argc, const char * argv[]) {
                 cout<<I_TypeProcess(params)<<endl;
                 //cout<<assemble_i(params)<<endl;
             }else if (R_TYPE.find(params[0]) != R_TYPE.end()){
-                cout<<"R"<<endl;
+                cout<<R_TypeProcess(params)<<endl;
             }else if (J_TYPE.find(params[0]) != J_TYPE.end()){
                 cout<<J_TypeProcess(params)<<endl;
             }else{
