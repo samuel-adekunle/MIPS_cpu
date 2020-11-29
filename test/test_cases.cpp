@@ -11,6 +11,32 @@
 #include <algorithm>
 using namespace std;
 
+string reset_vector = "10111111110000000000000000000000";
+//instructions to test
+set<string>I_TYPE{"addiu","andi","beq","bgez","bgezal","bgtz","blez","bltz","bltzal",
+    "bne","lb","lbu","lh","lhu","lui","lw","ori","sb","sh","slti","sltiu","sw","xori"};
+set<string>R_TYPE{"addu","and","div","divu","jr","jalr","mfhi","mthi","mflo","mtlo","mult","multu",
+    "or","sll","sllv","slt","slti","sltiu","sltu","sra","srav","srl","srlv","subu","xor"};
+set<string>J_TYPE{"j", "jal"};
+string bintohex(const string &s){
+    string out;
+    for(uint i = 0; i < s.size(); i += 4){
+        int8_t n = 0;
+        for(uint j = i; j < i + 4; ++j){
+            n <<= 1;
+            if(s[j] == '1')
+                n |= 1;
+        }
+
+        if(n<=9)
+            out.push_back('0' + n);
+        else
+            out.push_back('A' + n - 10);
+    }
+
+    return out;
+}
+
 string registerCode( string &r){
     r.erase(remove(r.begin(), r.end(), ','), r.end());
     if(r == "$0" || r == "$zero")
@@ -170,7 +196,7 @@ string I_TypeProcess(vector<string> &params){
 
         Rs = "00000";
 
-        bitset<16> y(params[2]);
+        bitset<16> y(stoi(params[2]));
         imm = y.to_string<char,string::traits_type,string::allocator_type>();
 
         opcode = "001111";
@@ -180,7 +206,7 @@ string I_TypeProcess(vector<string> &params){
     else if(op == "blez" || op == "bltz" || op == "bgtz" || op == "bgez"){
         Rs = registerCode(params[1]);
         //get address for jump, add to counter
-        bitset<16> y(params[2]);
+        bitset<16> y(stoi(params[2]));
         imm = y.to_string<char,string::traits_type,string::allocator_type>();
 
         if(op == "bgez"){
@@ -213,7 +239,7 @@ string R_TypeProcess(vector<string> &params){
         Rd = registerCode(params[1]);
         Rt = registerCode(params[2]);
         Rs = "00000";
-        bitset<5> y(params[3]);
+        bitset<5> y(stoi(params[3]));
         shamt = y.to_string<char,string::traits_type,string::allocator_type>(); 
         if (op =="sll"){
             funct =  "000000"; 
@@ -325,30 +351,33 @@ string J_TypeProcess(vector<string> &params){
         opcode = "000010";
     else if(op == "jal")
         opcode = "000011";
-    bitset<26> y(params[1]);
+    bitset<26> y(stoi(params[1])>>2);
     target = y.to_string<char,string::traits_type,string::allocator_type>();
     return (opcode+target);
 
 }
-int main(int argc, const char * argv[]) {
-    set<string>I_TYPE{"addiu","andi","beq","bgez","bgezal","bgtz","blez","bltz","bltzal",
-    "bne","lb","lbu","lh","lhu","lui","lw","ori","sb","sh","slti","sltiu","sw","xori"};
-    set<string>R_TYPE{"addu","and","div","divu","jr","jalr","mfhi","mthi","mflo","mtlo","mult","multu",
-    "or","sll","sllv","slt","slti","sltiu","sltu","sra","srav","srl","srlv","subu","xor"};
-    set<string>J_TYPE{"j", "jal"};
-    if (argv[1] == NULL) {
-        printf("no file specified\n");
-        return 0;
-    }
-    ifstream file(argv[1]);
+
+
+void run_test(string inpf, string outf, string compf){ //input, output, copy of expected out
+    string memloc;
+    string data;
+    string line;
+    int temp=0;
+    //memloc = reset_vector;
+    ifstream infile; 
+    infile.open(inpf); 
     vector<string>lines;
-    if (file.is_open()) {
+    if (infile.is_open()) {
         string line;
-        while (std::getline(file, line)) {
+        while (getline(infile, line)) {
             lines.push_back(line.c_str());
         }
-    file.close();
+    infile.close();
     }
+    ofstream outfile; 
+    outfile.open(outf); 
+    ofstream compfile; 
+    compfile.open(compf); 
     for (int i = 0;i<lines.size();i++){
         string line = lines[i];
         if (line.find('.') == string::npos&&line.find(':') == string::npos){ //ignore the things with dots and location for now
@@ -364,10 +393,18 @@ int main(int argc, const char * argv[]) {
             }else{
                 binary_string = "00000000000000000000000000000000"; //no op
             }
-            cout<<binary_string<<endl;
+            string hex_string = bintohex(binary_string);
+            outfile <<hex_string<<endl;
+
+            if (params[1]=="$v0"){ ///how to track the output of this
+                compfile<<temp<<endl;
+            }
 
         }
     }
-
-    
-};
+    outfile.close();
+    compfile.close();
+}
+int main(){
+    run_test("0-cases/sw_1.txt", "1-binary/sw_1.txt", "4-reference/sw_1.txt");
+}

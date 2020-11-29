@@ -10,7 +10,7 @@ module data_mem(
 //small sim of 4096
 parameter DATA_INIT_FILE = "";
 reg [31:0] Mem[0:4095];  
-
+reg [31:0] Zero;
 
 // initial begin 
 // 	$readmemh(DATA_INIT_FILE, Mem); 
@@ -24,7 +24,7 @@ initial begin
 	/* Load contents from file if specified */
 	if (DATA_INIT_FILE != "") begin
 		$display("DATA_MEM : INIT : Loading DATA contents from %s", DATA_INIT_FILE);
-		$readmemh(DATA_INIT_FILE, Mem);
+		$readmemb(DATA_INIT_FILE, Mem);
 	end
 end
 //we use byte addressing hence 2 LSB is ignored 
@@ -37,8 +37,12 @@ end
 
 always_ff @(negedge clock) begin 
 	if (MemRead) begin 
+		if (address==0x0) begin
+			ReadData <= Zero;
+		end
 		ReadData <= Mem[address>>2]; 
 	end 
+	
 end  
 
 endmodule 

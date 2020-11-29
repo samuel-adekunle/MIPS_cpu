@@ -9,7 +9,7 @@ INSTRUCTION=$(echo $TESTCASE | cut -d _ -f 1)
 FLAGS="-g 2012 -Wall"
 VARIANT="harvard"
 
-##assembler?
+##assemble test case
 #bin/assembler <test/0-assembly/${TESTCASE}.asm.txt >test/1-binary/${TESTCASE}.hex.txt
 
 ##compile test bench
@@ -72,7 +72,6 @@ if [[ "${MEM_RESULT}" -ne 0 ]] ; then
    COMMENT+=" Error in RAM"
 fi
 
-##check some stuff
 
 
 # Based on whether differences were found, either pass or fail
