@@ -23,7 +23,7 @@ initial begin
 	/* Load contents from file if specified */
 	if (INSTR_INIT_FILE != "") begin
 		$display("INSTR_MEM : INIT : Loading INSTR contents from %s", INSTR_INIT_FILE);
-		$readmemb(INSTR_INIT_FILE, memory);
+		$readmemh(INSTR_INIT_FILE, memory);
 	end
 end
 	// always_comb begin

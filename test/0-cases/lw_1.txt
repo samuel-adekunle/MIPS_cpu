@@ -1,2 +1,4 @@
 jr $ra  
 lw $v0, 10($zero)
+jr $0
+#0

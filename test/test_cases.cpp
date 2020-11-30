@@ -396,15 +396,13 @@ void run_test(string inpf, string outf, string compf){ //input, output, copy of 
                 binary_string = R_TypeProcess(params);
             }else if (J_TYPE.find(params[0]) != J_TYPE.end()){
                 binary_string = J_TypeProcess(params);
+            }else if (params[0].find("#")!=string::npos){
+                compfile<<params[0].substr(1)<<endl;
             }else{
                 binary_string = "00000000000000000000000000000000"; //no op
             }
             string hex_string = bintohex(binary_string);
             outfile <<hex_string<<endl;
-
-            if (params[1]=="$v0"){ ///how to track the output of this
-                compfile<<temp<<endl;
-            }
 
         }
     }

@@ -19,8 +19,8 @@ VARIANT="harvard"
 #    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
 iverilog -g 2012 \
    ${DIRECTORY}/*.v test/*.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
-   -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/mem_${TESTCASE}.hex.txt\" \
-   -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
+   -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/${TESTCASE}.hex.txt\" \
+   -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/${TESTCASE}.hex.txt\"\
    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
 #    source directory
 
