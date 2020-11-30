@@ -390,31 +390,35 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
         if (line.find('.') == string::npos&&line.find(':') == string::npos){ //ignore the things with dots and location for now
             istringstream iss(line);//split by spaces
             vector<string> params((istream_iterator<string>(iss)),istream_iterator<string>());
-            string binary_string;
-            if (I_TYPE.find(params[0]) != I_TYPE.end()){
-                binary_string = I_TypeProcess(params);
-            }else if (R_TYPE.find(params[0]) != R_TYPE.end()){
-                binary_string = R_TypeProcess(params);
-            }else if (J_TYPE.find(params[0]) != J_TYPE.end()){
-                binary_string = J_TypeProcess(params);
-            }else if (params[0].find("#")!=string::npos){
-                compfile<<params[0].substr(1)<<endl;
-            }else if(params[0]=="data"){
-                bitset<32> y(stoi(params[1]));
-                doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
-                doutfile<<"00000000"<<endl;
-                doutfile<<"00000000"<<endl;
-                doutfile<<"00000000"<<endl;
-            }
-            else{
-                binary_string = "00000000000000000000000000000000"; //no op
-            }
-            string hex_string = bintohex(binary_string);
-            outfile <<hex_string<<endl;
-            if ((params[0].find("#")==string::npos)&&(params[0]!="data")){
-                outfile<<"00000000"<<endl;
-                outfile<<"00000000"<<endl;
-                outfile<<"00000000"<<endl;
+            if (params[0]=="desc"){
+                cout<<line.substr(4);
+            }else{
+                string binary_string;
+                if (I_TYPE.find(params[0]) != I_TYPE.end()){
+                    binary_string = I_TypeProcess(params);
+                }else if (R_TYPE.find(params[0]) != R_TYPE.end()){
+                    binary_string = R_TypeProcess(params);
+                }else if (J_TYPE.find(params[0]) != J_TYPE.end()){
+                    binary_string = J_TypeProcess(params);
+                }else if (params[0].find("#")!=string::npos){
+                    compfile<<params[0].substr(1)<<endl;
+                }else if(params[0]=="data"){
+                    bitset<32> y(stoi(params[1]));
+                    doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
+                    doutfile<<"00000000"<<endl;
+                    doutfile<<"00000000"<<endl;
+                    doutfile<<"00000000"<<endl;
+                }
+                else{
+                    binary_string = "00000000000000000000000000000000"; //no op
+                }
+                string hex_string = bintohex(binary_string);
+                outfile <<hex_string<<endl;
+                if ((params[0].find("#")==string::npos)&&(params[0]!="data")){
+                    outfile<<"00000000"<<endl;
+                    outfile<<"00000000"<<endl;
+                    outfile<<"00000000"<<endl;
+                }
             }
         }
     }

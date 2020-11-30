@@ -11,7 +11,7 @@ VARIANT="harvard"
 
 ##assemble test case
 #bin/assembler <test/0-assembly/${TESTCASE}.asm.txt >test/1-binary/${TESTCASE}.hex.txt
-./test/test_cases "test/0-cases/${TESTCASE}.txt" "test/1-binary/instr_${TESTCASE}.hex.txt" "test/1-binary/data_${TESTCASE}.hex.txt" "test/4-reference/${TESTCASE}.txt"
+COMMENT=$(./test/test_cases "test/0-cases/${TESTCASE}.txt" "test/1-binary/instr_${TESTCASE}.hex.txt" "test/1-binary/data_${TESTCASE}.hex.txt" "test/4-reference/${TESTCASE}.txt")
 ##compile test bench
 # iverilog -g 2012 \
 #    ${DIRECTORY}/*.v test/*.v  -s mips_cpu_${VARIANT}_tb \
@@ -59,9 +59,9 @@ diff -w test/4-reference/${TESTCASE}.out test/3-output/mips_cpu_${VARIANT}_tb_${
 REG_RESULT=$?
 set -e
 #some iff things with comments
-if [[ "${REG_RESULT}" -ne 0 ]] ; then
-   COMMENT=" Error in output"
-fi
+# if [[ "${REG_RESULT}" -ne 0 ]] ; then
+#    COMMENT+=" Error in output"
+# fi
 
 ##check some stuff in RAM
 # set +e

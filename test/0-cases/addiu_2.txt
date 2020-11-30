@@ -1,4 +1,9 @@
+desc add negative
 addiu $2, $2, 20 
 addiu $2, $2, -10 
 jr $0 
+data 10
+data 10
+data 10
+data 10
 #10 

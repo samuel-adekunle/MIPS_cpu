@@ -1,3 +1,4 @@
+desc jump and skip
 addiu $t1, $t1, 24 
 jr $t1 //jump to 24 
 addiu $2, $2, 10 //must execute 
