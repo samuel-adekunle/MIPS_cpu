@@ -15,9 +15,9 @@ initial begin
 end 
 
 //we use byte addressing hence 2 LSB is ignored 
-
-always_ff @(posedge clk) begin 
-	instr <= memory[address>>2]; 
+//combi read path
+always_comb begin 
+	instr = memory[address>>2]; 
 	end 
 
 endmodule 
