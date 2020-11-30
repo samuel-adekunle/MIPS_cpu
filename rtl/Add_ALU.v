@@ -4,8 +4,8 @@ module Add_ALU(
 	output logic [31:0] Add_ALUresult
 );
 
-	always@(PCplus4, extendImm) begin
-		Add_ALUresult <= PCplus4 + extendImm;
+	always_comb begin
+		Add_ALUresult = PCplus4 + extendImm;
 	end
 endmodule
 

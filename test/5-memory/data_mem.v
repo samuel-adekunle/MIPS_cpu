@@ -10,7 +10,6 @@ module data_mem(
 //small sim of 4096
 parameter DATA_INIT_FILE = "";
 reg [31:0] Mem[0:4095];  
-reg [31:0] Zero;
 
 // initial begin 
 // 	$readmemh(DATA_INIT_FILE, Mem); 
@@ -37,9 +36,6 @@ end
 
 always_ff @(negedge clock) begin 
 	if (MemRead) begin 
-		// if (address==0) begin
-		// 	ReadData <= Zero;
-		// end
 		ReadData <= Mem[address>>2]; 
 	end 
 	

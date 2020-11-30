@@ -37,7 +37,6 @@ string bintohex(const string &s){
 
     return out;
 }
-
 string registerCode( string &r){
     r.erase(remove(r.begin(), r.end(), ','), r.end());
     if(r == "$0" || r == "$zero")
@@ -363,7 +362,7 @@ string J_TypeProcess(vector<string> &params){
 }
 
 
-void run_test(string inpf, string outf, string compf){ //input, output, copy of expected out
+void run_test(string inpf, string instrf,string dataf, string compf){ //input, instrmem, datamem, copy of expected out
 
     string memloc;
     string data;
@@ -381,7 +380,9 @@ void run_test(string inpf, string outf, string compf){ //input, output, copy of 
     infile.close();
     }
     ofstream outfile; 
-    outfile.open(outf); 
+    outfile.open(instrf); 
+    ofstream doutfile; 
+    doutfile.open(dataf); 
     ofstream compfile; 
     compfile.open(compf); 
     for (int i = 0;i<lines.size();i++){
@@ -398,19 +399,31 @@ void run_test(string inpf, string outf, string compf){ //input, output, copy of 
                 binary_string = J_TypeProcess(params);
             }else if (params[0].find("#")!=string::npos){
                 compfile<<params[0].substr(1)<<endl;
-            }else{
+            }else if(params[0]=="data"){
+                bitset<32> y(stoi(params[1]));
+                doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
+                doutfile<<"00000000"<<endl;
+                doutfile<<"00000000"<<endl;
+                doutfile<<"00000000"<<endl;
+            }
+            else{
                 binary_string = "00000000000000000000000000000000"; //no op
             }
             string hex_string = bintohex(binary_string);
             outfile <<hex_string<<endl;
-
+            if ((params[0].find("#")==string::npos)&&(params[0]!="data")){
+                outfile<<"00000000"<<endl;
+                outfile<<"00000000"<<endl;
+                outfile<<"00000000"<<endl;
+            }
         }
     }
     outfile.close();
+    doutfile.close();
     compfile.close();
 }
 int main(int argc, char *argv[]){
 
-    run_test(argv[1], argv[2], argv[3]);
+    run_test(argv[1], argv[2], argv[3], argv[4]);
 }
 //"0-cases/sw_1.txt", "1-binary/sw_1.txt", "4-reference/sw_1.txt"

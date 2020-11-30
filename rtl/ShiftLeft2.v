@@ -3,6 +3,8 @@ module ShiftLeft2(
 	output logic [31:0] ShiftOut 
 ); 
 
-assign ShiftOut = ShiftIn << 2;    
+
+assign ShiftOut = ShiftIn << 2;   
+
 
 endmodule 

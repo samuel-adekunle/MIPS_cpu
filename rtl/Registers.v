@@ -16,7 +16,7 @@ module Registers (
 logic [31:0] register [0:31]; 
 
 initial begin 
-	$readmemh("regmem.txt", reg_mem, 0, 31); 
+	$readmemh("regmem.txt", register, 0, 31); 
 end 
 
 //output ports. 32-bit data read from registers selected by ReadReg, WriteReg 
@@ -25,7 +25,7 @@ assign ReadData2 = register[ReadReg2];
 
 //at rising edge of clk, if RegWrite_en is 1, write WriteData into register selected by WriteReg 
 
-always_ff @(posedge clock) begin 
+always_ff @(posedge clk) begin 
 	if (RegWrite) begin 
 	register[WriteReg] <= WriteData; 
 	end  

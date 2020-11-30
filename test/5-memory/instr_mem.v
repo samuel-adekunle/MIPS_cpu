@@ -31,7 +31,7 @@ end
 	// end
 	//we use byte addressing hence 2 LSB is ignored 
 	always_ff @(posedge clock) begin 
-		instr <= memory[address>>2]; 
+		instr <= memory[(address-32'hBFC00000)>>2]; 
 	end 
 
 endmodule 
