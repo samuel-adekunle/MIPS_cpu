@@ -17,16 +17,17 @@ initial begin
 end 
 
 //we use byte addressing hence 2 LSB is ignored 
+//single-cycle write 
 always_ff @ (posedge clk) begin 
 	if (MemWrite) begin 
 		Mem[address>>2] <= WriteData; 
-
 	end 
 end 
 
-always_ff @(negedge clk) begin 
+//combinatorial read path 
+always_comb begin 
 	if (MemRead) begin 
-		ReadData <= Mem[address>>2]; 
+		ReadData = Mem[address>>2]; 
 	end 
 end  
 
