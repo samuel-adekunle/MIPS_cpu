@@ -3,4 +3,4 @@ addiu $16, $16, 10
 sw $16, 4($20) 
 lw $v0, 4($20) //assuming lw works
 jr $0 
-#10 
+#0000000a 

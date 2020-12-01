@@ -4,6 +4,8 @@ module mips_cpu_harvard_tb;
     // parameter RAM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter DATA_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
+    parameter ANSWER_FILE = "test/4-reference/addiu_1.txt";
+
     parameter TIMEOUT_CYCLES = 10000;
 
     logic clk;
@@ -19,8 +21,9 @@ module mips_cpu_harvard_tb;
     logic data_read;
     logic[31:0] data_writedata;
     logic[31:0] data_readdata;
-    
-   
+    logic [31:0] final_value;
+    integer fd;
+    integer x;
     // RAM_32x4096_harvard #(RAM_INIT_FILE) ramInst(.clk(clk), .instr_address(instr_address), .instr_readdata(instr_readdata), 
     // .data_write(data_write), .data_read(data_read),.data_address(data_address), .data_writedata(data_writedata),
     // .data_readdata(data_readdata));
@@ -31,7 +34,12 @@ module mips_cpu_harvard_tb;
     mips_cpu_harvard cpuInst(.clk(clk), .reset(reset), .active(active), .register_v0(register_v0),.clk_enable(clk_enable),
     .instr_address(instr_address), .instr_readdata(instr_readdata), .data_address(data_address), .data_write(data_write),
     .data_read(data_read), .data_writedata(data_writedata), .data_readdata(data_readdata));
-    
+    //read ans
+    initial begin
+        fd = $fopen(ANSWER_FILE, "r");
+        x = $fscanf(fd, "%x", final_value);
+        $fclose(fd);
+    end
     // Generate clock
     initial begin
         clk=0;
@@ -42,7 +50,11 @@ module mips_cpu_harvard_tb;
             #10;
             clk = !clk;
         end
-
+        // $display("CPU : V0 : %h", register_v0);
+        // $display("Expected : %h", final_value);
+        // if (register_v0==final_value) begin
+        //     $display("success");
+        // end
         $fatal(2, "Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);
     end
 
@@ -66,7 +78,11 @@ module mips_cpu_harvard_tb;
         end
 
         $display("TB : finished; active=0");
-        $display("CPU : V0 : %d", register_v0);
+        $display("CPU : V0 : %h", register_v0);
+        $display("Expected : %h", final_value);
+        if (register_v0==final_value) begin
+            $display("success");
+        end
         $finish;
         
         

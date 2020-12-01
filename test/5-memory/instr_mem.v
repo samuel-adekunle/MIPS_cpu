@@ -69,11 +69,11 @@ end
 //combi read path
 always_comb begin 
 	if (address!=0) begin
-		instr = memory[address-rst]; 
+		instr = memory[address>>2-rst]; 
 	end
 	else begin
 
-		instr = memory[address];
+		instr = memory[address>>2];
 	end
 end
 //assign instr = memory[address]; 

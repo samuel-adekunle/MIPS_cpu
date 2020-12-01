@@ -408,21 +408,24 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
                     compfile<<params[0].substr(1)<<endl;
                 }else if(params[0]=="data"){
                     bitset<32> y(stoi(params[1]));
-                    doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
-                    doutfile<<"00000000"<<endl;
-                    doutfile<<"00000000"<<endl;
-                    doutfile<<"00000000"<<endl;
+                    doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>());
+                    // doutfile<<"00000000"<<endl;
+                    // doutfile<<"00000000"<<endl;
+                    // doutfile<<"00000000"<<endl;
                 }
                 else{
                     binary_string = "00000000000000000000000000000000"; //no op
                 }
-                string hex_string = bintohex(binary_string);
-                outfile <<hex_string<<endl;
-                if ((params[0].find("#")==string::npos)&&(params[0]!="data")){
-                    outfile<<"00000000"<<endl;
-                    outfile<<"00000000"<<endl;
-                    outfile<<"00000000"<<endl;
+                if (binary_string !=""){
+                    string hex_string = bintohex(binary_string);
+                    outfile <<hex_string<<endl;
+                // if ((params[0].find("#")==string::npos)&&(params[0]!="data")){
+                //     outfile<<"00000000"<<endl;
+                //     outfile<<"00000000"<<endl;
+                //     outfile<<"00000000"<<endl;
+                // }
                 }
+
             }
         }
     }

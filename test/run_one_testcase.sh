@@ -21,6 +21,7 @@ iverilog -g 2012 \
    ${DIRECTORY}/*.v test/*.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
    -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/data_${TESTCASE}.hex.txt\" \
    -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
+   -Pmips_cpu_${VARIANT}_tb.ANSWER_FILE=\"test/4-reference/${TESTCASE}.txt\"\
    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
 #    source directory
 
@@ -33,7 +34,7 @@ set -e
 
 # Check whether the simulator returned a failure code, and immediately quit
 if [[ "${REG_RESULT}" -ne 0 ]] ; then
-   echo "${TESTCASE} ${INSTRUCTION} Fail Failure to run"
+   echo "${TESTCASE} ${INSTRUCTION} Fail Failure to run ${COMMENT}"
    exit
 fi
 
@@ -47,17 +48,26 @@ grep "${PATTERN}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout > test
 set -e
 # Use "sed" to replace "CPU : V0   :" with nothing
 sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out
-
+#removing trailing zeros not really working
+#awk '{$1+=0}1' mips_cpu_${VARIANT}_tb_${TESTCASE}.out >mips_cpu_${VARIANT}_tb_${TESTCASE}.out
 # >&2 echo "  4 - Running reference simulator" #reference outputs for RAM and v0?
 # set +e
 # bin/simulator < test/1-binary/${TESTCASE}.hex.txt > test/4-reference/${TESTCASE}.out
 # set -e
+SUCCESS="success"
+set +e
+if grep -q "${SUCCESS}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout; then
+    REG_RESULT=0
+else
+    REG_RESULT=1
+fi
+set -e
 
 ##compare v0 results
-set +e
-diff -w test/4-reference/${TESTCASE}.out test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out &>/dev/null
-REG_RESULT=$?
-set -e
+# set +e
+# diff -w test/4-reference/${TESTCASE}.out test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out &>/dev/null
+# REG_RESULT=$?
+# set -e
 #some iff things with comments
 # if [[ "${REG_RESULT}" -ne 0 ]] ; then
 #    COMMENT+=" Error in output"

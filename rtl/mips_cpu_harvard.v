@@ -20,7 +20,7 @@ module mips_cpu_harvard(
  	input logic[31:0]  data_readdata 
 ); 
  always @(posedge clk) begin
-	 active <= 1'b1;
+	active <= 1'b1;
 	register_v0 <= 32'b0;	 
  end
  

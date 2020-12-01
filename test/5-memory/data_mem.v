@@ -77,7 +77,7 @@ always_ff @ (posedge clk) begin
 		Mem[address>>2] <= WriteData; 
 	end 
 end 
-assign ReadData = MemWrite ? WriteData : Mem[address];
+assign ReadData = MemWrite ? WriteData : Mem[address>>2];
 //combinatorial read path 
 // always_comb begin 
 // 	if (MemRead) begin 
