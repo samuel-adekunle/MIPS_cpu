@@ -430,4 +430,4 @@ int main(int argc, char *argv[]){
 
     run_test(argv[1], argv[2], argv[3], argv[4]);
 }
-//"0-cases/sw_1.txt", "1-binary/sw_1.txt", "4-reference/sw_1.txt"
+//"0-cases/sw_1.txt", "1-binary/instr_sw_1.hex.txt", "1-binary/data_sw_1.hex.txt", "4-reference/sw_1.txt"
