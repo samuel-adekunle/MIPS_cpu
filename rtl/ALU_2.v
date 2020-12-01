@@ -3,7 +3,7 @@ module ALU_2 (
 	input logic [5:0] functcode, //instr[5:0]
 	input logic [5:0] opcode, 
 	input logic [4:0] shamt, // instr[10:6] 
-	input logic [15:0] immediate,
+	input logic [15:0] immediate, //instr[15:0] 
 	input logic [31:0] rs_content, rt_content,
 	//output
 	output logic sig_branch,

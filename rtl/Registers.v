@@ -1,6 +1,7 @@
 module Registers ( 
 	input logic clk,  
-	input RegWrite,  
+	input logic RegWrite,  
+	input logic RegRead,
 	//5-bit inputs as we have 32 registers in total 
 	input logic [4:0] ReadReg1,  
 	input logic [4:0] ReadReg2,  
