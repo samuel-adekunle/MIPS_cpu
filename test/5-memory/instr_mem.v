@@ -42,10 +42,12 @@ module instr_mem(
 	output logic [31:0] instr 
 ); 
 parameter INSTR_INIT_FILE = "";
+parameter [31:0] rst = 32'hbfc00000;
 //instr mem has capacity for 4096 32-bit entries. 
 //initialise the content at each address using a text file containing the instructions. 
 
 logic [31:0] memory [0:4095]; 
+//keep 0 as 0 but the rest start from BFC?
 
 // initial begin 
 // 	$readmemh(INSTR_INIT_FILE, memory); 
@@ -66,7 +68,14 @@ end
 //we use byte addressing hence 2 LSB is ignored 
 //combi read path
 always_comb begin 
-	instr = memory[address>>2]; 
-	end 
+	if (address!=0) begin
+		instr = memory[address-rst]; 
+	end
+	else begin
+
+		instr = memory[address];
+	end
+end
+//assign instr = memory[address]; 
 
 endmodule 

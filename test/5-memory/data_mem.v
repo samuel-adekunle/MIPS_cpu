@@ -77,13 +77,13 @@ always_ff @ (posedge clk) begin
 		Mem[address>>2] <= WriteData; 
 	end 
 end 
-
+assign ReadData = MemWrite ? WriteData : Mem[address];
 //combinatorial read path 
-always_comb begin 
-	if (MemRead) begin 
-		ReadData = Mem[address>>2]; 
-	end 
-end  
+// always_comb begin 
+// 	if (MemRead) begin 
+// 		ReadData = Mem[address>>2]; 
+// 	end 
+// end  
 
 endmodule
  
