@@ -1,0 +1,6 @@
+desc test zero extension
+addiu $20, $20, 65535 (0xFFFF) 
+sll $20, $20, 16 
+andi $2, $20, 32768 (0x8000) 
+jr $0 
+#0 

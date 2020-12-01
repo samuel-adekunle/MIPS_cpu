@@ -1,8 +1,12 @@
 desc jump and skip
+lw $t1, 4($0) 
+sll $t1, $t1, 20
 addiu $t1, $t1, 24 
-jr $t1 //jump to 24 
-addiu $2, $2, 10 //must execute 
-addiu $2, $2, 10 
-addiu $2, $2, 10 etc to fill empty space 
-jr $0 //loaded in 24 
-#a
+jr $t1 
+addiu $2, $2, 2  
+addiu $2, $2, 2 
+addiu $2, $2, 2 
+jr $0
+data 0  
+data 3068 
+#2 

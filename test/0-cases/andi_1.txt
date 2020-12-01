@@ -1,0 +1,5 @@
+desc simple andi
+addiu $20, $20, 36 
+andi $2, $20, 79 
+jr $0 
+#4 
