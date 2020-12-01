@@ -109,7 +109,7 @@ string registerCode( string &r){
 
 
 
-string I_TypeProcess(vector<string> &params){
+string I_TypeProcess(vector<string> &params, int pc){
     string opcode, Rs, Rt, imm;
     string temp;
     string imm_Rs;
@@ -118,7 +118,9 @@ string I_TypeProcess(vector<string> &params){
     if(op == "beq" || op == "bne"){
         Rs = registerCode(params[1]);
         Rt = registerCode(params[2]);
-        //imm = signExtend(params[3]); //need some calculating here
+        int num = stoi(params[3])>>2; ///not sure about this
+        bitset<16> y(num);
+        imm = y.to_string<char,string::traits_type,string::allocator_type>();
         if(op == "beq")
             opcode = "000100";
         else if(op == "bne")
@@ -363,8 +365,6 @@ string J_TypeProcess(vector<string> &params){
 
 
 void run_test(string inpf, string instrf,string dataf, string compf){ //input, instrmem, datamem, copy of expected out
-
-    string memloc;
     string data;
     string line;
     int temp=0;
@@ -385,6 +385,7 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
     doutfile.open(dataf); 
     ofstream compfile; 
     compfile.open(compf); 
+    int memloc = 0xBFC00000;
     for (int i = 0;i<lines.size();i++){
         string line = lines[i];
         if (line.find('.') == string::npos&&line.find(':') == string::npos){ //ignore the things with dots and location for now
@@ -395,11 +396,14 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
             }else{
                 string binary_string;
                 if (I_TYPE.find(params[0]) != I_TYPE.end()){
-                    binary_string = I_TypeProcess(params);
+                    binary_string = I_TypeProcess(params, memloc);
+                    memloc+=4;
                 }else if (R_TYPE.find(params[0]) != R_TYPE.end()){
                     binary_string = R_TypeProcess(params);
+                    memloc+=4;
                 }else if (J_TYPE.find(params[0]) != J_TYPE.end()){
                     binary_string = J_TypeProcess(params);
+                    memloc+=4;
                 }else if (params[0].find("#")!=string::npos){
                     compfile<<params[0].substr(1)<<endl;
                 }else if(params[0]=="data"){
@@ -430,4 +434,4 @@ int main(int argc, char *argv[]){
 
     run_test(argv[1], argv[2], argv[3], argv[4]);
 }
-//"0-cases/sw_1.txt", "1-binary/sw_1.txt", "4-reference/sw_1.txt"
+//"0-cases/sw_1.txt", "1-binary/instr_sw_1.txt","1-binary/data_sw_1.txt" "4-reference/sw_1.txt"

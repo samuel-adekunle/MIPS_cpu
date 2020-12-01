@@ -25,8 +25,8 @@ module mips_cpu_harvard_tb;
     // .data_write(data_write), .data_read(data_read),.data_address(data_address), .data_writedata(data_writedata),
     // .data_readdata(data_readdata));
     data_mem #(DATA_MEM_INIT_FILE) dataInst(.address(data_address), .WriteData(data_writedata), .MemWrite(data_write), 
-    .MemRead(data_read), .clock(clock), .ReadData(data_readdata));
-    instr_mem #(INSTR_MEM_INIT_FILE) instrInst(.address(instr_address), .clock(clk), .instr(instr_readdata));
+    .MemRead(data_read), .clk(clk), .ReadData(data_readdata));
+    instr_mem #(INSTR_MEM_INIT_FILE) instrInst(.address(instr_address), .clk(clk), .instr(instr_readdata));
     
     mips_cpu_harvard cpuInst(.clk(clk), .reset(reset), .active(active), .register_v0(register_v0),.clk_enable(clk_enable),
     .instr_address(instr_address), .instr_readdata(instr_readdata), .data_address(data_address), .data_write(data_write),

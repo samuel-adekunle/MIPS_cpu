@@ -7,8 +7,8 @@ module mux5 (
 
 	always_comb begin
 		case(RegDst) 
-			0 : WriteReg = inst20_16;
-			1 : WriteReg = inst15_11;
+			2'b0 : WriteReg = inst20_16;
+			2'b1 : WriteReg = inst15_11;
 		endcase
 	end
 endmodule

@@ -1,0 +1,6 @@
+desc and with 0
+addiu $16, $16, 39 
+addiu $17, $17, 0 
+and $2, $16, $17 
+jr $0 
+#0 

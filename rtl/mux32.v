@@ -7,8 +7,8 @@ module mux32 (
 	
 	always_comb begin
 		case (CtlSig)
-			0: Output = InputA;
-			1: Output = InputB;
+			2'b0: Output = InputA;
+			2'b1: Output = InputB;
 		endcase
 	end
 endmodule
