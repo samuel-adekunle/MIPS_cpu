@@ -21,7 +21,7 @@ module mips_cpu_harvard(
 ); 
 
 	/* Using an enum to define constants */
-    	typedef enum logic[31:26] {
+    	typedef enum logic[5:0] {
         	OPCODE_ADDIU = 6'b001001,
 		OPCODE_RTYPE = 6'b000000,
 		OPCODE_LW = 6'b100011,
