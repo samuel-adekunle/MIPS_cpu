@@ -19,7 +19,11 @@ module mips_cpu_harvard(
   	output logic[31:0]  data_writedata, 
  	input logic[31:0]  data_readdata 
 ); 
-
+ always @(posedge clk) begin
+	 active <= 1'b1;
+	register_v0 <= 32'b0;	 
+ end
+ 
 // 	/* Using an enum to define constants */
 //     	typedef enum logic[5:0] {
 //         	OPCODE_ADDIU = 6'b001001,

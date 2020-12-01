@@ -52,8 +52,8 @@ module data_mem(
 	output logic [31:0] ReadData 
 ); 
 
-//data mem has capacity for 4095 32-bit entries. 
-
+//data mem has capacity for 4096 32-bit entries. 
+//array can start from 0 
 logic [31:0] Mem[0:4095];  
 parameter DATA_INIT_FILE = "";
 

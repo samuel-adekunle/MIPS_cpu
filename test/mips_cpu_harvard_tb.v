@@ -66,7 +66,7 @@ module mips_cpu_harvard_tb;
         end
 
         $display("TB : finished; active=0");
-        $display("CPU : V0 :", register_v0);
+        $display("CPU : V0 : %d", register_v0);
         $finish;
         
         
