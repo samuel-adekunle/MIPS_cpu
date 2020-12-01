@@ -23,7 +23,6 @@ module control_unit(
 		// R type
 		if(opcode == 6'h0) begin
 			RegDst = 1'b1;
-			RegRead = 1'b1;
 			//if JR
 			if (funct == 6'h08) begin
 				JR = 1'b1;
