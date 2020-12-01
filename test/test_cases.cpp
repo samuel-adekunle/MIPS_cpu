@@ -118,7 +118,7 @@ string I_TypeProcess(vector<string> &params, int pc){
     if(op == "beq" || op == "bne"){
         Rs = registerCode(params[1]);
         Rt = registerCode(params[2]);
-        int num = stoi(params[3])>>2; ///not sure about this
+        int num = stoi(params[3]); ///not sure about this
         bitset<16> y(num);
         imm = y.to_string<char,string::traits_type,string::allocator_type>();
         if(op == "beq")
