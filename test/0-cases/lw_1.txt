@@ -1,0 +1,9 @@
+desc single load
+addiu $2, $2, 10
+lw $v0, 4($zero) //for data memory should have 8
+jr $0
+data 18
+data 8
+data 10
+data 10
+#8

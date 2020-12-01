@@ -1,0 +1,5 @@
+desc jump halt
+jr $ra  //should halt as it is register 0 
+lw $v0, 10($zero) // appear as no op if not implemented, else execute
+jr $0 //should not
+#0

@@ -7,9 +7,9 @@ module data_mem_1(
 	output logic [31:0] ReadData 
 ); 
 
-//data mem has capacity for 4095 32-bit entries. 
+//data mem has capacity for 2^32 32-bit entries. 
 
-logic [31:0] Mem[0:4095];  
+logic [31:0] Mem[0:4294967295];  
 
 
 initial begin 
@@ -17,17 +17,16 @@ initial begin
 end 
 
 //we use byte addressing hence 2 LSB is ignored 
-//single-cycle write 
-always_ff @ (posedge clk) begin 
+always_ff @ (posedge clock) begin 
 	if (MemWrite) begin 
 		Mem[address>>2] <= WriteData; 
+
 	end 
 end 
 
-//combinatorial read path 
-always_comb begin 
+always_ff @(negedge clock) begin 
 	if (MemRead) begin 
-		ReadData = Mem[address>>2]; 
+		ReadData <= Mem[address>>2]; 
 	end 
 end  
 

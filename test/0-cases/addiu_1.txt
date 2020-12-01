@@ -1,0 +1,9 @@
+desc simple add
+addiu $2, $2, 10
+addiu $2, $2, 10
+jr $0
+data 10
+data 10
+data 10
+data 10
+#20
