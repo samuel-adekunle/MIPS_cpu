@@ -6,7 +6,6 @@ module ALUControl (
 );
 
 
-
     always_comb begin
         if (ALUOp == 3'b000)
         begin
