@@ -1,35 +1,41 @@
 module control_unit(
-	output reg RegRead,
-				  RegWrite,
-				  MemRead,
-				  MemWrite,
-				  RegDst, // if this is 0 select rt, otherwise select rd
-				  Branch,
-	input [5:0] opcode, funct
+	output logic RegDst,
+	output logic Jump,
+	output logic Branch,
+	output logic MemRead,
+	output logic MemtoReg,
+	output logic [2:0] ALUOp,
+	output logic MemWrite,
+	output logic ALUSrc, 
+	output logic RegWrite,
+	input logic [5:0] opcode, funct
 );
 	
 	always @(opcode, funct) begin
-	
 		// First, reset all signals
-		MemRead  = 1'b0;
+		MemRead = 1'b0;
+		RegDst = 1'b0;
+		Jump = 1'b0;
+		Branch = 1'b0;
+		MemRead = 1'b0;
+		MemtoReg = 1'b0;
+		ALUOp = 3'b000;
 		MemWrite = 1'b0;
+		ALUSrc = 1'b0;
 		RegWrite = 1'b0;
-		RegRead  = 1'b0;
-		RegDst   = 1'b0;
-		Branch   = 1'b0;
 		
 		// R type
 		if(opcode == 6'h0) begin
-			RegDst = 1'b1;
-			RegRead = 1'b1;
-			// if not jr
+			RegDst = 1'b1; 
+			ALUSrc = 1'b1;
+			// if not JR
 			if(funct != 6'h08) begin
 				RegWrite = 1'b1;
 			end
 		end
-		// For lui there is no need to register read
+		// For LUI there is no need to register read
 		if(opcode != 6'b010101) begin
-			RegRead = 1'b1;
+			ALUSrc = 1'b1;
 		end
 		// If r-type, don't enter this block
 		// For r-type, beq, bne, sb, sh and sw there is no need to register write
@@ -45,7 +51,7 @@ module control_unit(
 		// sb, sh and sw use memory to write
 		if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b)) begin
 			MemWrite = 1'b1;
-			RegRead  = 1'b1;
+			ALUSrc  = 1'b1;
 		end
 		// For memory read operation
 		// lw, 
