@@ -1,6 +1,6 @@
 module ALU (  
-    input logic [3:0] ALUControl,
-    input logic [4:0] shiftvalue,
+    input logic [4:0] ALUControl,
+    input logic [4:0] shiftvalue, //instr[10:6]
     input logic [31:0] Data1,
     input logic [31:0] Data2,
     output logic zero,
@@ -11,6 +11,9 @@ module ALU (
 );
 
     logic[63:0] MultRes;
+    integer i; //for loop 
+    // temp for sra command 
+    logic signed [31:0] temp, signed_rs, signed_rt;  
 
     always@(ALUControl, shiftvalue, Data1, Data2)
     begin 
@@ -45,6 +48,22 @@ module ALU (
             8: ALUresult = Data1 < Data2 ? 1 : 0; //slt unsigned
             9: ALUresult = Data2 <<shiftvalue;  //sll    
             10: ALUresult = Data2 >>shiftvalue; //srl
+	    13: ALUresult = Data2 << Data1; //sllv
+	    14: ALUresult = Data2 >> Data1; //srlv
+	    15: begin  			//sra
+                     temp = Data2; 
+                     for(i = 0; i < shiftvalue; i = i + 1) begin 
+			temp = {temp[31],temp[31:1]}; //add the lsb for msb 
+                      end 
+		     ALUresult = temp; 
+		end 	
+	    16: begin //srav
+		     temp = Data2;
+		     for (i=0; i < Data1; i = i+1) begin
+			temp = temp = {temp[31],temp[31:1]}; //add the lsb for msb 
+		     end
+		     ALUresult = temp;
+		end
             default: ALUresult = 0;   
         endcase    
 		zero = (Data2 - Data1 == 0);

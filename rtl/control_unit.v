@@ -59,7 +59,7 @@ module control_unit(
 			MemRead = 1'b1;
 		end
 		// J type
-		// Do nothing!..
+		if (opcode == 000010) 
 		// All signals already 0.
 	end
 	

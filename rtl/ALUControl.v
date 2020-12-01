@@ -2,8 +2,10 @@ module ALUControl (
 	
 	input logic [2:0] ALUOp,
 	input logic [5:0] FunctCode,
-	output logic [3:0] ALUCtl
+	output logic [4:0] ALUCtl
 );
+
+
 
     always_comb begin
         if (ALUOp == 3'b000)
@@ -50,8 +52,12 @@ module ALUControl (
                     6'b101010: ALUCtl=7;        //SLT signed (SLT) 
                     6'b101011: ALUCtl=8;        //SLT unsigned (SLTU) 
                     6'b000000: ALUCtl=9;        //Shift left logical (SLL) 
-                    6'b000010: ALUCtl=10;       //Shift right logical (SRL) 
-                    default: ALUCtl=15; // should not happen   
+                    6'b000010: ALUCtl=10;       //Shift right logical (SRL)
+		    6'b000100: ALUCtl = 13 //Shift Left Logical Variable (SLLV) 
+		    6'b000110: ALUCtl = 14 //Shift right logical variable (SRLV) 
+		    6'b000011: ALUCtl = 15 //Shift right arithmetic (SRA) 
+		    6'b000111: ALUCtl = 16 //shift right arithmetic variable (SRAV) 
+                    default: ALUCtl=31; // should not happen   
                 endcase 
         end
 end
