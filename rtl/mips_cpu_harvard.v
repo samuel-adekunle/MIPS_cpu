@@ -39,10 +39,10 @@ module mips_cpu_harvard(
 	assign shamt = instr[10:6];
 	
 	//Control Unit connection
-	logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, Branch;
+	logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, Branch, MemtoReg;
 	control_unit maincontrol (
 		.JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(MemRead), 
-		.MemWrite(Mem_Write), .RegDst(RegDst), .Branch(Branch), 
+		.MemWrite(Mem_Write), .RegDst(RegDst), .MemtoReg(MemtoReg),
 		.opcode(instr[31:26]),
 		.funct(instr[5:0])
 	);
@@ -67,6 +67,7 @@ module mips_cpu_harvard(
 	
 	//ALU Connection 
 	logic [31:0] HI, LO; 
+	logic Branch; 
 	ALU_2 alu (
 		.functcode(functcode), .opcode(opcode), .shamt(shamt),
 		.immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),

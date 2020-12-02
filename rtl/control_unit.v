@@ -5,7 +5,7 @@ module control_unit(
 				  MemRead,
 				  MemWrite,
 				  RegDst, // if this is 0 select rt, otherwise select rd
-				  Branch,
+				  MemtoReg,
 	input logic [5:0] opcode, funct
 );
 	
@@ -18,7 +18,7 @@ module control_unit(
 		MemWrite = 1'b0;
 		RegWrite = 1'b0;
 		RegDst   = 1'b0;
-		Branch   = 1'b0;
+		MemtoReg = 1'b0;
 		
 		// R type
 		if(opcode == 6'h0) begin
@@ -42,10 +42,6 @@ module control_unit(
 			RegWrite = 1'b1;
 			RegDst   = 1'b0;
 		end
-		// For branch instructions (BEQ, BNE) 
-		if(opcode == 6'h4 | opcode == 6'h5) begin
-			Branch   = 1'b1;
-		end
 		// For memory write operation
 		// SB, SH and SW use memory to write
 		if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b)) 			begin
@@ -55,6 +51,7 @@ module control_unit(
 		// LW
 		if(opcode != 6'h0 & (opcode == 6'h23))begin
 			MemRead = 1'b1;
+			MemtoReg = 1'b1; 
 		end
 		// J type (J, JAL) 
 		if (opcode==6'h02 | opcode == 6'h03) begin
