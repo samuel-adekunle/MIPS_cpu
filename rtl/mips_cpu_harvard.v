@@ -19,8 +19,9 @@ module mips_cpu_harvard(
   	output logic[31:0]  data_writedata, 
  	input logic[31:0]  data_readdata 
 ); 
+
 	logic[31:0] PC_next; 
-	parameter [31:0] rst = 32'hbfc00000;
+	//parameter [31:0] rst = 32'hbfc00000;
 	// Program counter connection
 	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
 		.clk_enable(clk_enable),.PCout(PC_next));
@@ -41,13 +42,14 @@ module mips_cpu_harvard(
 	always@(posedge clk) begin
 		if (reset) begin
 			active <= 1'b1;
+			$display("Resetting : %x\n", PC_next);
+			
 		end
 		if (instr_address==0) begin
 			active <= 1'b0;
 		end 
 		else begin
-		 	//$monitor("PC: %x\n", PC_next);
-		 	//$monitor("opcode: %6b\n", opcode);
+		 	$display("PC: %x, opcode: %6b\n", PC_next, opcode);
 		end
 	end
 	

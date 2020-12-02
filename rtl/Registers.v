@@ -17,9 +17,9 @@ module Registers (
 //32 32-bit registers. Initialise register values using regmem.txt 
 logic [31:0] register [0:31]; 
 
-initial begin 
-	$readmemh("rtl/regmem.txt", register, 0, 31); 
-end 
+// initial begin 
+// 	$readmemh("rtl/regmem.txt", register, 0, 31); 
+// end 
 
 //output ports. 32-bit data read from registers selected by ReadReg, WriteReg 
 assign ReadData1 = register[ReadReg1]; 
@@ -31,7 +31,7 @@ integer i;
 always_ff @(posedge clk) begin 
 	if (reset) begin
 		for (i = 0; i < 31; i = i + 1) begin
-  			register[i] <= '0;
+  			register[i] <= 0;
 		end
 	end
 	if (RegWrite) begin 

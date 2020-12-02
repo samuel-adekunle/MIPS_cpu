@@ -43,6 +43,8 @@ module mips_cpu_harvard_tb;
     end
     // Generate clock
     initial begin
+        $dumpfile("help.vcd");
+          $dumpvars(0, mips_cpu_harvard_tb);
         clk=0;
 
         repeat (TIMEOUT_CYCLES) begin
@@ -61,7 +63,7 @@ module mips_cpu_harvard_tb;
 
     initial begin
         //active <= 0;
-        reset <= 0;
+        //reset <= 1;
         @(posedge clk);
         reset <= 1;
 
@@ -70,11 +72,11 @@ module mips_cpu_harvard_tb;
         reset <= 0;
         
         @(posedge clk);
-        assert(active==1)
-        $display("set active after reset.");
+        assert(active==1)else $display("active not set after reset.");
 
         while (active) begin
             @(posedge clk);
+            //$display("CPU : instr address :", instr_address);
             //$display("CPU : V0 :", register_v0);
         end
 

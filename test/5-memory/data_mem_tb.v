@@ -43,11 +43,18 @@ module data_mem_tb(
         address = 0;
         MemWrite = 0;
         MemRead = 1;
+        x =10;
         repeat (100) begin
             @(posedge clk);
             #1;
-            $display("data :%h at address %h", ReadData, address);
+            if (x == ReadData) begin
+                $display("data :%h at address %h", ReadData, address);
+            end
+            else begin
+                $fatal(1, "no match");
+            end
             address=address+4;
+             x =x+1847383;
         end
         $display("Finished. Total time = %t", $time);
         $finish;
