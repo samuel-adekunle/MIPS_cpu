@@ -19,6 +19,19 @@ module mips_cpu_harvard(
   	output logic[31:0]  data_writedata, 
  	input logic[31:0]  data_readdata 
 ); 
+
+	initial begin 
+		active = 0; 
+	end
+
+	always_ff@(posedge clk) begin
+		if (reset) begin
+			active <= 1'b1;
+		end
+		if (instr_address==0) begin
+			active <= 1'b0;
+		end 
+
 	logic[31:0] PC_next; 
 	// Program counter connection
 	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
