@@ -6,12 +6,20 @@ module ALUControl (
 );
 
 
+<<<<<<< HEAD
 
 //     always_comb begin
 //         if (ALUOp == 3'b000)
 //         begin
 //             ALUCtl=2; //addition (LW, SW, ADDU, ADDIU)   
 //         end
+=======
+    always_comb begin
+        if (ALUOp == 3'b000)
+        begin
+            ALUCtl=2; //addition (LW, SW, ADDU, ADDIU)   
+        end
+>>>>>>> a18d4cdb8e82c5744bfbb55d1f08f348b88aea89
         
 //         else if (ALUOp == 3'b001)
 //         begin 
