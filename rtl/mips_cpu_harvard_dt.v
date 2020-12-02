@@ -84,9 +84,9 @@ module mips_cpu_harvard(
     	typedef enum logic[2:0] {
         	IF = 3'd0,
         	ID = 3'd1,
-		EX = 3'd2,
-		MEM = 3'd3,
-		WB = 3'd4,
+			EX = 3'd2,
+			MEM = 3'd3,
+			WB = 3'd4,
         	HALTED = 3'd5
     	} state_t;
 
@@ -144,9 +144,8 @@ module mips_cpu_harvard(
         else if (state==ID) begin
             $display("CPU : INFO  : Decoding, opcode=%h, acc=%h, imm=%h, readdata=%x", instr_opcode, acc, instr_constant, readdata);
             case(instr_opcode)
-                OPCODE_ADDIU: begin
+                OPCODE_RTYPE: begin
                     acc <= readdata;
-                    pc <= pc_increment;
                     state <= EX;
                 end
                 OPCODE_LW: begin
@@ -170,9 +169,16 @@ module mips_cpu_harvard(
 	else if (state==EX) begin
 	     $display("CPU : INFO  : Executing, opcode=%h, acc=%h, imm=%h, readdata=%x", instr_opcode, acc, instr_constant, readdata);
 	     case(instr_opcode) 
-		OPCODE_ADDIU: begin
+		OPCODE_ADDU: begin
 			writedata <= ReadData1 + ReadData2;
 			state <= IF; 
+			pc <= pc_increment;
+		end
+		OPCODE_AND: begin
+			writedata <= ReadData1 & ReadData2;
+			state <= IF;
+			pc <= pc_increment;
+		end
 		
 
 	else if (state==MEM) 
