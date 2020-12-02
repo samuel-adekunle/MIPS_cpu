@@ -66,6 +66,7 @@ module mips_cpu_harvard_tb;
         reset <= 1;
 
         @(posedge clk);
+        clk_enable <= 1;
         reset <= 0;
         
         @(posedge clk);
@@ -74,7 +75,7 @@ module mips_cpu_harvard_tb;
 
         while (active) begin
             @(posedge clk);
-            $display("CPU : V0 :", register_v0);
+            //$display("CPU : V0 :", register_v0);
         end
 
         $display("TB : finished; active=0");

@@ -20,34 +20,12 @@ module mips_cpu_harvard(
  	input logic[31:0]  data_readdata 
 ); 
 	logic[31:0] PC_next; 
+	parameter [31:0] rst = 32'hbfc00000;
 	// Program counter connection
 	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
 		.clk_enable(clk_enable),.PCout(PC_next));
 	
-	initial begin 
-		active <= 0; 
-		//PC_next <=  32'hbfc00000;
-	end
-	
-	always_ff@(posedge clk) begin
-		if (reset) begin
-			active <= 1'b1;
-			//PC_next <= 32'hbfc00000;
-		end
-		if (instr_address==0) begin
-			active <= 1'b0;
-		end 
-
-	end
-	
-	
-
-	
-	// Instruction Memory connection
-	// logic [31:0] instr_readdata;
-	// instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr_readdata(instr_readdata));
-	
-	// Parse instruction
+		// Parse instruction
 	logic [5:0] functcode;
 	logic [4:0] shamt;
 	logic [15:0] immediate;
@@ -56,6 +34,37 @@ module mips_cpu_harvard(
 	assign functcode = instr_readdata[5:0]; 
 	assign immediate = instr_readdata[15:0]; 
 	assign shamt = instr_readdata[10:6];
+	//assign rst = 
+	initial begin 
+		active <= 0; 
+	end
+	
+	always@(posedge clk) begin
+		if (reset) begin
+			active <= 1'b1;
+		end
+		if (instr_address==0) begin
+			active <= 1'b0;
+		end 
+		else begin
+		 	//$monitor("PC: %x\n", PC_next);
+		 	//$monitor("opcode: %6b\n", opcode);
+		end
+	end
+	
+	// Instruction Memory connection
+	// logic [31:0] instr_readdata;
+	// instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr_readdata(instr_readdata));
+	
+	// // Parse instruction
+	// logic [5:0] functcode;
+	// logic [4:0] shamt;
+	// logic [15:0] immediate;
+	// logic [5:0] opcode;
+	// assign opcode = instr_readdata[31:26]; 
+	// assign functcode = instr_readdata[5:0]; 
+	// assign immediate = instr_readdata[15:0]; 
+	// assign shamt = instr_readdata[10:6];
 	
 	//Control Unit connection
 	logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, Branch, MemtoReg;
@@ -152,10 +161,9 @@ module mips_cpu_harvard(
 		.Output(write_data)
 	);
 				
-//	initial begin
-//		$monitor("instruction: %32b, PC: %32b\n",
-//		instruction, PC);
-//	end
+	// initial begin
+	// 	$monitor("instruction: %32b, PC: %32b\n",instr_address, PC_next);
+	// end
 	
 endmodule
 

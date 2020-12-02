@@ -6,8 +6,6 @@ module PC_1 (
 	output logic [31:0] PCout 
 ); 
 
- 
-
 always_ff @(posedge clk) begin 
 	if (reset) begin 
 		PCout <= 32'hBFC00000; //reset vector 
@@ -15,8 +13,12 @@ always_ff @(posedge clk) begin
 	end  
 	else if (clk_enable) begin 
 		PCout <= PCin + 4; 
-	end  
+	end 
+	 
 end  
+always @(posedge clk) begin
+	 $display("CPU : PC : %h", PCout);
+end
 
 
 endmodule 
