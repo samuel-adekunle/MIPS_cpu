@@ -24,21 +24,22 @@ module mips_cpu_harvard(
 		active = 0; 
 	end
 
+	logic[31:0] PC_next; 
+	// Program counter connection
+	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
+		.clk_enable(clk_enable),.PCout(PC_next));
+
 	always_ff@(posedge clk) begin
 		if (reset) begin
 			active <= 1'b1;
 		end
 		if (instr_address==0) begin
 			active <= 1'b0;
-		end 
-
-	logic[31:0] PC_next; 
-	// Program counter connection
-	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
-		.clk_enable(clk_enable),.PC_out(PC_next));
+		end
+	end
 	
 	// Instruction Memory connection
-	logic [31:0] instr;
+	logic[31:0] instr;
 	instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr));
 	
 	// Parse instruction
@@ -52,10 +53,10 @@ module mips_cpu_harvard(
 	assign shamt = instr[10:6];
 	
 	//Control Unit connection
-	logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, Branch, MemtoReg;
+	logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, MemtoReg;
 	control_unit maincontrol (
 		.JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(MemRead), 
-		.MemWrite(Mem_Write), .RegDst(RegDst), .MemtoReg(MemtoReg),
+		.MemWrite(MemWrite), .RegDst(RegDst), .MemtoReg(MemtoReg),
 		.opcode(instr[31:26]),
 		.funct(instr[5:0])
 	);
@@ -75,7 +76,7 @@ module mips_cpu_harvard(
 		.ReadReg1(instr[25:21]), .ReadReg2(instr[20:16]), 
 		.WriteReg(WriteReg), .WriteData(write_data), 
 		.ReadData1(rs_content), .ReadData2(rt_content),
-		.register_v0(register_v0)
+		.register_v0(register_v0), .reset(reset)
 	);
 	
 	//ALU Connection 
