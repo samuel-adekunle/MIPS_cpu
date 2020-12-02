@@ -17,7 +17,7 @@ module Registers (
 logic [31:0] register [0:31]; 
 
 initial begin 
-	$readmemh("regmem.txt", register, 0, 31); 
+	$readmemh("rtl/regmem.txt", register, 0, 31); 
 end 
 
 //output ports. 32-bit data read from registers selected by ReadReg, WriteReg 

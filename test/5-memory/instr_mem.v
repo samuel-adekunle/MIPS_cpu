@@ -61,7 +61,7 @@ initial begin
 	/* Load contents from file if specified */
 	if (INSTR_INIT_FILE != "") begin
 		$display("INSTR_MEM : INIT : Loading INSTR contents from %s", INSTR_INIT_FILE);
-		$readmemh(INSTR_INIT_FILE, memory);
+		$readmemh(INSTR_INIT_FILE, memory,1);
 	end
 end
 

@@ -29,6 +29,7 @@ module mips_cpu_harvard_tb;
     // .data_readdata(data_readdata));
     data_mem #(DATA_MEM_INIT_FILE) dataInst(.address(data_address), .WriteData(data_writedata), .MemWrite(data_write), 
     .MemRead(data_read), .clk(clk), .ReadData(data_readdata));
+    
     instr_mem #(INSTR_MEM_INIT_FILE) instrInst(.address(instr_address), .clk(clk), .instr(instr_readdata));
     
     mips_cpu_harvard cpuInst(.clk(clk), .reset(reset), .active(active), .register_v0(register_v0),.clk_enable(clk_enable),
@@ -59,8 +60,8 @@ module mips_cpu_harvard_tb;
     end
 
     initial begin
+        //active <= 0;
         reset <= 0;
-        //active<=1;
         @(posedge clk);
         reset <= 1;
 
@@ -69,12 +70,11 @@ module mips_cpu_harvard_tb;
         
         @(posedge clk);
         assert(active==1)
-        else $display("TB : CPU did not set active=1 after reset.");
+        $display("set active after reset.");
 
         while (active) begin
             @(posedge clk);
-            //$display("CPU : V0 :", register_v0);
-            
+            $display("CPU : V0 :", register_v0);
         end
 
         $display("TB : finished; active=0");

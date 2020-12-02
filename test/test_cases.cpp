@@ -408,7 +408,7 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
                     compfile<<params[0].substr(1)<<endl;
                 }else if(params[0]=="data"){
                     bitset<32> y(stoi(params[1]));
-                    doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>());
+                    doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
                     // doutfile<<"00000000"<<endl;
                     // doutfile<<"00000000"<<endl;
                     // doutfile<<"00000000"<<endl;
@@ -434,7 +434,7 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
     compfile.close();
 }
 int main(int argc, char *argv[]){
-
     run_test(argv[1], argv[2], argv[3], argv[4]);
 }
 //"0-cases/sw_1.txt", "1-binary/instr_sw_1.txt","1-binary/data_sw_1.txt" "4-reference/sw_1.txt"
+//should we have functions to generate the test cases instead?

@@ -66,7 +66,7 @@ initial begin
 	/* Load contents from file if specified */
 	if (DATA_INIT_FILE != "") begin
 		$display("DATA_MEM : INIT : Loading DATA contents from %s", DATA_INIT_FILE);
-		$readmemh(DATA_INIT_FILE, Mem);
+		$readmemh(DATA_INIT_FILE, Mem,1);
 	end
 end
 
