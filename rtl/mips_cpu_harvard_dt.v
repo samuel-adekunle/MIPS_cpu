@@ -144,7 +144,7 @@ module mips_cpu_harvard(
         else if (state==ID) begin
             $display("CPU : INFO  : Decoding, opcode=%h, acc=%h, imm=%h, readdata=%x", instr_opcode, acc, instr_constant, readdata);
             case(instr_opcode)
-                OPCODE_ADDIU: begin
+                OPCODE_RTYPE: begin
                     acc <= readdata;
                     state <= EX;
                 end
@@ -169,12 +169,16 @@ module mips_cpu_harvard(
 	else if (state==EX) begin
 	     $display("CPU : INFO  : Executing, opcode=%h, acc=%h, imm=%h, readdata=%x", instr_opcode, acc, instr_constant, readdata);
 	     case(instr_opcode) 
-		OPCODE_ADDIU: begin
+		OPCODE_ADDU: begin
 			writedata <= ReadData1 + ReadData2;
 			state <= IF; 
 			pc <= pc_increment;
 		end
-		
+		OPCODE_AND: begin
+			writedata <= ReadData1 & ReadData2;
+			state <= IF;
+			pc <= pc_increment;
+		end
 		
 
 	else if (state==MEM) 
