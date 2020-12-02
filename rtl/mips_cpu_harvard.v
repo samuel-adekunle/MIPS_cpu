@@ -99,7 +99,12 @@ module mips_cpu_harvard(
 		.Output(add_alu_res)
 	);
 	
-	//GET JUMP ADDRESSS 
+	//Connection of jump_addr
+	logic[31:0] jump_address;
+	jump_addr jump_addr_mod (
+		.instr25_0 (instr[25:0]), .PC_next31_28(PC_next[31:28]), 
+		.jump_address(jump_address)
+	);
 
 	//Connection of Mux for Jump 
 	logic [31:0] mux_jump_res;
