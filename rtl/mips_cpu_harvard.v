@@ -61,7 +61,8 @@ module mips_cpu_harvard(
 		.clk(clk), .RegWrite(RegWrite),
 		.ReadReg1(instr[25:21]), .ReadReg2(instr[20:16]), 
 		.WriteReg(WriteReg), .WriteData(write_data), 
-		.ReadData1(rs_content), .ReadData2(rt_content)
+		.ReadData1(rs_content), .ReadData2(rt_content),
+		.register_v0(register_v0)
 	);
 	
 	//ALU Connection 
@@ -91,7 +92,40 @@ module mips_cpu_harvard(
 		.Add_ALUresult(branch_address)
 	);
 
-	//
+	//Connection of Mux for branch
+	logic [31:0] add_alu_res;
+	mux32 mux_branch (
+		.InputA(PC_next), .InputB(branch_address), .CtlSig(Branch), 
+		.Output(add_alu_res)
+	);
+	
+	//GET JUMP ADDRESSS 
+
+	//Connection of Mux for Jump 
+	logic [31:0] mux_jump_res;
+	mux32 mux_jump (
+		.InputA(add_alu_res), .InputB(jump_address), .CtlSig(Jump), 
+		.Output(mux_jump_res)
+	);
+	
+	//Connection of Mux for JR
+	mux32 mux_JR (
+		.InputA(mux_jump_res), .InputB(rs_content), .CtlSig(JR), 
+		.Output(instr_address)
+	);
+
+	//Connection of Data Memory
+	data_mem_1 datamem (
+		.address(data_address), .WriteData(data_writedata), 
+		.MemWrite(data_write), .MemRead(data_read), .clk(clk), 
+		.ReadData(data_readdata)
+	); 
+
+	//Connection of Mux between data memory and reg write data
+	mux32 mux_datamem (
+		.InputA(data_address), .InputB(data_readdata), .CtlSig(MemtoReg), 
+		.Output(write_data)
+	);
 				
 	
 	
