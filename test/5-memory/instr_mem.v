@@ -40,7 +40,7 @@ module instr_mem(
 	input logic clk, 
 	output logic [31:0] instr 
 ); 
-parameter INSTR_INIT_FILE = "";
+parameter INSTR_INIT_FILE = "test_load.txt";
 parameter [31:0] rst = 32'hbfc00000; 
 parameter offset = 40;
 //let 40 be the reset vector. around it can be other locations

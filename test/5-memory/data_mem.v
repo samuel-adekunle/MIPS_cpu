@@ -55,7 +55,7 @@ module data_mem(
 //data mem has capacity for 4096 32-bit entries. 
 //array can start from 0 
 logic [31:0] Mem[0:4095];  
-parameter DATA_INIT_FILE = "";
+parameter DATA_INIT_FILE = "test_load.txt";
 
 initial begin
 	integer i;
@@ -77,13 +77,13 @@ always_ff @ (posedge clk) begin
 		Mem[address>>2] <= WriteData; 
 	end 
 end 
-assign ReadData = MemWrite ? WriteData : Mem[address>>2];
+//assign ReadData = MemWrite ? WriteData : Mem[address>>2];
 //combinatorial read path 
-// always_comb begin 
-// 	if (MemRead) begin 
-// 		ReadData = Mem[address>>2]; 
-// 	end 
-// end  
+always_comb begin 
+	if (MemRead) begin 
+		ReadData = Mem[address>>2]; 
+	end 
+end  
 
 endmodule
  

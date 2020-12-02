@@ -8,7 +8,7 @@ module mips_cpu_harvard(
     	/* New clock enable. See below. */ 
   	input logic     clk_enable, 
  
-    	/* Combinatorial read access to instructions */ 
+    /* Combinatorial read access to instructions */ 
   	output logic[31:0]  instr_address, 
 	input logic[31:0]   instr_readdata, 
 
@@ -24,7 +24,6 @@ module mips_cpu_harvard(
 	// Program counter connection
 	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
 		.clk_enable(clk_enable),.PCout(PC_next));
-	
 		// Parse instruction
 	logic [5:0] functcode;
 	logic [4:0] shamt;
@@ -88,7 +87,7 @@ module mips_cpu_harvard(
 	Registers regfile (
 		.clk(clk), .RegWrite(RegWrite),
 		.ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]), 
-		.WriteReg(WriteReg), .WriteData(write_data), 
+		.WriteReg(WriteReg), .reset(rest),.WriteData(write_data), 
 		.ReadData1(rs_content), .ReadData2(rt_content),
 		.register_v0(register_v0)
 	);
