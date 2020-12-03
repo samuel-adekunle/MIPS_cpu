@@ -93,7 +93,11 @@ module mips_cpu_harvard(
 		.ReadData1(rs_content), .ReadData2(rt_content),
 		.register_v0(register_v0), .reset(reset)
 	);
-	
+	hi_lo hi_lo_regs(
+		.clk(clk), .RegWrite(RegWrite),
+		.WriteReg(WriteReg),.WriteData(write_data), 
+		.ReadData(rs_content), .reset(reset)
+	);
 	//ALU Connection 
 	logic [31:0] HI, LO; 
 	//logic Branch; 

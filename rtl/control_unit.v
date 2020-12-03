@@ -28,6 +28,22 @@ module control_unit(
 				JR = 1'b1;
 
 			end
+			//MTHI
+			else if (funct == 6'h11) begin
+
+			end
+			//MTLO
+			else if (funct == 6'h13) begin
+
+			end
+			//MFHI
+			else if (funct == 6'h10) begin
+
+			end
+			//MFLO
+			else if (funct == 6'h12) begin
+
+			end
 			else begin
 				RegWrite = 1'b1;
 			end
