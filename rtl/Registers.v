@@ -6,7 +6,6 @@ module Registers (
 	input logic [4:0] ReadReg1,  
 	input logic [4:0] ReadReg2,  
 	input logic [4:0] WriteReg,  
-	input logic reset,
 	//WriteData: 32-bit input to be written into a register 
 	input logic [31:0] WriteData,
 	//32-bit data read from registers selected by ReadReg, WriteReg 
@@ -18,7 +17,7 @@ module Registers (
 //32 32-bit registers. Initialise register values using regmem.txt 
 logic [31:0] register [0:31]; 
 //for loop 
-int i; 
+integer i; 
 
 
 // initial begin 
@@ -31,15 +30,10 @@ assign ReadData2 = register[ReadReg2];
 assign register_v0 = register[2]; 
 
 //at rising edge of clk, if RegWrite_en is 1, write WriteData into register selected by WriteReg 
-integer i;
 always_ff @(posedge clk) begin 
 	if (reset) begin
 		for (i = 0; i < 31; i = i + 1) begin
-<<<<<<< HEAD
   			register[i] <= 0;
-=======
-  			register[i] <= '0;
->>>>>>> 60ff0e278f2a0e7d31675698b205792b6a01ab25
 		end
 	end
 	if (RegWrite) begin 

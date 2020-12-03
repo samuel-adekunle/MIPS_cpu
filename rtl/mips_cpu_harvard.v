@@ -38,18 +38,8 @@ module mips_cpu_harvard(
 	initial begin 
 		active <= 0; 
 	end
-<<<<<<< HEAD
-	
+	//sorry can't display in always ff
 	always@(posedge clk) begin
-=======
-
-	logic[31:0] PC_next; 
-	// Program counter connection
-	PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset), 
-		.clk_enable(clk_enable),.PCout(PC_next));
-
-	always_ff@(posedge clk) begin
->>>>>>> 60ff0e278f2a0e7d31675698b205792b6a01ab25
 		if (reset) begin
 			active <= 1'b1;
 			$display("Resetting : %x\n", PC_next);
@@ -57,23 +47,15 @@ module mips_cpu_harvard(
 		end
 		if (instr_address==0) begin
 			active <= 1'b0;
-<<<<<<< HEAD
-		end 
+		end
 		else begin
 		 	$display("PC: %x, opcode: %6b\n", PC_next, opcode);
-=======
->>>>>>> 60ff0e278f2a0e7d31675698b205792b6a01ab25
 		end
 	end
 	
 	// Instruction Memory connection
-<<<<<<< HEAD
 	// logic [31:0] instr_readdata;
 	// instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr_readdata(instr_readdata));
-=======
-	logic[31:0] instr;
-	instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr));
->>>>>>> 60ff0e278f2a0e7d31675698b205792b6a01ab25
 	
 	// // Parse instruction
 	// logic [5:0] functcode;
@@ -89,15 +71,9 @@ module mips_cpu_harvard(
 	logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, MemtoReg;
 	control_unit maincontrol (
 		.JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(MemRead), 
-<<<<<<< HEAD
 		.MemWrite(Mem_Write), .RegDst(RegDst), .MemtoReg(MemtoReg),
 		.opcode(instr_readdata[31:26]),
 		.funct(instr_readdata[5:0])
-=======
-		.MemWrite(MemWrite), .RegDst(RegDst), .MemtoReg(MemtoReg),
-		.opcode(instr[31:26]),
-		.funct(instr[5:0])
->>>>>>> 60ff0e278f2a0e7d31675698b205792b6a01ab25
 	);
 
 	//Mux5 between instr_mem and reg file
@@ -113,7 +89,7 @@ module mips_cpu_harvard(
 	Registers regfile (
 		.clk(clk), .RegWrite(RegWrite),
 		.ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]), 
-		.WriteReg(WriteReg), .reset(rest),.WriteData(write_data), 
+		.WriteReg(WriteReg),.WriteData(write_data), 
 		.ReadData1(rs_content), .ReadData2(rt_content),
 		.register_v0(register_v0), .reset(reset)
 	);
