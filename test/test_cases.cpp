@@ -405,8 +405,17 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
                     binary_string = J_TypeProcess(params);
                     memloc+=4;
                 }else if (params[0].find("#")!=string::npos){
-                    compfile<<params[0].substr(1)<<endl;
+                    if (params[0].find("0x")!=string::npos){
+                        compfile<<params[0].substr(3)<<endl;
+                    }else{
+                        bitset<32> y(stoi(params[0].substr(1)));
+                        compfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
+                    }
+                    
                 }else if(params[0]=="data"){
+                    if (params[1].find("0x")!=string::npos){
+                        doutfile<<params[1].substr(2)<<endl;
+                    }
                     bitset<32> y(stoi(params[1]));
                     doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
                     // doutfile<<"00000000"<<endl;

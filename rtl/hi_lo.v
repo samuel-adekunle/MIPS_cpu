@@ -3,12 +3,12 @@ module hi_lo (
 	input logic RegWrite,  //write_en
 	input logic reset,
 	//1-bit input(2 regs)
-	input logic [1:0] ReadReg,   //which to read
-	input logic [1:0] WriteReg,  //which to write
+	input logic ReadReg,   //which to read
+	input logic WriteReg,  //which to write
 	//WriteData: 32-bit input to be written into a register 
 	input logic [31:0] WriteData,
 	//32-bit data read from registers selected by ReadReg, WriteReg 
-	output logic [31:0] ReadData,  
+	output logic [31:0] ReadData
 ); 
 
 //2 regs. 0 LO, 1 HI

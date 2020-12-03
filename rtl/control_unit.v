@@ -6,6 +6,8 @@ module control_unit(
 				  MemWrite,
 				  RegDst, // if this is 0 select rt, otherwise select rd
 				  MemtoReg,
+				  H_LWrite,
+				  H_LReg,
 	input logic [5:0] opcode, funct
 );
 	
@@ -19,6 +21,8 @@ module control_unit(
 		RegWrite = 1'b0;
 		RegDst   = 1'b0;
 		MemtoReg = 1'b0;
+		H_LWrite = 1'b0;
+		H_LReg = 1'b0;
 		
 		// R type
 		if(opcode == 6'h0) begin
@@ -30,19 +34,21 @@ module control_unit(
 			end
 			//MTHI
 			else if (funct == 6'h11) begin
-
+				H_LWrite = 1'b1;
+				H_LReg = 1'b1;
 			end
 			//MTLO
 			else if (funct == 6'h13) begin
-
+				H_LWrite = 1'b1;
+				H_LReg = 1'b0;
 			end
 			//MFHI
 			else if (funct == 6'h10) begin
-
+				H_LReg = 1'b1;
 			end
-			//MFLO
+			//MFLO -can be NC
 			else if (funct == 6'h12) begin
-
+				H_LReg = 1'b0;
 			end
 			else begin
 				RegWrite = 1'b1;

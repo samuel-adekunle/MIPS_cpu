@@ -48,9 +48,9 @@ module mips_cpu_harvard(
 		if (instr_address==0) begin
 			active <= 1'b0;
 		end
-		else begin
-		 	$display("PC: %x, opcode: %6b\n", PC_next, opcode);
-		end
+		// else begin
+		//  	$display("PC: %x, opcode: %6b\n", PC_next, opcode);
+		// end
 	end
 	
 	// Instruction Memory connection
@@ -93,11 +93,7 @@ module mips_cpu_harvard(
 		.ReadData1(rs_content), .ReadData2(rt_content),
 		.register_v0(register_v0), .reset(reset)
 	);
-	hi_lo hi_lo_regs(
-		.clk(clk), .RegWrite(RegWrite),
-		.WriteReg(WriteReg),.WriteData(write_data), 
-		.ReadData(rs_content), .reset(reset)
-	);
+	
 	//ALU Connection 
 	logic [31:0] HI, LO; 
 	//logic Branch; 

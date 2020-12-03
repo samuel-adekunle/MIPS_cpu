@@ -53,8 +53,8 @@ module mips_cpu_harvard_tb;
             #10;
             clk = !clk;
         end
-        // $display("CPU : V0 : %h", register_v0);
-        // $display("Expected : %h", final_value);
+        $display("CPU : V0 : %h", register_v0);
+        $display("Expected : %h", final_value);
         // if (register_v0==final_value) begin
         //     $display("success");
         // end

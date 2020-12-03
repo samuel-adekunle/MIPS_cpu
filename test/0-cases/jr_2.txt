@@ -8,5 +8,5 @@ addiu $2, $2, 2
 addiu $2, $2, 2 
 jr $0
 data 0  
-data 3068 
-#2 
+data 0xBFC
+#0x2 

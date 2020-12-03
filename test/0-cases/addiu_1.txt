@@ -2,4 +2,4 @@ desc simple add
 addiu $2, $2, 10
 addiu $2, $2, 10
 jr $0
-#00000014
+#20

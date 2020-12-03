@@ -4,4 +4,4 @@ sll $16, $16, 16
 addiu $16 $16, 65535 
 addu $2, $16, $16 
 jr $0  
-#fffffffe
+#0xfffffffe
