@@ -8,7 +8,8 @@ module instr_mem_1 (
   //instr mem has capacity for 4096 32-bit entries.
   //initialise the content at each address using a text file containing the instructions.
 
-  logic [31:0] memory [0:4095];
+  // REVIEW logic [31:0] memory [0:4095];
+  logic [31:0] memory[4096];
 
   initial
   begin
