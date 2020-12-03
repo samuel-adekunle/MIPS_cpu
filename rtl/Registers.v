@@ -1,6 +1,7 @@
 module Registers ( 
 	input logic clk,  
 	input logic RegWrite,  
+	input logic reset,
 	//5-bit inputs as we have 32 registers in total 
 	input logic [4:0] ReadReg1,  
 	input logic [4:0] ReadReg2,  
@@ -16,6 +17,9 @@ module Registers (
 
 //32 32-bit registers. Initialise register values using regmem.txt 
 logic [31:0] register [0:31]; 
+//for loop 
+int i; 
+
 
 // initial begin 
 // 	$readmemh("rtl/regmem.txt", register, 0, 31); 
@@ -31,7 +35,11 @@ integer i;
 always_ff @(posedge clk) begin 
 	if (reset) begin
 		for (i = 0; i < 31; i = i + 1) begin
+<<<<<<< HEAD
   			register[i] <= 0;
+=======
+  			register[i] <= '0;
+>>>>>>> 60ff0e278f2a0e7d31675698b205792b6a01ab25
 		end
 	end
 	if (RegWrite) begin 
