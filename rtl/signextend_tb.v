@@ -13,7 +13,7 @@ module signextend_tb(
         repeat (70) begin
             #1;
             $display("signextend :%h instr15_0: %h", Extend32, instr15_0);
-            instr15_0=instr15_0+500;
+            instr15_0=$random;
         end
         $display("Finished. Total time = %t", $time);
         $finish;
