@@ -48,7 +48,7 @@ module data_mem_tb(
             @(posedge clk);
             #1;
             if (x == ReadData) begin
-                $display("data :%h at address %h", ReadData, address);
+                $display("Reading :%h at address %h", ReadData, address);
                 assert(ReadData == x)else $fatal(1, "did not read");
             end
             address=address+4;

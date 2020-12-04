@@ -107,6 +107,11 @@ module ALU_2 (
 							ALU_result = 0;
 						end
 					end
+				6'h11: //MTHI
+					HI = rs_content;
+				6'h13: //MTLO
+					LO = rs_content;
+
 			endcase //case
 		end // if
 		

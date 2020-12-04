@@ -6,8 +6,9 @@ module control_unit(
 				  MemWrite,
 				  RegDst, // if this is 0 select rt, otherwise select rd
 				  MemtoReg,
-				  H_LWrite,
-				  H_LReg,
+				  write_hi,
+				  write_lo,
+				  read_hi_lo,
 	input logic [5:0] opcode, funct
 );
 	
@@ -21,8 +22,9 @@ module control_unit(
 		RegWrite = 1'b0;
 		RegDst   = 1'b0;
 		MemtoReg = 1'b0;
-		H_LWrite = 1'b0;
-		H_LReg = 1'b0;
+		write_hi = 1'b0;
+		write_lo = 1'b0;
+		read_hi_lo= 1'b0;
 		
 		// R type
 		if(opcode == 6'h0) begin
@@ -32,30 +34,24 @@ module control_unit(
 				JR = 1'b1;
 
 			end
-			//MTHI
-			else if (funct == 6'h11) begin
-				H_LWrite = 1'b1;
-				H_LReg = 1'b1;
+			//MTHI or DIV/MULT
+			else if (funct == 6'h11||funct ==6'h18||funct ==6'h19||funct ==6'h1a||funct ==6'h1b) begin
+				write_hi = 1'b1;
 			end
-			//MTLO
-			else if (funct == 6'h13) begin
-				H_LWrite = 1'b1;
-				H_LReg = 1'b0;
+			//MTLO or DIV/MULT
+			else if (funct == 6'h13||funct ==6'h18||funct ==6'h19||funct ==6'h1a||funct ==6'h1b) begin
+				write_lo = 1'b1;
 			end
-			//MFHI
-			else if (funct == 6'h10) begin
-				H_LReg = 1'b1;
+			//MFHI, MFLO turn write data of reg file to hi/lo
+			else if (funct == 6'h10||funct ==6'h12)begin
+				read_hi_lo= 1'b1;
 			end
-			//MFLO -can be NC
-			else if (funct == 6'h12) begin
-				H_LReg = 1'b0;
+			//if JALR
+			else if (funct == 6'h09) begin
+				Jump = 1'b1;
 			end
 			else begin
 				RegWrite = 1'b1;
-			end
-			//if JALR
-			if (funct == 6'h09) begin
-				Jump = 1'b1;
 			end
 		end
 		// If R-type, don't enter this block
