@@ -209,7 +209,7 @@ string I_TypeProcess(vector<string> &params, int pc){
     }
 
     // op rs imm
-    else if(op == "blez" || op == "bltz" || op == "bgtz" || op == "bgez"){
+    else if(op == "blez" || op == "bltz" || op == "bgtz" || op == "bgez"||op =="bgezal"||op =="bltzal"){
         Rs = registerCode(params[1]);
         //get address for jump, add to counter
         bitset<16> y(stoi(params[2]));
@@ -230,6 +230,12 @@ string I_TypeProcess(vector<string> &params, int pc){
         else if(op == "bltz"){
             opcode = "000001";
             Rt = "00000";
+        }else if (op =="bgezal"){
+            opcode = "000001";
+            Rt = "10001";
+        }else if (op =="bltzal"){
+            opcode = "000001";
+            Rt = "10000";
         }
 
         else
@@ -271,9 +277,15 @@ string R_TypeProcess(vector<string> &params){
     }
     //op rd rs
     else if (op == "jalr"){
-        Rd = registerCode(params[1]);
         Rt = "00000";
-        Rs = registerCode(params[2]);
+        Rs = "11111";
+        Rd = "11111";
+        if (params.size()==3){
+            Rd = registerCode(params[1]);
+            Rs = registerCode(params[2]);
+        }else{
+             Rs = registerCode(params[1]);
+        }
         shamt ="00000";
         funct = "001001";
     }
@@ -357,7 +369,7 @@ string J_TypeProcess(vector<string> &params){
         opcode = "000010";
     else if(op == "jal")
         opcode = "000011";
-    bitset<26> y(stoi(params[1])>>2);
+    bitset<26> y(stoi(params[1]));
     target = y.to_string<char,string::traits_type,string::allocator_type>();
     return (opcode+target);
 
