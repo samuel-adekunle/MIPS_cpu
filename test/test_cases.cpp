@@ -385,7 +385,7 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
     doutfile.open(dataf); 
     ofstream compfile; 
     compfile.open(compf); 
-    int memloc = 0xBFC00000;
+    int memloc = 0xBFC00000; 
     for (int i = 0;i<lines.size();i++){
         string line = lines[i];
         if (line.find('.') == string::npos&&line.find(':') == string::npos){ //ignore the things with dots and location for now

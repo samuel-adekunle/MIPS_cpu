@@ -49,9 +49,7 @@ module data_mem_tb(
             #1;
             if (x == ReadData) begin
                 $display("data :%h at address %h", ReadData, address);
-            end
-            else begin
-                $fatal(1, "no match");
+                assert(ReadData == x)else $fatal(1, "did not read");
             end
             address=address+4;
              x =x+1847383;
