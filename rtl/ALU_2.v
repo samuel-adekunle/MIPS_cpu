@@ -41,15 +41,15 @@ module ALU_2 (
 				6'h18 : //MULT
 					begin
 					MultRes = signed_rs*signed_rt; 
-					LO = MultRes[63:32];
-					HI = MultRes[31:0];
+					HI = MultRes[63:32];
+					LO = MultRes[31:0];
 	    				end
 					
 				6'h19 : //MULTU
 					begin 
 					MultRes = rs_content*rt_content;	
-					LO = MultRes[63:32];
-					HI = MultRes[31:0];
+					HI = MultRes[63:32];
+					LO = MultRes[31:0];
     	    				end
 				6'h1a: //DIV 
 					begin 

@@ -30,64 +30,74 @@ module alu_tb(
 	sig_branch, ALU_result, HI, LO);
             #5;
 	    functcode = 6'h18; //MULT
-	    rs_content = 32'b111100; //-4
-	    rt_content = 32'b111011; //-5
+	    rs_content = 32'hfffffffc; //-4
+	    rt_content = 32'hfffffffb; //-5
 	    #5;
-	    assert(HI==32'h);
-	    assert(LO== 32'h); 
+	    assert(HI==32'b0);
+	    assert(LO== 32'h14); //20
 	    functcode = 6'h19; //MULTU
-	    rt_content = 32'hffff8abc;
+	    rs_content = 32'h0088888a; 
+	    rt_content = 32'h0088888b;
 	    #5;
-	    assert(HI==
+	    assert(HI==32'h000048D1);
+	    assert(LO==32'h5BFB72EE);
 	    functcode = 6'h1a; //DIV
-	    rs_content = 
-	    rt_content = 
+	    rs_content = 32'hfffffff9; //-7
+	    rt_content = 32'h00000005; //5
 	    #5;
+	    assert(HI==32'hfffffffe); //-2
+	    assert(LO== 32'hffffffff); //-1
 	    functcode = 6'h1b; //DIVU
-	    rs_content = 
-	    rt_content = 
+	    rs_content = 32'h0088888a; 
+	    rt_content = 32'h0008888b; 
 	    #5;
+	    assert(HI==32'h88865);
+	    assert(LO== 32'hf); 
+	    shamt = 4;
 	    functcode = 6'h03; //SRA
-	    rs_content = 
-	    rt_content = 
-	    shamt = 
+	    rt_content = 32'hca000000;
 	     #5;
+	    assert(ALU_result==32'hfca00000);
 	    functcode = 6'h02; //SRL
-	    rs_content = 
-	    rt_content = 
-	    shamt = 
+	    rt_content = 32'h0000004a; 
 	     #5;
+	    assert(ALU_result == 32'h00000004); 
 	    functcode = 6'h2b; //SLTU
-	    rs_content = 
-	    rt_content = 
+	    rs_content = 32'h0088888a; 
+	    rt_content = 32'h0088888b; 
 	    #5;
+	    assert(ALU_result==32'h00000001);
 	    functcode = 6'h03; //SLT
-	    rs_content = 
-	    rt_content = 
+	    rs_content = 32'h0000003c; //-4
+	    rt_content = 32'h00000014; //20
 	    #5; 
+	    assert(ALU_result==32'h00000001);
 	    opcode = 6'h4; //BEQ
-	    rs_content = 
-	    rt_content = 
+	    rs_content = 32'h0088888a; 
+	    rt_content = 32'h0088888a; 
 	    #5; 
-	    opcode = 6'h5; //BNE
+	    assert(ALU_result == 32'h0);
+	    assert(sig_branch == 1'b1); 
+	    opcode = 6'h5; //BNE 
+	    /*rs_content = 32'h0088888b; 
+	    rt_content = 32'h0088888b; 
+	    using diff values will give correct response of BNE*/
 	    #5; 
+	    assert(sig_branch == 1'b0); 
 	    opcode = 6'h15; //LUI
-	    rs_content = 
-	    rt_content = 
+	    immediate = 16'h888a;
 	    #5; 
+	    assert(ALU_result == 32'h888a0000);
 	    opcode = 6'h23; //LW
-	    rs_content = 
-	    rt_content = 
+	    rs_content = 32'h0000888a;
+	    immediate = 16'h0008; 
 	    #5; 
-	    assert(
+	    assert(ALU_result == 32'h00008892);
         end
-        $display("Finished. Total time = %t", $time);
-        $finish;
-    end
-    ALU_2 alu (
+    ALU_2 mod (
 		.functcode(functcode), .opcode(opcode), .shamt(shamt),
 		.immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
-		.sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
+		.sig_branch(sig_branch), .ALU_result(ALU_result), .HI(HI), .LO(LO)
 	);
 endmodule
 
