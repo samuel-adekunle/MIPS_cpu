@@ -34,7 +34,7 @@ module mips_cpu_harvard(
   assign functcode = instr_readdata[5:0];
   assign immediate = instr_readdata[15:0];
   assign shamt = instr_readdata[10:6];
-  //assign rst =
+
   initial
   begin
     active <= 0;
@@ -89,21 +89,14 @@ module mips_cpu_harvard(
        );
 	  // Registers contents
 	logic [31:0] write_data, rs_content, rt_content, hi_lo_sel, hi_out, lo_out, write_data_final;
-	//select HI if MFHI otherwise low
+	
+  //select HI if MFHI otherwise low
 	assign hi_lo_sel = (instr_readdata[5:0]==6'h10)? hi_out : lo_out;
 	//select write data if not MFHI/MFLO
 	mux32 hi_lo(
 		.InputA(hi_lo_sel), .InputB(write_data), .CtlSig(read_hi_lo), .Output(write_data_final)
 
 	);
-//hi lo regs
-
-  single_reg hi(
-	  		.clk(clk), .RegWrite(write_hi), .reset(reset), .WriteData(HI), .ReadData(hi_out)
-  );
-  single_reg lo(
-	  .clk(clk), .RegWrite(write_lo), .reset(reset), .WriteData(LO), .ReadData(lo_out)
-  );
 
   //Registers Connection
   Registers regfile (
@@ -122,8 +115,15 @@ module mips_cpu_harvard(
           .immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
           .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
         );
-	
 
+  //hi lo regs
+
+  single_reg hi(
+	  		.clk(clk), .RegWrite(write_hi), .reset(reset), .WriteData(HI), .ReadData(hi_out)
+  );
+  single_reg lo(
+	  .clk(clk), .RegWrite(write_lo), .reset(reset), .WriteData(LO), .ReadData(lo_out)
+  );
 
   //Connection of Sign Extend
   logic [31:0] Extend32;
