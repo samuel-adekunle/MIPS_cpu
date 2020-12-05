@@ -1,0 +1,12 @@
+desc jump and skip
+lw $t1, 4($0) 
+sll $t1, $t1, 20
+addiu $t1, $t1, 24 
+jr $t1 
+addiu $2, $2, 2  
+addiu $2, $2, 2 
+addiu $2, $2, 2 
+jr $0
+data 0  
+data 0xBFC
+#0x2 

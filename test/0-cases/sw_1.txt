@@ -1,0 +1,9 @@
+desc store
+addiu $16, $16, 10 
+sw $16, 4($2) 
+jr $0 
+data 10
+data 10
+data 10
+data 10
+#0x00000000 
