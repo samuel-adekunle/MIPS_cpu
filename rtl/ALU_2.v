@@ -18,7 +18,7 @@ module ALU_2 (
 	logic signed [31:0] temp, signed_rs, signed_rt; 
 	logic [31:0] signExtend, zeroExtend;
 
-	always @ (functcode, rs_content, rt_content, shamt, immediate) begin
+	always @ (functcode,opcode, rs_content, rt_content, shamt, immediate) begin
 
 		// signed value assigment
 		signed_rs = rs_content;
