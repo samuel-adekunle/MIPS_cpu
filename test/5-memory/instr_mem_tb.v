@@ -18,10 +18,38 @@ module instr_mem_tb(
     end
     initial begin
         address = 32'hBFC00000;
-        repeat (100) begin
+        repeat (10) begin
             @(posedge clk);
             #1;
             $display("instruction :%h at address %h", instr, address);
+            address=address+4;
+        end
+        address = 32'h0;
+        repeat (21) begin
+            @(posedge clk);
+            #1;
+            $display("data/instruction :%h at address %h", instr, address);
+            address=address+4;
+        end
+        address = 32'hbfbc0004;//branch back
+        repeat (10) begin
+            @(posedge clk);
+            #1;
+            $display("branch back instruction :%h at address %h", instr, address);
+            address=address+4;
+        end
+        address = 32'hbfc3fffc; //branch forwards
+        repeat (10) begin
+            @(posedge clk);
+            #1;
+            $display("branch forwards instruction :%h at address %h", instr, address);
+            address=address+4;
+        end
+        address = 32'hc0000000; //jump forwards
+        repeat (10) begin
+            @(posedge clk);
+            #1;
+            $display("jump forwards instruction :%h at address %h", instr, address);
             address=address+4;
         end
         $display("Finished. Total time = %t", $time);

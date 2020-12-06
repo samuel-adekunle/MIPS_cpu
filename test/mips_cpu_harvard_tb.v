@@ -2,9 +2,10 @@ module mips_cpu_harvard_tb;
     timeunit 1ns / 10ps;
 
     // parameter RAM_INIT_FILE = "test/01-binary/addiu_1.txt";
-    parameter DATA_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
-    parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
-    parameter ANSWER_FILE = "test/4-reference/addiu_1.txt";
+    parameter DATA_MEM_INIT_FILE = "test/1-binary/addiu_1.txt";
+    parameter INSTR_MEM_INIT_FILE = "test/1-binary/addiu_1.txt";
+    parameter BRANCH_JUMP_INIT_FILE = "test/5-memory/branch_jump.txt";
+    parameter ANSWER_FILE = "test/-reference/addiu_1.txt";
 
     parameter TIMEOUT_CYCLES = 10000;
 
