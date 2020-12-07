@@ -12,12 +12,11 @@ module PC_1 (
   begin
     if (reset)
     begin
-      // PCin <= 32'hBFC00000; //reset vector
-      //FIXME - cannot write to an input variable
+      PCout <= 32'hBFC00000; //reset vector
     end
     else if (clk_enable)
     begin
-      PCout <= PCin + 4;
+      PCout <= PCin;
     end
   end
 

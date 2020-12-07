@@ -43,6 +43,10 @@ module mips_cpu_harvard(
   PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset),
            .clk_enable(clk_enable),.PCout(PC_next));
 
+  //add4 connection
+  logic[31:0] PCplus4;
+  add4 adder(.PC(PC_next), .PCplus4(PCplus4)); 
+
   always_ff@(posedge clk)
   begin
     if (reset)
@@ -57,7 +61,7 @@ module mips_cpu_harvard(
 
   // Instruction Memory connection
   logic[31:0] instr;
-  instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr));
+  instr_mem_1 instrmem (.address(PC_next), .clk(clk), .instr(instr));
 
   // Parse instruction
   logic [5:0] functcode;
@@ -74,8 +78,8 @@ module mips_cpu_harvard(
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(MemRead),
                  .MemWrite(MemWrite), .RegDst(RegDst), .MemtoReg(MemtoReg),
-                 .opcode(instr[31:26]),
-                 .funct(instr[5:0])
+                 .opcode(opcode),
+                 .funct(functcode)
                );
 
   //Mux5 between instr_mem and reg file
@@ -120,21 +124,21 @@ module mips_cpu_harvard(
   //Connection of Add_ALU
   logic [31:0] branch_address;
   Add_ALU add_alu (
-            .PCplus4(PC_next), .extendImm(extendImm),
+            .PCplus4(PCplus4), .extendImm(extendImm),
             .Add_ALUresult(branch_address)
           );
 
   //Connection of Mux for branch
   logic [31:0] add_alu_res;
   mux32 mux_branch (
-          .InputA(PC_next), .InputB(branch_address), .CtlSig(Branch),
+          .InputA(PCplus4), .InputB(branch_address), .CtlSig(Branch),
           .Output(add_alu_res)
         );
 
   //Connection of jump_addr
   logic[31:0] jump_address;
   jump_addr jump_addr_mod (
-              .instr25_0 (instr[25:0]), .PC_next31_28(PC_next[31:28]),
+              .instr25_0 (instr[25:0]), .PC_next31_28(PCplus4[31:28]),
               .jump_address(jump_address)
             );
 

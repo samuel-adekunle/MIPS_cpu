@@ -15,8 +15,8 @@ module Registers (
   );
 
   //32 32-bit registers. Initialise register values using regmem.txt
-  //REVIEW logic [31:0] register [0:31];
-  logic [31:0] register [32];
+  //REVIEW logic [31:0] register [32];
+  logic [31:0] register [0:31];
   //for loop
   integer i;
 
