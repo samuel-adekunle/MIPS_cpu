@@ -60,7 +60,7 @@ module mips_cpu_harvard(
   end
 
   // Instruction Memory connection
-  instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr_readdata));
+  //instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr_readdata));
 
   // Parse instruction
   logic [5:0] functcode;
@@ -156,11 +156,11 @@ module mips_cpu_harvard(
         );
 
   //Connection of Data Memory
-  data_mem_1 datamem (
-               .address(data_address), .WriteData(data_writedata),
-               .MemWrite(data_write), .MemRead(data_read), .clk(clk),
-               .ReadData(data_readdata)
-             );
+  // data_mem_1 datamem (
+  //              .address(data_address), .WriteData(data_writedata),
+  //              .MemWrite(data_write), .MemRead(data_read), .clk(clk),
+  //              .ReadData(data_readdata)
+  //            );
 
   //Connection of Mux between data memory and reg write data
   mux32 mux_datamem (
