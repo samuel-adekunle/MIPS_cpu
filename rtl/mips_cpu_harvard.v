@@ -38,14 +38,14 @@ module mips_cpu_harvard(
     active = 0;
   end
 
-  logic[31:0] PC_next;
+  logic[31:0] PCin;
   // Program counter connection
-  PC_1 pc (.PCin(instr_address), .clk(clk), .reset(reset),
-           .clk_enable(clk_enable),.PCout(PC_next));
+  PC_1 pc (.PCin(PCin), .clk(clk), .reset(reset),
+           .clk_enable(clk_enable),.PCout(instr_address));
 
   //add4 connection
   logic[31:0] PCplus4;
-  add4 adder(.PC(PC_next), .PCplus4(PCplus4)); 
+  add4 adder(.PC(instr_address), .PCplus4(PCplus4)); 
 
   always_ff@(posedge clk)
   begin
@@ -60,18 +60,17 @@ module mips_cpu_harvard(
   end
 
   // Instruction Memory connection
-  logic[31:0] instr;
-  instr_mem_1 instrmem (.address(PC_next), .clk(clk), .instr(instr));
+  instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr_readdata));
 
   // Parse instruction
   logic [5:0] functcode;
   logic [4:0] shamt;
   logic [15:0] immediate;
   logic [5:0] opcode;
-  assign opcode = instr[31:26];
-  assign functcode = instr[5:0];
-  assign immediate = instr[15:0];
-  assign shamt = instr[10:6];
+  assign opcode = instr_readdata[31:26];
+  assign functcode = instr_readdata[5:0];
+  assign immediate = instr_readdata[15:0];
+  assign shamt = instr_readdata[10:6];
 
   //Control Unit connection
   logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, MemtoReg;
@@ -85,7 +84,8 @@ module mips_cpu_harvard(
   //Mux5 between instr_mem and reg file
   logic [4:0] WriteReg;
   mux5 mux_reg (
-         .inst20_16(instr[20:16]), .inst15_11(instr[15:11]), .RegDst(RegDst),
+         .inst20_16(instr_readdata[20:16]), .inst15_11(instr_readdata[15:11]), 
+	 .RegDst(RegDst),
          .WriteReg(WriteReg)
        );
 
@@ -94,7 +94,7 @@ module mips_cpu_harvard(
   //Registers Connection
   Registers regfile (
               .clk(clk), .RegWrite(RegWrite),
-              .ReadReg1(instr[25:21]), .ReadReg2(instr[20:16]),
+              .ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]),
               .WriteReg(WriteReg), .WriteData(write_data),
               .ReadData1(rs_content), .ReadData2(rt_content),
               .register_v0(register_v0), .reset(reset)
@@ -138,7 +138,7 @@ module mips_cpu_harvard(
   //Connection of jump_addr
   logic[31:0] jump_address;
   jump_addr jump_addr_mod (
-              .instr25_0 (instr[25:0]), .PC_next31_28(PCplus4[31:28]),
+              .instr25_0 (instr_readdata[25:0]), .PC_next31_28(PCplus4[31:28]),
               .jump_address(jump_address)
             );
 
@@ -152,7 +152,7 @@ module mips_cpu_harvard(
   //Connection of Mux for JR
   mux32 mux_JR (
           .InputA(mux_jump_res), .InputB(rs_content), .CtlSig(JR),
-          .Output(instr_address)
+          .Output(PCin)
         );
 
   //Connection of Data Memory
@@ -170,7 +170,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $monitor("instruction: %32b, PC: %32b\n",instr, PC_next);
+    $monitor("instruction: %32b, PC: %32b\n",instr_readdata, instr_address);
   end
 
 endmodule
