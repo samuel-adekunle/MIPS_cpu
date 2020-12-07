@@ -21,15 +21,15 @@ module mux32_tb(
             InputB = $random;
 
             #1;
-            assert(WriteReg == InputA);
+            assert(Output == InputA);
 
-            RegDst <= 1;
+            CtlSig <= 1;
             #1;
             $display("In: %b, %b select %b. Out %b.", InputA, InputB, CtlSig, Output);
-            assert(WriteReg == InputB);
+            assert(Output == InputB);
         
             #1;
-            RegDst <= 0;
+            CtlSig <= 0;
         end
         $display("Finished. Total time = %t", $time);
         $finish;
