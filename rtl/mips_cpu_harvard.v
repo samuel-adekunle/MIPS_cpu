@@ -170,7 +170,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $monitor("instruction: %32b, PC: %32b\n",instr_readdata, instr_address);
+    $monitor("instruction: %32b, PCout: %h PCin: %h",instr_readdata, instr_address, PCin);
   end
 
 endmodule
