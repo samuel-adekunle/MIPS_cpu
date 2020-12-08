@@ -75,8 +75,8 @@ module mips_cpu_harvard(
   //Control Unit connection
   logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, MemtoReg;
   control_unit maincontrol (
-                 .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(MemRead),
-                 .MemWrite(MemWrite), .RegDst(RegDst), .MemtoReg(MemtoReg),
+                 .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
+                 .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
                  .opcode(opcode),
                  .funct(functcode)
                );
@@ -144,7 +144,7 @@ module mips_cpu_harvard(
 
   //Connection of Mux for Jump
   logic [31:0] mux_jump_res;
-  mux32 mux_jump (
+  mux32 mux_jump ( //PCplus4
           .InputA(add_alu_res), .InputB(jump_address), .CtlSig(Jump),
           .Output(mux_jump_res)
         );

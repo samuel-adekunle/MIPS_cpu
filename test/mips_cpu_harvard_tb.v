@@ -79,11 +79,11 @@ module mips_cpu_harvard_tb;
     end
 
     initial begin
-        reset <= 1;
+        reset <= 1; 
         @(posedge clk);
-         clk_enable <=1;
+	clk_enable <= 1;
         $display("Reset reg and mem. reset: %b clk_en: %b", reset, clk_enable);
-        @(posedge clk);
+        @(posedge clk); 
         reset <= 0;
          $display("Begin. reset: %b clk_en: %b, active: %b", reset, clk_enable, active);
         @(posedge clk);
