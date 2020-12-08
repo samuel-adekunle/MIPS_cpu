@@ -73,7 +73,8 @@ module mips_cpu_harvard(
   assign shamt = instr_readdata[10:6];
 
   //Control Unit connection
-  logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, MemtoReg;
+  logic JR, Jump, RegWrite, MemRead, MemWrite;
+  logic [1:0] RegDst, MemtoReg;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
@@ -163,8 +164,9 @@ module mips_cpu_harvard(
   //            );
 
   //Connection of Mux between data memory and reg write data
-  mux32 mux_datamem (
-          .InputA(data_address), .InputB(data_readdata), .CtlSig(MemtoReg),
+  mux32_3 mux_datamem (
+          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus4),
+	  .CtlSig(MemtoReg),
           .Output(write_data)
         );
 

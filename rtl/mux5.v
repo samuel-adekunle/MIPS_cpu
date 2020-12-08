@@ -1,7 +1,7 @@
 module mux5 (
     input logic [20:16] inst20_16,
     input logic [15:11] inst15_11,
-    input logic RegDst,
+    input logic [1:0] RegDst,
     output logic [4:0] WriteReg
   );
 
@@ -13,6 +13,8 @@ module mux5 (
       1:
         WriteReg = inst15_11;
         //FIXME - default case for multiplexer
+      2: 
+	WriteReg = 31; 
     endcase
   end
 endmodule
