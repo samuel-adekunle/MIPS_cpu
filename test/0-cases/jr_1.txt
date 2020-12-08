@@ -1,5 +1,5 @@
 desc jump halt
 jr $2  //should halt as it is register 0 value 0
-lw $v0, 10($zero) // appear as no op if not implemented, else execute
-jr $0 //should not
+lw $v0, 4($zero) // appear as no op if not implemented, else execute
+jr $0 //should not exec
 #0x00000000

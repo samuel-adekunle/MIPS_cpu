@@ -31,14 +31,14 @@ module instr_mem_tb(
             $display("data/instruction :%h at address %h", instr, address);
             address=address+4;
         end
-        address = 32'hbfbc0004;//branch back
+        address = 32'hbfbe0000;//branch back
         repeat (10) begin
             @(posedge clk);
             #1;
             $display("branch back instruction :%h at address %h", instr, address);
             address=address+4;
         end
-        address = 32'hbfc3fffc; //branch forwards
+        address = 32'hbfc1fffc; //branch forwards
         repeat (10) begin
             @(posedge clk);
             #1;

@@ -2,8 +2,4 @@ desc  add max
 addiu $2, $2, 65535
 addiu $2, $2, 65535
 jr $0 
-data 10
-data 10
-data 10
-data 10
 #0xfffffffe 
