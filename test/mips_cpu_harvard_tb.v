@@ -94,6 +94,15 @@ module mips_cpu_harvard_tb;
             //$display("CPU : instr address :", instr_address);
             //$display("CPU : V0 :", register_v0);
         end
+        if (instr_readdata==0) //allow 0 to execute
+        $display("yes");
+        begin
+            @(posedge clk);
+            if (instr_readdata != 0) //it has read the next address, guaranteed to not be 0
+            begin
+                $fatal(2,"Simulation did not stop after executing 0");
+            end
+        end
 
         $display("TB : finished; active=0");
         $display("CPU : V0 : %h", register_v0);
