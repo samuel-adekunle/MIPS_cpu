@@ -26,12 +26,13 @@ module ALU_2 (
     // signed value assigment
     signed_rs = rs_content;
     signed_rt = rt_content;
-
+    sig_branch = 1'b0; //default
     //FIXME - add default branches in case statements
 
     // R-type instruction
     if(opcode == 6'h0)
     begin
+     
       case(functcode)
         6'h21 : //ADDU
           ALU_result = rs_content + rt_content;
@@ -143,7 +144,7 @@ module ALU_2 (
         6'h0e: // XORI
           ALU_result = rs_content ^ zeroExtend;
 
-        6'h4 : // BEQ
+        6'h4: // BEQ
         begin
           // if the result is zero, they are equal go branch!
           ALU_result = signed_rs - signed_rt;
