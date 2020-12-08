@@ -14,7 +14,7 @@ module PC_1 (
     begin
       PCout <= 32'hBFC00000; //reset vector
     end
-    else if (clk_enable)
+    if (clk_enable)
     begin
       PCout <= PCin;
     end

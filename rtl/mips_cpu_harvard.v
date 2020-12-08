@@ -145,7 +145,7 @@ module mips_cpu_harvard(
   //Connection of Mux for Jump
   logic [31:0] mux_jump_res;
   mux32 mux_jump (
-          .InputA(add_alu_res), .InputB(jump_address), .CtlSig(Jump),
+          .InputA(PCplus4), .InputB(jump_address), .CtlSig(Jump),
           .Output(mux_jump_res)
         );
 
