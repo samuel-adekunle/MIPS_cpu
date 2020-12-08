@@ -78,7 +78,8 @@ module mips_cpu_harvard(
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
                  .opcode(opcode),
-                 .funct(functcode)
+                 .funct(functcode),
+                 .rt(rt_content)
                );
 
   //Mux5 between instr_mem and reg file
