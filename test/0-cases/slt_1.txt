@@ -1,0 +1,7 @@
+desc slt simple set 0
+addiu $2, $2, 5 //make sure not random number already 
+addiu $16, $16, 394 
+addiu $17,17, 2 
+slt $2, $16, $17 
+jr $0 
+#0 

@@ -1,0 +1,10 @@
+desc small forwards jump
+j 66060292 //this is fc00004 shifted so should go to 4th instruction
+lw $v0, 4($0) //should load with 10
+addiu $v0, $v0, 2
+addiu $v0, $v0, 3
+addiu $v0, $v0, 3
+addiu $v0, $v0, 4
+jr $0
+#17
+data 10
