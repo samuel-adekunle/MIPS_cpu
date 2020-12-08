@@ -19,8 +19,8 @@ module control_unit (
     MemRead  = 1'b0;
     MemWrite = 1'b0;
     RegWrite = 1'b0;
-    RegDst   = 0;
-    MemtoReg = 0;
+    RegDst   = 2'b0;
+    MemtoReg = 2'b0;
 
     // R type
     if(opcode == 6'h0)
@@ -30,8 +30,8 @@ module control_unit (
       if (funct == 6'h08)
       begin
         JR = 1'b1;
-
       end
+
       else
       begin
         RegWrite = 1'b1;
@@ -48,7 +48,7 @@ module control_unit (
     if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b)
     begin
       RegWrite = 1'b1;
-      RegDst   = 1;
+      RegDst   = 2'b00;
     end
     // For memory write operation
     // SB, SH and SW use memory to write
@@ -69,8 +69,9 @@ module control_unit (
       Jump = 1'b1;
       //JAL
       if (opcode == 6'h03) begin
-	RegDst = 2;
-        MemtoReg = 2;
+	RegDst = 2'b10;
+        MemtoReg = 2'b10;
+	RegWrite = 1'b1; 
       end
     end 
   end
