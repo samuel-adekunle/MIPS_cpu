@@ -172,6 +172,47 @@ module ALU_2 (
           end
         end
 
+        6'h1 : // BGEZ, BGEZAL, BLTZ, BLTZAL
+        begin
+          if (signed_rt == 2'b00000) // BLTZ, branch if the register is less than zero
+          begin
+            if (signed_rs < 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+
+          if (signed_rt == 2'b10000) // BLTZAL, branch if the register is less than zero and saves the return address in $31
+          begin
+            if (signed_rs < 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+
+          if (signed_rt == 2'b00001) // BGEZ, branch if the register is greater than or equal to zero
+          begin
+            if (signed_rs >= 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+          
+          if (signed_rt == 2'b10001) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
+          begin
+            if (signed_rs >= 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+
+          else
+          begin
+            sig_branch = 1'b0;
+          end
+        end
+
+
         6'b010101 : // LUI
           ALU_result = {immediate, {16{1'b0}}};
 
