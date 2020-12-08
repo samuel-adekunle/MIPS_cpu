@@ -6,11 +6,18 @@ module pc_tb (
   logic clk; 
   logic reset; 
 
-  initial
-  begin
-    $dumpfile("pc_waves.vcd");
-    $dumpvars(0, pc_tb);
-  end
+ 
+   // Generate clock
+    initial begin
+        $dumpfile("pc_waves.vcd");
+        $dumpvars(0, pc_tb);
+        clk = 0;
+        #1
+        repeat (1000) begin
+            #1 clk = !clk;
+        end
+        $fatal(2, "Fail : test-bench timed out without positive exit.");
+    end
   initial
   begin
     reset = 1'b1;   
