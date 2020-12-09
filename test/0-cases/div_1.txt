@@ -1,0 +1,7 @@
+desc positive division quotient
+addiu $16, $16, 105 
+addiu $17, $17, 10 
+div $16, $17 
+mflo $2 
+jr $0 
+#10 

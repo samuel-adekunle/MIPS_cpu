@@ -1,5 +1,5 @@
 desc  add max
-addiu $2, $2, 65535
-addiu $2, $2, 65535
+addiu $2, $2, 32767
+addiu $2, $2, 32767
 jr $0 
-#0xfffffffe 
+#65534

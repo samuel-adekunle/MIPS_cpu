@@ -1,0 +1,7 @@
+desc "negative" division quotient
+addiu $16, $16, -5
+addiu $17,$17, 2 
+div $16, $17 
+mflo $2 
+jr $0 
+#2147483645 

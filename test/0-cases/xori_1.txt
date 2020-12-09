@@ -1,4 +1,4 @@
-desc simple xor
+desc simple xori
 addiu $20, $20, 36 
 xori $2, $20, 79 
 jr $0 
