@@ -70,8 +70,8 @@ module control_unit (
       MemWrite = 1'b1;
     end
     // For memory read operation
-    // LW
-    if(opcode != 6'h0 & (opcode == 6'h23))
+    // LW, LB, LBU, LH, LHU
+    if(opcode != 6'h0 & (opcode == 6'h23 | opcode == 6'h20 | opcode == 6'h24 | opcode == 6'h21 | opcode == 6'h25))
     begin
       MemRead = 1'b1;
       MemtoReg = 1;
