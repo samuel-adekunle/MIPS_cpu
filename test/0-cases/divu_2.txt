@@ -1,0 +1,7 @@
+desc positive division remainder
+addiu $16, $16, 105 
+addiu $17,$17, 10 
+divu $16, $17 
+mfhi $2 
+jr $0 
+#5 

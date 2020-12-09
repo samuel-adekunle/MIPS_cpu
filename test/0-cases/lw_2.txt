@@ -1,7 +1,7 @@
 desc Consecutive loads
 addiu $2, $2, 10
-lw $v0, 4($zero) //for data memory should have 8 at loc 4 (in this case it is 18)
-lw $v0, 20($zero) //for data memory should have 0x71 at loc 20 (in this case it is 10)
+lw $v0, 4($zero) //for data memory should have 8 at loc 4 
+lw $v0, 20($zero) //for data memory should have 0x71 at loc 20 
 jr $0
 data 18
 data 8

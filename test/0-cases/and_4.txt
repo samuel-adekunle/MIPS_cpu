@@ -1,0 +1,6 @@
+desc 32 bits equal
+addiu $16, $16, -4
+addiu $17, $17, -4
+and $2, $16, $17 
+jr $0 
+#0xfffffffc

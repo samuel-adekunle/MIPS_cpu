@@ -1,0 +1,5 @@
+desc  add negatives
+addiu $2, $2, -2
+addiu $2, $2, -4
+jr $0 
+#0xfffffffa

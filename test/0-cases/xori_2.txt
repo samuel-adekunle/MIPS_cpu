@@ -1,0 +1,6 @@
+desc ffff xori zero extend
+addiu $20, $20, 65535
+sll $20, $20, 16 
+xori $2, $20, 65535 
+jr $0 
+#0xffffffff 

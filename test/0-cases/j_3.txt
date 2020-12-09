@@ -1,0 +1,10 @@
+desc small backwards jump 
+sll $0, $0, 0 //noop
+addiu $17, $17, 8
+addiu $v0, $v0, 2
+beq $v0, $17, 3
+sll $0, $0, 0 //noop
+j 66060290 //this is fc00008 shifted so returns to addiu
+sll $0, $0, 0 //noop
+jr $0
+#8

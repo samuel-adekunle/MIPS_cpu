@@ -1,0 +1,7 @@
+desc store and retrieve (larger offset)
+addiu $16, $16, -1
+addiu $20, $20, 1024
+sw $16, 32($20) 
+lw $v0, 32($20) //assuming lw works
+jr $0 
+#-1

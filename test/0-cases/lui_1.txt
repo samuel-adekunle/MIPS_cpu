@@ -1,0 +1,4 @@
+desc load upper max
+lui $2, 65535
+jr $0
+#0xffff0000

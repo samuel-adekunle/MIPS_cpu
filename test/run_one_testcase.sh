@@ -17,7 +17,19 @@ COMMENT=$(./test/test_cases "test/0-cases/${TESTCASE}.txt" "test/1-binary/instr_
 #    ${DIRECTORY}/*.v test/*.v  -s mips_cpu_${VARIANT}_tb \
 #    -Pmips_cpu_${VARIANT}_tb.RAM_INIT_FILE=\"test/1-binary/${TESTCASE}.hex.txt\" \
 #    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
-iverilog -g 2012 \
+
+if ls ${DIRECTORY}/mips_cpu/*.v &> /dev/null; then
+  # if $DIRECTORY/mips_cpu exists, compile the stuff in it
+     iverilog -g 2012 \
+   ${DIRECTORY}/*.v ${DIRECTORY}/mips_cpu/*.v test/*.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
+   -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/data_${TESTCASE}.hex.txt\" \
+   -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
+   -Pmips_cpu_${VARIANT}_tb.ANSWER_FILE=\"test/4-reference/${TESTCASE}.txt\"\
+   -Pmips_cpu_${VARIANT}_tb.BRANCH_JUMP_INIT_FILE=\"test/5-memory/test_loadj.txt\"\
+   -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
+else
+   #this should compile stuff with mips_cpu_{variant}, currently compiles everything in the folder
+   iverilog -g 2012 \
    ${DIRECTORY}/*.v test/*.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
    -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/data_${TESTCASE}.hex.txt\" \
    -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
@@ -25,6 +37,7 @@ iverilog -g 2012 \
    -Pmips_cpu_${VARIANT}_tb.BRANCH_JUMP_INIT_FILE=\"test/5-memory/test_loadj.txt\"\
    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
 #    source directory
+fi
 
 # Run the simulator, and capture all output to a file
 set +e
