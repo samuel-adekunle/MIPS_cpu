@@ -180,8 +180,10 @@ module mips_cpu_harvard(
   //            );
 
   //Connection of Mux between data memory and reg write data
+  logic [31:0] PCplus8;
+  assign PCplus8 = PCplus4 + 4; 
   mux32_3 mux_datamem (
-          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus4),
+          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus8),
 	  .CtlSig(MemtoReg),
           .Output(write_data)
         );
