@@ -213,6 +213,35 @@ module ALU_2 (
           end
         end
 
+        6'h7 : // BGTZ branch greater than zero
+        begin
+          if (signed_rt == 2'b00000)
+          begin
+            if (signed_rs > 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+          else
+          begin
+            sig_branch = 1'b0;
+          end
+        end
+
+        6'h6 : // BLEZ branch less than or equal to zero
+        begin
+          if (signed_rt == 2'b00000)
+          begin
+            if (signed_rs <= 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+          else
+          begin
+            sig_branch = 1'b0;
+          end
+        end
 
         6'b010101 : // LUI
           ALU_result = {immediate, {16{1'b0}}};

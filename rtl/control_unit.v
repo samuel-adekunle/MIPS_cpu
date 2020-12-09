@@ -11,7 +11,7 @@ module control_unit (
     input logic [5:0] rt;
   );
 
-  always @(opcode, funct, rt)
+  always @(opcode, funct, rt
   begin
 
     // First, reset all signals
@@ -45,10 +45,8 @@ module control_unit (
       end
     end
     // If R-type, don't enter this block
-    // For R-type, BEQ, BNE, SB, SH and SW there is no need to register write
-    if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b)
-    // For BGEZ, BLTZ as well, don't regwrite
-    if(opcode != 6'h1 & (rt != 6'h1 | rt != 6'h0))
+    // For R-type, BEQ, BNE, BEGZ, BLTZ, BGTZ, BLEZ, SB, SH and SW there is no need to register write
+    if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h6 & opcode != 6'h7 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b & (opcode != 6'h1 | rt != 6'h0) & (opcode != 6'h1 | rt != 6'h1))
     begin
       RegWrite = 1'b1;
       RegDst   = 2'b00;
