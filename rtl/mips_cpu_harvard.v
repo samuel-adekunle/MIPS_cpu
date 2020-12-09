@@ -73,7 +73,8 @@ module mips_cpu_harvard(
   assign shamt = instr_readdata[10:6];
 
   //Control Unit connection
-  logic JR, Jump, RegWrite, MemRead, MemWrite, RegDst, MemtoReg;
+  logic JR, Jump, RegWrite, MemRead, MemWrite;
+  logic [1:0] RegDst, MemtoReg;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
@@ -91,13 +92,13 @@ module mips_cpu_harvard(
        );
 
   // Registers contents
-  logic [31:0] write_data, rs_content, rt_content;
+  logic [31:0] write_data, rs_content;
   //Registers Connection
   Registers regfile (
               .clk(clk), .RegWrite(RegWrite),
               .ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]),
               .WriteReg(WriteReg), .WriteData(write_data),
-              .ReadData1(rs_content), .ReadData2(rt_content),
+              .ReadData1(rs_content), .ReadData2(data_writedata),
               .register_v0(register_v0), .reset(reset)
             );
 
@@ -106,7 +107,7 @@ module mips_cpu_harvard(
   logic Branch;
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
-          .immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
+          .immediate(immediate), .rs_content(rs_content), .rt_content(data_writedata),
           .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
         );
 
@@ -164,14 +165,15 @@ module mips_cpu_harvard(
   //            );
 
   //Connection of Mux between data memory and reg write data
-  mux32 mux_datamem (
-          .InputA(data_address), .InputB(data_readdata), .CtlSig(MemtoReg),
+  mux32_3 mux_datamem (
+          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus4),
+	  .CtlSig(MemtoReg),
           .Output(write_data)
         );
 
   initial
   begin
-    $monitor("instruction: %32b, PC: %32b\n",instr_readdata, instr_address);
+	$monitor("instruction: %h, PC: %h\n",instr_readdata, instr_address);
   end
 
 endmodule

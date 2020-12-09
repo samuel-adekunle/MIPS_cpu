@@ -5,6 +5,7 @@ module mips_cpu_harvard_tb;
     parameter DATA_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter ANSWER_FILE = "test/4-reference/addiu_1.txt";
+    parameter BRANCH_JUMP_INIT_FILE = "test/5-memory/test_loadj.txt";
 
     parameter TIMEOUT_CYCLES = 10000;
 
@@ -36,7 +37,7 @@ module mips_cpu_harvard_tb;
                                             .clk(clk), 
                                             .ReadData(data_readdata));
     
-    instr_mem #(INSTR_MEM_INIT_FILE) instrInst(.address(instr_address),
+    instr_mem #(INSTR_MEM_INIT_FILE, BRANCH_JUMP_INIT_FILE) instrInst(.address(instr_address),
                                                 .clk(clk), 
                                                 .instr(instr_readdata));
     
@@ -93,6 +94,15 @@ module mips_cpu_harvard_tb;
             @(posedge clk);
             //$display("CPU : instr address :", instr_address);
             //$display("CPU : V0 :", register_v0);
+        end
+        if (instr_readdata==0) //allow 0 to execute
+        $display("yes");
+        begin
+            @(posedge clk);
+            if (instr_readdata != 0) //it has read the next address, guaranteed to not be 0
+            begin
+                $fatal(2,"Simulation did not stop after executing 0");
+            end
         end
 
         $display("TB : finished; active=0");

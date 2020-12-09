@@ -1,0 +1,6 @@
+desc small xor
+addiu $16, $16, 39 
+addiu $17, $17, 79 
+xor $2, $16, $17 
+jr $0 
+#0x68 

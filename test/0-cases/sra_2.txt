@@ -1,0 +1,5 @@
+desc negative number
+addiu $16, $16, -20 
+sra $2, $16, 2 
+jr $0 
+#0xfffffffb
