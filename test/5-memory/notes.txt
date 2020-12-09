@@ -1,0 +1,13 @@
+Jumping backwards
+jump back to memory location 44
+containing:
+lw $17, 8($0)
+addu $2, $2, $17
+jr $0
+
+
+
+//maximum of branch is from curr_PC-FFFF8000 to curr_PC+00007FFF
+Branching forwards to memory location bfc20008 containing
+addiu $2, $2, 20
+jr $0

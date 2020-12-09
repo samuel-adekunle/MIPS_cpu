@@ -1,7 +1,5 @@
-desc overflowing add
-addiu $16, $16, 65535 
-sll $16, $16, 16 
-addiu $16 $16, 65535 
+desc negative add
+addiu $16, $16, -1 
 addu $2, $16, $16 
 jr $0  
 #0xfffffffe

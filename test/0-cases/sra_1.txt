@@ -1,0 +1,5 @@
+desc positive number
+addiu $16, $16, 71 
+sra $2, $16, 2 
+jr $0 
+#0x11 

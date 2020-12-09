@@ -4,9 +4,10 @@
 	output logic [31:0] instr 
 ); 
 parameter INSTR_INIT_FILE = "test_load.txt";
-parameter BRANCH_JUMP_INIT_FILE = "test_loadj.txt";
+parameter BRANCH_JUMP_INIT_FILE = "test_loadk.txt";
 parameter [31:0] rst = 32'hbfc00000; 
-parameter [31:0] branch_max = 32'h000ffff<<2; 
+parameter [31:0] branch_max = 32'h0007fff<<2; 
+parameter [31:0] branch_min = 32'hffff8000<<2; 
 parameter [31:0] max_jump_addr = 32'hc0000000; 
 parameter reset_offset = 60;
 parameter no_offset = 20; //11-20 jump backwards //same addrs
@@ -37,25 +38,28 @@ initial begin
 		$readmemh(BRANCH_JUMP_INIT_FILE, memory,11, 50);
 	end
 end
-
+integer x;
 //we use byte addressing hence 2 LSB is ignored 
 //combi read path
 always @(*) begin 
+	//$display("%h becomes %h", rst+branch_min,(rst-branch_min));
 	if ((address>>2) <= no_offset)begin 
 		//jump back to 11-20 or data 0-10
 		instr = memory[address>>2]; 
 	end
-	else if (address>=(rst-branch_max)&&address<(rst-40))begin
-		//branch backwards to addresses 32'hbfbc0004 + 10addr
-		instr = memory[((address-(rst-branch_max))>>2)+branch_back_offset]; 
+	else if (address>=(rst+(branch_min))&&address<(rst+branch_min+40))begin
+		x = ((address-(rst+branch_min))>>2)+branch_back_offset;
+		instr = memory[x];
 	end
 	else if (address>=rst+branch_max && address <= rst+branch_max+40) begin 
-		//branch forwards to addresses 32'hbfc3fffc + 10 addr
-		instr = memory[((address-rst-branch_max)>>2)+branch_forward_offset]; 
+		x = ((address-rst-branch_max)>>2)+branch_forward_offset;
+		//branch forwards to addresses 32'hbfc1fffc + 10 addr
+		instr = memory[x]; 
 	end
 	else if (address>=max_jump_addr) begin 
 		//jump forwards to addresses 32'hc0000000 + 10 addr
-		instr = memory[((address-max_jump_addr)>>2)+jump_forward_offset]; 
+		x = ((address-max_jump_addr)>>2)+jump_forward_offset;
+		instr = memory[x]; 
 	end
 	// else if (address == 32'hffffffff){ //attempt to jump here maybe?
 	// 	instr = //load something into v0?

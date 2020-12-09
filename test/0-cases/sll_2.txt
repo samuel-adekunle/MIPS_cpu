@@ -1,0 +1,5 @@
+desc shift left max
+addiu $16, $16, 1 
+sll $2, $16, 31 
+jr $0 
+#0x80000000 

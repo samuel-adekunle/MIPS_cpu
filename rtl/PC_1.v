@@ -10,11 +10,11 @@ module PC_1 (
 
   always_ff @(posedge clk)
   begin
-    if (reset)
+    if (reset) 
     begin
-      PCout <= 32'hBFC00000; //reset vector
+	PCout <= 32'hBFC00000;
     end
-    else if (clk_enable)
+    if (clk_enable)
     begin
       PCout <= PCin;
     end

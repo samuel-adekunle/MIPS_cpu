@@ -2,7 +2,7 @@ module mux5_tb(
 );
     logic [20:16] inst20_16;
     logic [15:11] inst15_11;
-    logic RegDst;
+    logic [1:0] RegDst;
     logic [4:0] WriteReg;
     
     initial begin
@@ -22,14 +22,17 @@ module mux5_tb(
 
             #1;
             assert(WriteReg == inst20_16);
-
             RegDst <= 1;
+
             #1;
             $display("In: %b, %b select %b. Out %b.", inst20_16, inst15_11, RegDst, WriteReg);
             assert(WriteReg == inst15_11);
-        
-            #1;
-            RegDst <= 0;
+            RegDst <= 2;
+	 
+	    #1;
+            $display("In: %b, %b select %b. Out %b.", inst20_16, inst15_11, RegDst, WriteReg);
+            assert(WriteReg == 31);
+	    RegDst <= 0; 
         end
         $display("Finished. Total time = %t", $time);
         $finish;

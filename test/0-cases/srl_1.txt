@@ -1,0 +1,5 @@
+desc unsigned positive
+addiu $16, $16,  71 
+srl $2, $16, 2 
+jr $0 
+#0x11 

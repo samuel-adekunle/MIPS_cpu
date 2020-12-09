@@ -1,0 +1,5 @@
+desc simple xor
+addiu $20, $20, 36 
+xori $2, $20, 79 
+jr $0 
+#0x6b 

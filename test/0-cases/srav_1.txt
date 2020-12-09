@@ -1,0 +1,6 @@
+desc simple positive numbers
+addiu $17, $17, 2 
+addiu $16, $16,  71 
+srav $2, $16, $17 
+jr $0 
+#0x11 

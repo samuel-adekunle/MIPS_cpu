@@ -19,7 +19,7 @@ module addalu_tb(
     begin
       #1;
       $display("result :%h at PC_next: %h and Imm: %h", Add_ALUresult, PCplus4, extendImm);
-      extendImm=$urandom();
+      extendImm=$random();
       #1;
       assert(Add_ALUresult == extendImm + PCplus4);
     end

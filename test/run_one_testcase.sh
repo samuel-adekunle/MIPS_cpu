@@ -22,6 +22,7 @@ iverilog -g 2012 \
    -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/data_${TESTCASE}.hex.txt\" \
    -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
    -Pmips_cpu_${VARIANT}_tb.ANSWER_FILE=\"test/4-reference/${TESTCASE}.txt\"\
+   -Pmips_cpu_${VARIANT}_tb.BRANCH_JUMP_INIT_FILE=\"test/5-memory/test_loadj.txt\"\
    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
 #    source directory
 
@@ -43,11 +44,11 @@ fi
 PATTERN="CPU : V0 :"
 NOTHING=""
 # Use "grep" to look only for lines containing PATTERN
-set +e
-grep "${PATTERN}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines
-set -e
-# Use "sed" to replace "CPU : V0   :" with nothing
-sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out
+# set +e
+# grep "${PATTERN}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines
+# set -e
+# # Use "sed" to replace "CPU : V0   :" with nothing
+# sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out
 #removing trailing zeros not really working
 #awk '{$1+=0}1' mips_cpu_${VARIANT}_tb_${TESTCASE}.out >mips_cpu_${VARIANT}_tb_${TESTCASE}.out
 # >&2 echo "  4 - Running reference simulator" #reference outputs for RAM and v0?

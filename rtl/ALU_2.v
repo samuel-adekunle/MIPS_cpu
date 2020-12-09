@@ -26,12 +26,13 @@ module ALU_2 (
     // signed value assigment
     signed_rs = rs_content;
     signed_rt = rt_content;
-
+    sig_branch = 1'b0; //default
     //FIXME - add default branches in case statements
 
     // R-type instruction
     if(opcode == 6'h0)
     begin
+     
       case(functcode)
         6'h21 : //ADDU
           ALU_result = rs_content + rt_content;
@@ -143,7 +144,7 @@ module ALU_2 (
         6'h0e: // XORI
           ALU_result = rs_content ^ zeroExtend;
 
-        6'h4 : // BEQ
+        6'h4: // BEQ
         begin
           // if the result is zero, they are equal go branch!
           ALU_result = signed_rs - signed_rt;
@@ -165,6 +166,76 @@ module ALU_2 (
           begin
             sig_branch = 1'b1;
             ALU_result = 1'b0;
+          end
+          else
+          begin
+            sig_branch = 1'b0;
+          end
+        end
+
+        6'h1 : // BGEZ, BGEZAL, BLTZ, BLTZAL
+        begin
+          if (signed_rt == 2'b00000) // BLTZ, branch if the register is less than zero
+          begin
+            if (signed_rs < 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+
+          if (signed_rt == 2'b10000) // BLTZAL, branch if the register is less than zero and saves the return address in $31
+          begin
+            if (signed_rs < 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+
+          if (signed_rt == 2'b00001) // BGEZ, branch if the register is greater than or equal to zero
+          begin
+            if (signed_rs >= 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+          
+          if (signed_rt == 2'b10001) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
+          begin
+            if (signed_rs >= 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+
+          else
+          begin
+            sig_branch = 1'b0;
+          end
+        end
+
+        6'h7 : // BGTZ branch greater than zero
+        begin
+          if (signed_rt == 2'b00000)
+          begin
+            if (signed_rs > 0)
+            begin
+              sig_branch = 1'b1;
+            end
+          end
+          else
+          begin
+            sig_branch = 1'b0;
+          end
+        end
+
+        6'h6 : // BLEZ branch less than or equal to zero
+        begin
+          if (signed_rt == 2'b00000)
+          begin
+            if (signed_rs <= 0)
+            begin
+              sig_branch = 1'b1;
+            end
           end
           else
           begin
