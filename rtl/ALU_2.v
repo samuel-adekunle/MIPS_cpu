@@ -175,7 +175,7 @@ module ALU_2 (
 
         6'h1 : // BGEZ, BGEZAL, BLTZ, BLTZAL
         begin
-          if (signed_rt == 2'b00000) // BLTZ, branch if the register is less than zero
+          if (signed_rt == 6'h0) // BLTZ, branch if the register is less than zero
           begin
             if (signed_rs < 0)
             begin
@@ -183,7 +183,7 @@ module ALU_2 (
             end
           end
 
-          if (signed_rt == 2'b10000) // BLTZAL, branch if the register is less than zero and saves the return address in $31
+          if (signed_rt == 6'h10) // BLTZAL, branch if the register is less than zero and saves the return address in $31
           begin
             if (signed_rs < 0)
             begin
@@ -191,7 +191,7 @@ module ALU_2 (
             end
           end
 
-          if (signed_rt == 2'b00001) // BGEZ, branch if the register is greater than or equal to zero
+          if (signed_rt == 6'h1) // BGEZ, branch if the register is greater than or equal to zero
           begin
             if (signed_rs >= 0)
             begin
@@ -199,7 +199,7 @@ module ALU_2 (
             end
           end
           
-          if (signed_rt == 2'b10001) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
+          if (signed_rt == 6'h11) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
           begin
             if (signed_rs >= 0)
             begin
@@ -215,7 +215,7 @@ module ALU_2 (
 
         6'h7 : // BGTZ branch greater than zero
         begin
-          if (signed_rt == 2'b00000)
+          if (signed_rt == 6'h0)
           begin
             if (signed_rs > 0)
             begin
@@ -230,7 +230,7 @@ module ALU_2 (
 
         6'h6 : // BLEZ branch less than or equal to zero
         begin
-          if (signed_rt == 2'b00000)
+          if (signed_rt == 6'h0)
           begin
             if (signed_rs <= 0)
             begin
