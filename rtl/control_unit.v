@@ -8,10 +8,10 @@ module control_unit (
     output logic [1:0] MemtoReg, //if this is 2 select PCplus4
     input logic [5:0] opcode,
     input logic [5:0] funct,
-    input logic [5:0] rt;
+    input logic [5:0] rt
   );
 
-  always @(opcode, funct, rt
+  always @(opcode, funct, rt)
   begin
 
     // First, reset all signals
