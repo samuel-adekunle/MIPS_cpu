@@ -67,10 +67,12 @@ module mips_cpu_harvard(
   logic [4:0] shamt;
   logic [15:0] immediate;
   logic [5:0] opcode;
+  logic [5:0] rt_instr;
   assign opcode = instr_readdata[31:26];
   assign functcode = instr_readdata[5:0];
   assign immediate = instr_readdata[15:0];
   assign shamt = instr_readdata[10:6];
+  assign rt_instr = instr_readdata[20:16];
 
   //Control Unit connection
   logic JR, Jump, RegWrite, MemRead, MemWrite;
@@ -80,7 +82,7 @@ module mips_cpu_harvard(
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_content)
+                 .rt(rt_instr)
                );
 
   //Mux5 between instr_mem and reg file
