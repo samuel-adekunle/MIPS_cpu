@@ -6,6 +6,8 @@ module control_unit (
     output logic MemWrite,
     output logic [1:0] RegDst, // if this is 0 select rt, 1 select rd, 2 select $ra 
     output logic [1:0] MemtoReg, //if this is 2 select PCplus4
+    output logic HI_write,
+    output logic LO_write,
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt
@@ -43,6 +45,16 @@ module control_unit (
         JR = 1'b1;
 	MemtoReg = 2;
       end
+      //if MTHI 
+      if (funct == 6'h11)
+      begin
+	HI_write = 1'b1; 
+      end
+      //if MTLO
+      if (funct == 6'h13)
+      begin
+	LO_write = 1'b1;
+      end 
     end
     // If R-type, don't enter this block
     // For R-type, BEQ, BNE, BEGZ, BLTZ, BGTZ, BLEZ, SB, SH and SW there is no need to register write
@@ -58,8 +70,8 @@ module control_unit (
       MemWrite = 1'b1;
     end
     // For memory read operation
-    // LW
-    if(opcode != 6'h0 & (opcode == 6'h23))
+    // LW, LB, LBU, LH, LHU
+    if(opcode != 6'h0 & (opcode == 6'h23 | opcode == 6'h20 | opcode == 6'h24 | opcode == 6'h21 | opcode == 6'h25))
     begin
       MemRead = 1'b1;
       MemtoReg = 1;

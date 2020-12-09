@@ -34,6 +34,7 @@ module mips_cpu_harvard_tb;
                                             .WriteData(data_writedata), 
                                             .MemWrite(data_write), 
                                             .MemRead(data_read), 
+					    .opcode(instr_readdata[31:26]),
                                             .clk(clk), 
                                             .ReadData(data_readdata));
     

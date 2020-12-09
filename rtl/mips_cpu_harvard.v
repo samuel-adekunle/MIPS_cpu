@@ -75,11 +75,12 @@ module mips_cpu_harvard(
   assign rt_instr = instr_readdata[20:16];
 
   //Control Unit connection
-  logic JR, Jump, RegWrite, MemRead, MemWrite;
+  logic JR, Jump, RegWrite, MemRead, MemWrite, HI_write, LO_write;
   logic [1:0] RegDst, MemtoReg;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
+		 .HI_write(HI_write), .LO_write(LO_write),
                  .opcode(opcode),
                  .funct(functcode),
                  .rt(rt_instr)
@@ -112,6 +113,18 @@ module mips_cpu_harvard(
           .immediate(immediate), .rs_content(rs_content), .rt_content(data_writedata),
           .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
         );
+
+  //Connection of HI register to ALU
+  logic [31:0] HI_reg; 
+  single_reg HIreg (
+	.clk(clk), .RegWrite(HI_write), .reset(reset), .WriteData(HI), .ReadData(HI_reg)
+	);
+
+  //Connection of LO register to ALU
+  logic [31:0] LO_reg; 
+  single_reg LOreg (
+	.clk(clk), .RegWrite(LO_write), .reset(reset), .WriteData(LO), .ReadData(LO_reg)
+	);
 
   //Connection of Sign Extend
   logic [31:0] Extend32;
@@ -167,8 +180,10 @@ module mips_cpu_harvard(
   //            );
 
   //Connection of Mux between data memory and reg write data
+  logic [31:0] PCplus8;
+  assign PCplus8 = PCplus4 + 4; 
   mux32_3 mux_datamem (
-          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus4),
+          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus8),
 	  .CtlSig(MemtoReg),
           .Output(write_data)
         );
