@@ -1,8 +1,8 @@
-desc beq equal max
+desc beq equal max positive
 addiu $16, $16, 3
 addiu $17, $17, 3
 beq $16, $17, 32767 //7fff
-addiu $2, $2, 1 //execute due to branch delay
+sll $0, $0, 0 //noop 
 addiu $2, $2, 1
 addiu $2, $2, 1
 jr $0
