@@ -38,10 +38,10 @@ module Registers (
     begin
       for (i = 0; i < 31; i = i + 1)
       begin
-        register[i] <= '0;
+        register[i] <= 32'b0;
       end
     end
-    if (RegWrite)
+    if (RegWrite&&!reset)
     begin
       register[WriteReg] <= WriteData;
     end
