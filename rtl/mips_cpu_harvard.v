@@ -95,13 +95,13 @@ module mips_cpu_harvard(
        );
 
   // Registers contents
-  logic [31:0] write_data, rs_content;
+  logic [31:0] write_data, rs_content, rt_content;
   //Registers Connection
   Registers regfile (
               .clk(clk), .RegWrite(RegWrite),
               .ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]),
               .WriteReg(WriteReg), .WriteData(write_data),
-              .ReadData1(rs_content), .ReadData2(data_writedata),
+              .ReadData1(rs_content), .ReadData2(rt_content),
               .register_v0(register_v0), .reset(reset)
             );
 
@@ -110,7 +110,7 @@ module mips_cpu_harvard(
   logic Branch;
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
-          .immediate(immediate), .rs_content(rs_content), .rt_content(data_writedata),
+          .immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
           .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
         );
 
@@ -125,6 +125,11 @@ module mips_cpu_harvard(
   single_reg LOreg (
 	.clk(clk), .RegWrite(LO_write), .reset(reset), .WriteData(LO), .ReadData(LO_reg)
 	);
+
+  //Connection of select_writedata as input to data mem
+  select_datawrite selectwrite (
+	.rt_content(rt_content), .opcode(opcode), .data_writedata(data_writedata)
+  );
 
   //Connection of Sign Extend
   logic [31:0] Extend32;
