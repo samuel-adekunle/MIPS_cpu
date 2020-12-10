@@ -185,11 +185,18 @@ module mips_cpu_harvard(
   //              .ReadData(data_readdata)
   //            );
 
+  //Connection of select_datamem for input to MemtoReg mux
+  logic [31:0] selected_readdata; 
+  select_datamem selectmod (
+	.fullread(data_readdata), .opcode(opcode), .data_address2LSB(data_address[1:0]),
+	.ReadData(selected_readdata)
+  );
+
   //Connection of Mux between data memory and reg write data
   logic [31:0] PCplus8;
   assign PCplus8 = PCplus4 + 4; 
   mux32_3 mux_datamem (
-          .InputA(data_address), .InputB(data_readdata), .InputC(PCplus8),
+          .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
 	  .CtlSig(MemtoReg),
           .Output(write_data)
         );
