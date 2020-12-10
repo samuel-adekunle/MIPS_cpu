@@ -54,7 +54,7 @@ fi
 
 #get v0 outputs
 # V0 contents 
-PATTERN="CPU : V0 :"
+PATTERN="TB : V0 :"
 NOTHING=""
 # Use "grep" to look only for lines containing PATTERN
 # set +e

@@ -196,7 +196,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-	$monitor("instruction: %h, PC: %h\n",instr_readdata, instr_address);
+	$monitor("CPU: instruction: %h, PC: %h\n",instr_readdata, instr_address);
   end
 
 endmodule

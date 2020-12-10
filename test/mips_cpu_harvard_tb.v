@@ -72,12 +72,9 @@ module mips_cpu_harvard_tb;
             #10;
             clk = !clk;
         end
-        $display("CPU : V0 : %h", register_v0);
-        $display("Expected : %h", final_value);
-        // if (register_v0==final_value) begin
-        //     $display("success");
-        // end
-        $fatal(2, "Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);
+        $display("TB : V0 : %h", register_v0);
+        $display("TB : Expected : %h", final_value);
+        $fatal(2, "TB : Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);
     end
 
     initial begin
@@ -85,11 +82,11 @@ module mips_cpu_harvard_tb;
         @(posedge clk);
 	    clk_enable <= 1;
         reset <= 0;
-        $display("Reset reg and mem. reset: %b clk_en: %b", reset, clk_enable);
+        $display("TB : Reset reg and mem. reset: %b clk_en: %b", reset, clk_enable);
         @(posedge clk); 
-         $display("Begin. reset: %b clk_en: %b, active: %b", reset, clk_enable, active);
+         $display("TB : Begin. reset: %b clk_en: %b, active: %b", reset, clk_enable, active);
         @(posedge clk);
-        assert(active==1)else $display("active not set after reset.");
+        assert(active==1)else $display("TB : active not set after reset.");
 
         while (active) begin
             @(posedge clk);
@@ -97,20 +94,20 @@ module mips_cpu_harvard_tb;
             //$display("CPU : V0 :", register_v0);
         end
         if (instr_readdata==0) //allow 0 to execute
-        $display("yes");
+        $display("TB : read at memory location 0");
         begin
             @(posedge clk);
             if (instr_readdata != 0) //it has read the next address, guaranteed to not be 0
             begin
-                $fatal(2,"Simulation did not stop after executing 0");
+                $fatal(2,"TB : Simulation did not stop after executing 0");
             end
         end
 
         $display("TB : finished; active=0");
-        $display("CPU : V0 : %h", register_v0);
-        $display("Expected : %h", final_value);
+        $display("TB : V0 : %h", register_v0);
+        $display("TB : Expected : %h", final_value);
         if (register_v0==final_value) begin
-            $display("success");
+            $display("TB : success");
         end
         $finish;
         

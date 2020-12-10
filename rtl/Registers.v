@@ -20,10 +20,10 @@ module Registers (
   //for loop
   integer i;
 
-  initial
-  begin
-    $readmemh("data/regmem.txt", register, 0, 31);
-  end
+  // initial
+  // begin
+  //   $readmemh("data/regmem.txt", register, 0, 31);
+  // end
 
   //output ports. 32-bit data read from registers selected by ReadReg, WriteReg
   assign ReadData1 = register[ReadReg1];

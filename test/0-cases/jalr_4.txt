@@ -1,0 +1,10 @@
+desc save addr of instruction incl branch delay
+lw $17, 4($0)
+jalr $17, $2
+addiu $2, $2, 1
+sll $0, $0, 0
+addiu $17, $17, 3
+addiu $17, $17, 3
+jr $0
+data 0xbfc00010
+#0xbfc0000d

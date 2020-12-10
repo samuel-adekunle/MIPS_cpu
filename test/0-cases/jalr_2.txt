@@ -1,0 +1,10 @@
+desc default save branch delay
+lw $17, 4($0)
+jalr $17
+addiu $2, $2, 3
+sll $0, $0, 0
+addiu $17, $17, 3
+addu $2, $2, $31
+jr $0
+data 0xbfc00010
+#0xbfc0000f
