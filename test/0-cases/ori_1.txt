@@ -1,0 +1,5 @@
+desc simple ori
+addiu $20, $20, 36 
+ori $2, $20, 79 
+jr $0 
+#0x6f 

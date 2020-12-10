@@ -1,0 +1,6 @@
+desc slt simple smaller immediate
+addiu $2, $2, 5 //make sure not random number already 
+addiu $16, $16, 100 
+slti $2, $16, 13 
+jr $0 
+#0 

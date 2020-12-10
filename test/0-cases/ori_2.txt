@@ -1,0 +1,4 @@
+desc ffff ori zero extend
+ori $2, $20, 65535 
+jr $0 
+#0x0000ffff 

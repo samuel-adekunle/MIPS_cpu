@@ -1,0 +1,6 @@
+desc smaller immediate
+addiu $2, $2, 5 //make sure not random number already 
+addiu $16, $16, -13 
+sltiu $2, $16, 1
+jr $0 
+#0 

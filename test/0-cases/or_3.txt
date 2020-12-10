@@ -1,0 +1,6 @@
+desc 32 bit or
+addiu $16, $16, -1
+addiu $17, $17, 2 
+or $2, $16, $17 
+jr $0 
+#0xffffffff

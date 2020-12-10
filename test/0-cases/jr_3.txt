@@ -1,4 +1,4 @@
-desc jump to minimum
+desc jump to minimum and branch delay
 lw $t1, 4($0) 
 jr $t1 
 addiu $2, $2, 2  

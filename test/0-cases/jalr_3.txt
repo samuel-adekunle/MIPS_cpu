@@ -1,4 +1,4 @@
-desc save addr of instruction after delay
+desc save addr of instruction (noop delay)
 lw $17, 4($0)
 jalr $17, $2
 sll $0, $0, 0

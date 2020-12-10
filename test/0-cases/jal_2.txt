@@ -1,0 +1,10 @@
+desc default save branch delay
+jal 66060292 //jump 4 instr ahead
+addiu $2, $2, 1
+addiu $2, $2, 2
+addiu $2, $2, 3
+addiu $2, $2, 4
+addu $2, $2, $31
+jr $0
+data 0xfc00010
+#0xbfc0000d
