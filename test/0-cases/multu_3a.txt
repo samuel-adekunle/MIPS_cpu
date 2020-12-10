@@ -1,0 +1,6 @@
+desc largest mult positive
+addiu $16, $16, -1
+multu $16, $16 
+mflo $2 
+jr $0 
+#0x00000000 

@@ -1,0 +1,7 @@
+desc positive small lo
+addiu $16, $16, 30 
+addiu $17, $17, 10 
+multu $16, $17 
+mflo $2 
+jr $0 
+#300 

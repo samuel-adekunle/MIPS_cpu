@@ -1,0 +1,8 @@
+desc mult two negative(sign ext)
+addiu $16, $16, -1
+addiu $16, $16, -1
+mult $16, $16 
+mfhi $2 
+jr $0 
+data 0xffffffff 
+#0

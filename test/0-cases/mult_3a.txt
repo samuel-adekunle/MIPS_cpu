@@ -1,0 +1,7 @@
+desc large mult positive
+lw $16, 4($0) 
+mult $16, $16 
+mflo $2 
+jr $0 
+data 0x7fffffff 
+#0x00000001 

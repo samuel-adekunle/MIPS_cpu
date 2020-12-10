@@ -1,0 +1,6 @@
+desc largest mult pos
+addiu $16, $16, -1 
+multu $16, $16 
+mfhi $2 
+jr $0 
+#0xFFFFFFFE 
