@@ -39,46 +39,10 @@ end
 
 //assign ReadData = MemWrite ? WriteData : Mem[address>>2];
 //combinatorial read path 
-always@(address, WriteData, MemWrite, MemRead,opcode, clk) begin 
-	fullread = Mem[address>>2]; 
+always_comb begin 
 	if (MemRead) begin 
-		//LW
-		if (opcode==6'h23) begin
-			ReadData = Mem[address>>2]; 
-		end
-		//LB
-		if (opcode==6'h20) begin
-			case(address[1:0])
-			3: ReadData = {{24{fullread[31]}}, fullread[31:24]};
-			2: ReadData = {{24{fullread[23]}}, fullread[23:16]};
-			1: ReadData = {{24{fullread[15]}}, fullread[15:8]};
-			0: ReadData = {{24{fullread[7]}}, fullread[7:0]};
-			endcase
-		end
-		//LBU 
-		if (opcode==6'h24) begin
-			case(address[1:0])
-			3: ReadData = {{24{1'b0}}, fullread[31:24]};
-			2: ReadData = {{24{1'b0}}, fullread[23:16]};
-			1: ReadData = {{24{1'b0}}, fullread[15:8]};
-			0: ReadData = {{24{1'b0}}, fullread[7:0]};
-			endcase
-		end
-		//LH
-		if (opcode==6'h21) begin
-			case(address[0])
-			1: ReadData = {{16{fullread[31]}}, fullread[31:16]};
-			0: ReadData = {{16{fullread[15]}}, fullread[15:0]};
-			endcase
-		end
-		//LHU
-		if (opcode==6'h25) begin
-			case(address[0])
-			1: ReadData = {{16{1'b0}}, fullread[31:16]};
-			0: ReadData = {{16{1'b0}}, fullread[15:0]};
-			endcase
-		end
-	end 
+		ReadData = Mem[address>>2]; 
+	end
 end  
 
 endmodule

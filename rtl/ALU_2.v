@@ -243,7 +243,7 @@ module ALU_2 (
           end
         end
 
-        6'b010101 : // LUI
+        6'b001111 : // LUI
           ALU_result = {immediate, {16{1'b0}}};
 
         6'b010011 : // ORI
