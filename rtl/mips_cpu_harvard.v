@@ -152,6 +152,12 @@ module mips_cpu_harvard(
           .Output(add_alu_res)
         );
 
+  //Connection of Branch register to store branch address
+  logic [31:0] branch_reg; 
+  single_reg Branchreg (
+	.clk(clk), .RegWrite(Branch), .reset(reset), .WriteData(add_alu_res), .ReadData(branch_reg)
+	);
+
   //Connection of jump_addr
   logic[31:0] jump_address;
   jump_addr jump_addr_mod (
