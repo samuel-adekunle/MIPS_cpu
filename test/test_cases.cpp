@@ -428,11 +428,10 @@ void run_test(string inpf, string instrf,string dataf, string compf){ //input, i
                     if (params[1].find("0x")!=string::npos){
                         doutfile<<params[1].substr(2)<<endl;
                     }
-                    bitset<32> y(stoi(params[1]));
-                    doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
-                    // doutfile<<"00000000"<<endl;
-                    // doutfile<<"00000000"<<endl;
-                    // doutfile<<"00000000"<<endl;
+                    else{
+                        bitset<32> y(stoi(params[1]));
+                        doutfile<<bintohex(y.to_string<char,string::traits_type,string::allocator_type>())<<endl;
+                    }
                 }
                 else{
                     binary_string = "00000000000000000000000000000000"; //no op

@@ -1,0 +1,5 @@
+desc overflow
+addiu $16, $16, 2147483647
+addu $2, $16, $16 
+jr $0  
+#0xfffffffe

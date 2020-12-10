@@ -5,6 +5,7 @@ DIRECTORY="$1"
 
 #compile utils?
 g++ ./test/test_cases.cpp -o test/test_cases
+g++ ./test/test_case_functions.cpp -o test/test_case_functions
 
 if [ $# -ge 2 ]
 then
