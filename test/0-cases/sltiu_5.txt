@@ -5,4 +5,4 @@ sltiu $2, $16, -1 //bigger
 jr $0 
 sll $0, $0, 0
 addiu $2, $2, 10
-#1 
+#0 
