@@ -1,5 +1,7 @@
 desc small negative sub
 addiu $16, $16, 10 
 subu $2, $0, $16 
-jr $0  
+jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10 
 #-10 

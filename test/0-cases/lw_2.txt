@@ -3,6 +3,8 @@ addiu $2, $2, 10
 lw $v0, 4($zero) //for data memory should have 18 at loc 4 
 lw $v0, 20($zero) //for data memory should have 0x71 at loc 20 
 jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
 data 18
 data 8
 data 10

@@ -2,4 +2,6 @@ desc positive number
 addiu $16, $16, 71 
 sra $2, $16, 2 
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 #0x11 

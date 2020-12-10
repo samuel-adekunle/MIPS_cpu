@@ -1,0 +1,7 @@
+desc negative
+lbu $2, 7($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x80000000
+#0x80

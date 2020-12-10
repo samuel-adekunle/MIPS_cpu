@@ -2,4 +2,6 @@ desc simple andi
 addiu $20, $20, 36 
 andi $2, $20, 79 
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 #0x4 

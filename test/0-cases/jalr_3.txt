@@ -6,5 +6,7 @@ sll $0, $0, 0
 addiu $17, $17, 3
 addiu $17, $17, 3
 jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
 data 0xbfc00010
 #0xbfc0000c

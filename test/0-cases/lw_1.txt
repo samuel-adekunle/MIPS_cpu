@@ -2,6 +2,8 @@ desc single load
 addiu $2, $2, 10
 lw $v0, 4($zero) //for data memory should have 18 at loc 4
 jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
 data 18
 data 8
 data 10

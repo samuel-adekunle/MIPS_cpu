@@ -2,4 +2,6 @@ desc jump halt
 jr $2  //should halt as it is register 0 value 0
 lw $v0, 4($zero) // appear as no op if not implemented, else execute
 jr $0 //should not exec
+sll $0, $0, 0
+addiu $2, $2, 10
 #0x00000000

@@ -7,6 +7,8 @@ addiu $2, $2, 2
 addiu $2, $2, 2 
 addiu $2, $2, 2 
 jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
 data 0xBFC
 data 0x111
 #0x2 

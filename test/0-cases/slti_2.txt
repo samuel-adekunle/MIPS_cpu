@@ -3,4 +3,6 @@ addiu $2, $2, 5 //make sure not random number already
 addiu $16, $16, 100 
 slti $2, $16, 13 
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 #0 

@@ -6,5 +6,7 @@ addiu $v0, $v0, 3
 addiu $v0, $v0, 4
 addiu $v0, $v0, 5
 jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
 #9
 data 10

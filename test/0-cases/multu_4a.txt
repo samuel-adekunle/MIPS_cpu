@@ -4,6 +4,8 @@ lw $17, 8($zero)
 multu $16, $17 
 mflo $2 
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 data 0x0f3421
 data 0x0fffffe
 #0x20e197be

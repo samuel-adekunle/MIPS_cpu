@@ -1,4 +1,6 @@
 desc ffff ori zero extend
 ori $2, $20, 65535 
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 #0x0000ffff 

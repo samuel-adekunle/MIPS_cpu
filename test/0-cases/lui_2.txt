@@ -1,4 +1,6 @@
 desc load upper small
 lui $2, 100
 jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
 #0x00640000

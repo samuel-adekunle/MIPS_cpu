@@ -1,0 +1,7 @@
+desc middle
+lbu $2, 6($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x20130000
+#0x13

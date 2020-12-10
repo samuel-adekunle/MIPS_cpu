@@ -3,4 +3,6 @@ addiu $20, $20, 65535
 sll $20, $20, 16 
 xori $2, $20, 65535 
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 #0xffffffff 

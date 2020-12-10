@@ -2,4 +2,6 @@ desc  add max
 addiu $2, $2, 32767
 addiu $2, $2, 32767
 jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
 #65534

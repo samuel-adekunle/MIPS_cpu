@@ -1,0 +1,7 @@
+desc middle negative
+lb $2, 5($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x80009100
+#0xffffff91

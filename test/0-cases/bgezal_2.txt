@@ -1,0 +1,12 @@
+desc greater than zero forwards
+addiu $16, $16, 1
+bgezal $16, 4
+sll $0, $0, 0 //noop
+addiu $2, $2, 1
+addiu $2, $2, -1
+addiu $2, $2, 0
+addu $2, $0, $31
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#0xbfc0000c
