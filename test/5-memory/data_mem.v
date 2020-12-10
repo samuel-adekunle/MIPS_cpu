@@ -11,7 +11,7 @@ module data_mem(
 //data mem has capacity for 4096 32-bit entries. 
 //array can start from 0 
 //keep 0 as 0 in both memorys to start with
-logic [31:0] Mem[0:4095];  
+logic [31:0] Mem[0:1024];  
 logic [31:0] fullread; 
 parameter DATA_INIT_FILE = "test_load.txt";
 

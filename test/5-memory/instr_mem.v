@@ -18,14 +18,14 @@ parameter jump_forward_offset = 41; //41-50 jump maximum
 //instr mem has capacity for 4096 32-bit entries. 
 //initialise the content at each address using a text file containing the instructions. 
 
-logic [31:0] memory [0:4095]; 
+logic [31:0] memory [0:1023]; 
 // initial begin 
 // 	$readmemh(INSTR_INIT_FILE, memory); 
 // end 
 initial begin
 	integer i;
 	/* Initialise to zero by default */
-	for (i=0; i<4096; i++) begin
+	for (i=0; i<1024; i++) begin
 		memory[i]=0;
 	end
 	/* Load contents from file if specified */
