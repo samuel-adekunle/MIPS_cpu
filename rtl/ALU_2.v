@@ -9,7 +9,7 @@ module ALU_2 (
     input logic [31:0] rt_content,
 
     //output
-    output logic [1:0] sig_branch,
+    output logic sig_branch,
     output logic [31:0] ALU_result,
     output logic [31:0] HI,
     output logic [31:0] LO
@@ -31,7 +31,7 @@ module ALU_2 (
     else begin 
       signed_rt = rt_content;
     end
-    sig_branch = 2'b0; //default
+    sig_branch = 1'b0; //default
     //FIXME - add default branches in case statements
 
     // R-type instruction
@@ -155,11 +155,11 @@ module ALU_2 (
           ALU_result = signed_rs - signed_rt;
           if(ALU_result == 0)
           begin
-            sig_branch = 2'b11;
+            sig_branch = 1'b1;
           end
           else
           begin
-            sig_branch = 2'b00;
+            sig_branch = 1'b0;
           end
         end
 
@@ -169,12 +169,12 @@ module ALU_2 (
           ALU_result = signed_rs - signed_rt;
           if(ALU_result != 0)
           begin
-            sig_branch = 2'b11;
+            sig_branch = 1'b1;
             ALU_result = 2'b00;
           end
           else
           begin
-            sig_branch = 2'b00;
+            sig_branch = 1'b0;
           end
         end
 
@@ -182,26 +182,26 @@ module ALU_2 (
         begin
           if (rt_instr == 6'h0 && signed_rs < 0) // BLTZ, branch if the register is less than zero
           begin
-              sig_branch = 2'b11;
+              sig_branch = 1'b1;
           end
 
           else if (rt_instr == 6'h10 && signed_rs < 0) // BLTZAL, branch if the register is less than zero and saves the return address in $31
           begin
-              sig_branch = 2'b11;
+              sig_branch = 1'b1;
           end
 
           else if (rt_instr == 6'h1 && signed_rs >=0) // BGEZ, branch if the register is greater than or equal to zero
           begin
-              sig_branch = 2'b11;
+              sig_branch = 1'b1;
           end
 
           else if (rt_instr == 6'h11 && signed_rs >= 0) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
           begin
-              sig_branch = 2'b11;
+              sig_branch = 1'b1;
           end
           else
           begin
-            sig_branch = 2'b00;
+            sig_branch = 1'b0;
           end
         end
 
@@ -210,11 +210,11 @@ module ALU_2 (
           
           if (rt_instr == 6'h0 && signed_rs > 0)
           begin
-              sig_branch = 2'b11;
+              sig_branch = 1'b1;
           end
           else
           begin
-            sig_branch = 2'b00;
+            sig_branch = 1'b0;
           end
         end
 
@@ -222,11 +222,11 @@ module ALU_2 (
         begin
           if (rt_instr == 6'h0 && signed_rs <= 0)
           begin
-              sig_branch = 2'b11;
+              sig_branch = 1'b1;
           end
           else
           begin
-            sig_branch = 2'b00;
+            sig_branch = 1'b0;
           end
         end
 

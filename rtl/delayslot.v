@@ -1,6 +1,6 @@
 module delayslot ( 
     input logic clk, 
-    input logic [1:0] Branch, 
+    input logic Branch, 
     input logic Jump, 
     input logic JR, 
     input logic [31:0] branch_address,
@@ -12,7 +12,7 @@ module delayslot (
 
 always@(posedge clk) begin
 	//branch instructions
-	if (Branch==2'b11) begin
+	if (Branch==1'b1) begin
 		delay_addr <= branch_address;
 	end
 	//jump instructions (J, JAL)

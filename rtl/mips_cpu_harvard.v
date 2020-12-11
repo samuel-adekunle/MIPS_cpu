@@ -114,7 +114,7 @@ module mips_cpu_harvard(
 
   //ALU Connection
   logic [31:0] HI, LO;
-  logic [1:0] Branch;
+  logic Branch;
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
           .immediate(immediate),.rs_content(rs_content), .rt_content(rt_content), .rt_instr(rt_instr),
