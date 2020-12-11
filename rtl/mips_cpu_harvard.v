@@ -75,8 +75,8 @@ module mips_cpu_harvard(
   assign rt_instr = instr_readdata[20:16];
 
   //Control Unit connection
-  logic JR, Jump, RegWrite, MemRead, MemWrite, HI_write, LO_write;
-  logic [1:0] RegDst, MemtoReg;
+  logic JR, Jump, MemRead, MemWrite;
+  logic [1:0] RegDst, MemtoReg, RegWrite, HI_write, LO_write;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
@@ -107,7 +107,7 @@ module mips_cpu_harvard(
 
   //ALU Connection
   logic [31:0] HI, LO;
-  logic Branch;
+  logic [1:0] Branch;
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
           .immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
@@ -153,7 +153,7 @@ module mips_cpu_harvard(
   //Connection of Mux for branch
   logic [31:0] add_alu_res;
   mux32 mux_branch (
-          .InputA(PCplus4), .InputB(branch_address), .CtlSig(Branch),
+          .InputA(PCplus4), .InputB(branch_address), .CtlSig(Branch[0]),
           .Output(add_alu_res)
         );
 

@@ -8,7 +8,7 @@ module ALU_2 (
     input logic [31: 0] rt_content,
 
     //output
-    output logic sig_branch,
+    output logic [1:0] sig_branch,
     output logic [31:0] ALU_result,
     output logic [31:0] HI,
     output logic [31:0] LO
@@ -26,7 +26,7 @@ module ALU_2 (
     // signed value assigment
     signed_rs = rs_content;
     signed_rt = rt_content;
-    sig_branch = 1'b0; //default
+    sig_branch = 2'b0; //default
     //FIXME - add default branches in case statements
 
     // R-type instruction
@@ -150,11 +150,11 @@ module ALU_2 (
           ALU_result = signed_rs - signed_rt;
           if(ALU_result == 0)
           begin
-            sig_branch = 1'b1;
+            sig_branch = 2'b11;
           end
           else
           begin
-            sig_branch = 1'b0;
+            sig_branch = 2'b00;
           end
         end
 
@@ -164,12 +164,12 @@ module ALU_2 (
           ALU_result = signed_rs - signed_rt;
           if(ALU_result != 0)
           begin
-            sig_branch = 1'b1;
-            ALU_result = 1'b0;
+            sig_branch = 2'b11;
+            ALU_result = 2'b00;
           end
           else
           begin
-            sig_branch = 1'b0;
+            sig_branch = 2'b00;
           end
         end
 
@@ -179,7 +179,7 @@ module ALU_2 (
           begin
             if (signed_rs < 0)
             begin
-              sig_branch = 1'b1;
+              sig_branch = 2'b11;
             end
           end
 
@@ -187,7 +187,7 @@ module ALU_2 (
           begin
             if (signed_rs < 0)
             begin
-              sig_branch = 1'b1;
+              sig_branch = 2'b11;
             end
           end
 
@@ -195,7 +195,7 @@ module ALU_2 (
           begin
             if (signed_rs >= 0)
             begin
-              sig_branch = 1'b1;
+              sig_branch = 2'b11;
             end
           end
           
@@ -203,13 +203,13 @@ module ALU_2 (
           begin
             if (signed_rs >= 0)
             begin
-              sig_branch = 1'b1;
+              sig_branch = 2'b11;
             end
           end
 
           else
           begin
-            sig_branch = 1'b0;
+            sig_branch = 2'b00;
           end
         end
 
@@ -219,12 +219,12 @@ module ALU_2 (
           begin
             if (signed_rs > 0)
             begin
-              sig_branch = 1'b1;
+              sig_branch = 2'b11;
             end
           end
           else
           begin
-            sig_branch = 1'b0;
+            sig_branch = 2'b00;
           end
         end
 
@@ -234,12 +234,12 @@ module ALU_2 (
           begin
             if (signed_rs <= 0)
             begin
-              sig_branch = 1'b1;
+              sig_branch = 2'b11;
             end
           end
           else
           begin
-            sig_branch = 1'b0;
+            sig_branch = 2'b00;
           end
         end
 

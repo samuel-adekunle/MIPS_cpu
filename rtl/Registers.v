@@ -1,6 +1,6 @@
 module Registers (
     input logic clk,
-    input logic RegWrite,
+    input logic [1:0] RegWrite,
     input logic reset,
     //5-bit inputs as we have 32 registers in total
     input logic [4:0] ReadReg1,
@@ -30,7 +30,7 @@ module Registers (
   assign ReadData2 = register[ReadReg2];
   assign register_v0 = register[2];
 
-  //at rising edge of clk, if RegWrite_en is 1, write WriteData into register selected by WriteReg
+  //at rising edge of clk, if RegWrite_en is 11, write WriteData into register selected by WriteReg
 
   always_ff @(posedge clk)
   begin
@@ -41,10 +41,22 @@ module Registers (
         register[i] <= 32'b0;
       end
     end
-    if (RegWrite&&!reset)
+    if (RegWrite == 2'b11 && !reset)
     begin
       register[WriteReg] <= WriteData;
     end
+	
+	// lwl to replace WriteData
+	if (RegWrite == 2'b01 && !reset)
+	begin
+	  register[WriteReg] <= WriteData;
+	end
+
+	//lwr to replace WriteData 
+	if (RegWrite == 2'b10 && !reset)
+	begin
+	  register[WriteReg] <= WriteData;
+	end
   end
 
 endmodule
