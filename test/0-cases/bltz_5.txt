@@ -1,6 +1,6 @@
-desc less than 0 noop
+desc less than 0 backwards
 addiu $16, $16, -1
-blez $16, 3
+blez $16, -32768
 sll $0, $0, 0
 addiu $2, $2, 1
 addiu $2, $2, 3
@@ -8,4 +8,4 @@ addiu $2, $2, 7
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-#7
+#187

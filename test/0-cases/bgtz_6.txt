@@ -1,0 +1,11 @@
+desc > 0 backwards branch delay
+addiu $16, $16, 7
+bgtz $16, -32768
+addiu $2, $2, -5
+addiu $2, $2, 5
+addiu $2, $2, 5
+addiu $2, $2, 7
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#182

@@ -1,8 +1,8 @@
-desc save addr of instruction incl branch delay
-lw $17, 4($0)
-jalr $17, $2
-addiu $2, $2, 1
-sll $0, $0, 0
+desc modify the register value in branch delay slot ->is this legal
+lw $17, 4($0) //0
+jalr $2, $17 //4
+addiu $2, $2, 1 //8
+sll $0, $0, 0 //c
 addiu $17, $17, 3
 addiu $17, $17, 3
 jr $0
