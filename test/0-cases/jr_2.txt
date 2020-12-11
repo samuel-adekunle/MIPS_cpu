@@ -1,4 +1,4 @@
-desc jump and skip with delay
+desc jump and skip branch delay
 lw $t1, 4($0) 
 sll $t1, $t1, 20
 addiu $t1, $t1, 24 
