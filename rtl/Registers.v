@@ -47,13 +47,13 @@ module Registers (
     end
 	
 	// lwl to replace WriteData
-	if (RegWrite == 2'b01 && opcode == 6'b100010 && !reset)
+	if (RegWrite == 2'b01 && !reset)
 	begin
 	  register[WriteReg] <= WriteData;
 	end
 
 	//lwr to replace WriteData 
-	if (RegWrite == 2'b10 && opcode == 6'b100110 && !reset)
+	if (RegWrite == 2'b10 && !reset)
 	begin
 	  register[WriteReg] <= WriteData;
 	end

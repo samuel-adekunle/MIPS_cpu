@@ -6,8 +6,8 @@ module control_unit (
     output logic MemWrite,
     output logic [1:0] RegDst, // if this is 0 select rt, 1 select rd, 2 select $ra 
     output logic [1:0] MemtoReg, //if this is 2 select PCplus4
-    output logic HI_write,
-    output logic LO_write,
+    output logic [1:0] HI_write,
+    output logic [1:0] LO_write,
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt
@@ -48,12 +48,12 @@ module control_unit (
       //if MTHI 
       if (funct == 6'h11)
       begin
-	HI_write = 1'b1; 
+	HI_write = 2'b11; 
       end
       //if MTLO
       if (funct == 6'h13)
       begin
-	LO_write = 1'b1;
+	LO_write = 2'b11;
       end 
     end
     // If R-type, don't enter this block
