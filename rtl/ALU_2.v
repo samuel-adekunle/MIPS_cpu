@@ -7,6 +7,7 @@ module ALU_2 (
     input logic [5:0] rt_val, //instr[20:16]
     input logic [31:0] rs_content,
     input logic [31:0] rt_content,
+    input logig [5:0] rt_instr,
 
     //output
     output logic [1:0] sig_branch,
@@ -180,22 +181,22 @@ module ALU_2 (
 
         6'h1 : // BGEZ, BGEZAL, BLTZ, BLTZAL
         begin
-          if (signed_rt == 6'h0 && signed_rs < 0) // BLTZ, branch if the register is less than zero
+          if (rt_instr == 6'h0 && signed_rs < 0) // BLTZ, branch if the register is less than zero
           begin
               sig_branch = 2'b11;
           end
 
-          else if (signed_rt == 6'h10 && signed_rs < 0) // BLTZAL, branch if the register is less than zero and saves the return address in $31
+          else if (rt_instr == 6'h10 && signed_rs < 0) // BLTZAL, branch if the register is less than zero and saves the return address in $31
           begin
               sig_branch = 2'b11;
           end
 
-          else if (signed_rt == 6'h1 && signed_rs >=0) // BGEZ, branch if the register is greater than or equal to zero
+          else if (rt_instr == 6'h1 && signed_rs >=0) // BGEZ, branch if the register is greater than or equal to zero
           begin
               sig_branch = 2'b11;
           end
 
-          else if (signed_rt == 6'h11 && signed_rs >= 0) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
+          else if (rt_instr == 6'h11 && signed_rs >= 0) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
           begin
               sig_branch = 2'b11;
           end
@@ -208,7 +209,7 @@ module ALU_2 (
         6'h7 : // BGTZ branch greater than zero
         begin
           
-          if (signed_rt == 6'h0 && signed_rs > 0)
+          if (rt_instr == 6'h0 && signed_rs > 0)
           begin
               sig_branch = 2'b11;
           end
@@ -220,7 +221,7 @@ module ALU_2 (
 
         6'h6 : // BLEZ branch less than or equal to zero
         begin
-          if (signed_rt == 6'h0 && signed_rs <= 0)
+          if (rt_instr == 6'h0 && signed_rs <= 0)
           begin
               sig_branch = 2'b11;
           end
