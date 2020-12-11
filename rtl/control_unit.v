@@ -11,7 +11,7 @@ module control_unit (
     output logic delay_early, 
     input logic [5:0] opcode,
     input logic [5:0] funct,
-    input logic [5:0] rt
+    input logic [4:0] rt
   );
 
   always @(opcode, funct, rt)
@@ -113,6 +113,13 @@ module control_unit (
     //Branch Instructions
     if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1) begin
 	delay_early = 1'b1; 
+	if (opcode==6'h1) begin
+		if (rt==5'b10001 || rt==5'b10000) begin 
+		   RegDst = 2'b10;
+		   MemtoReg = 2'b10;
+		   RegWrite = 2'b11;
+		end
+	end
     end
   end
 endmodule

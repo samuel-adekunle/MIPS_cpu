@@ -6,6 +6,7 @@ module ALU_2 (
     input logic [15:0] immediate, //instr[15:0]
     input logic [31:0] rs_content,
     input logic [31: 0] rt_content,
+    input logic [4:0] rt_instr, //instr[20:16]
 
     //output
     output logic [1:0] sig_branch,
@@ -175,7 +176,7 @@ module ALU_2 (
 
         6'h1 : // BGEZ, BGEZAL, BLTZ, BLTZAL
         begin
-          if (signed_rt == 6'h0) // BLTZ, branch if the register is less than zero
+          if (rt_instr == 6'h0) // BLTZ, branch if the register is less than zero
           begin
             if (signed_rs < 0)
             begin
@@ -183,7 +184,7 @@ module ALU_2 (
             end
           end
 
-          if (signed_rt == 6'h10) // BLTZAL, branch if the register is less than zero and saves the return address in $31
+          if (rt_instr == 6'h10) // BLTZAL, branch if the register is less than zero and saves the return address in $31
           begin
             if (signed_rs < 0)
             begin
@@ -191,7 +192,7 @@ module ALU_2 (
             end
           end
 
-          if (signed_rt == 6'h1) // BGEZ, branch if the register is greater than or equal to zero
+          if (rt_instr == 6'h1) // BGEZ, branch if the register is greater than or equal to zero
           begin
             if (signed_rs >= 0)
             begin
@@ -199,7 +200,7 @@ module ALU_2 (
             end
           end
           
-          if (signed_rt == 6'h11) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
+          if (rt_instr == 6'h11) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
           begin
             if (signed_rs >= 0)
             begin
@@ -215,7 +216,7 @@ module ALU_2 (
 
         6'h7 : // BGTZ branch greater than zero
         begin
-          if (signed_rt == 6'h0)
+          if (rt_instr == 6'h0)
           begin
             if (signed_rs > 0)
             begin
@@ -230,7 +231,7 @@ module ALU_2 (
 
         6'h6 : // BLEZ branch less than or equal to zero
         begin
-          if (signed_rt == 6'h0)
+          if (rt_instr == 6'h0)
           begin
             if (signed_rs <= 0)
             begin

@@ -67,7 +67,7 @@ module mips_cpu_harvard(
   logic [4:0] shamt;
   logic [15:0] immediate;
   logic [5:0] opcode;
-  logic [5:0] rt_instr;
+  logic [4:0] rt_instr;
   assign opcode = instr_readdata[31:26];
   assign functcode = instr_readdata[5:0];
   assign immediate = instr_readdata[15:0];
@@ -130,7 +130,8 @@ module mips_cpu_harvard(
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
           .immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
-          .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
+          .rt_instr(rt_instr),
+	  .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
         );
 
   //Connection of HI register to ALU
@@ -175,12 +176,6 @@ module mips_cpu_harvard(
           .InputA(PCplus4), .InputB(branch_address), .CtlSig(Branch[0]),
           .Output(add_alu_res)
         );*/
-
-  //Connection of Branch register to store branch address
-  /*logic [31:0] branch_reg; 
-  single_reg Branchreg (
-	.clk(clk), .RegWrite(Branch), .reset(reset), .WriteData(add_alu_res), .ReadData(branch_reg)
-	);*/
 
   //Connection of jump_addr
   logic[31:0] jump_address;
