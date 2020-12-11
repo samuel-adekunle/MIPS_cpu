@@ -246,7 +246,7 @@ module ALU_2 (
         6'b001111 : // LUI
           ALU_result = {immediate, {16{1'b0}}};
 
-        6'b010011 : // ORI
+        6'b001101 : // ORI
           ALU_result = rs_content | zeroExtend;
 
         6'b001010 : // SLTI
