@@ -75,16 +75,35 @@ module mips_cpu_harvard(
   assign rt_instr = instr_readdata[20:16];
 
   //Control Unit connection
-  logic JR, Jump, MemRead, MemWrite;
+  logic JR, Jump, MemRead, MemWrite, delay_early;
   logic [1:0] RegDst, MemtoReg, RegWrite, HI_write, LO_write;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
-		 .HI_write(HI_write), .LO_write(LO_write),
+		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
                  .rt(rt_instr)
                );
+
+  //delay slot implementation 
+  logic delay; 
+  always_ff@(posedge clk) begin
+	delay <= delay_early;
+  end
+  
+  
+  logic [31:0] delay_addr; 
+  delayslot delayreg (
+	.clk(clk), .Branch(Branch), .Jump(Jump), .JR(JR), .branch_address(branch_address), 
+	.jump_address(jump_address), .PCplus8(PCplus8), .rs_content(rs_content), 
+	.delay_addr(delay_addr)
+   );
+
+   mux32 pcaddr (
+	.InputA(PCplus4), .InputB(delay_addr), .CtlSig(delay), .Output(PCin)
+   ); 
+
 
   //Mux5 between instr_mem and reg file
   logic [4:0] WriteReg;
@@ -151,17 +170,17 @@ module mips_cpu_harvard(
           );
 
   //Connection of Mux for branch
-  logic [31:0] add_alu_res;
+  /*logic [31:0] add_alu_res;
   mux32 mux_branch (
           .InputA(PCplus4), .InputB(branch_address), .CtlSig(Branch[0]),
           .Output(add_alu_res)
-        );
+        );*/
 
   //Connection of Branch register to store branch address
-  logic [31:0] branch_reg; 
+  /*logic [31:0] branch_reg; 
   single_reg Branchreg (
 	.clk(clk), .RegWrite(Branch), .reset(reset), .WriteData(add_alu_res), .ReadData(branch_reg)
-	);
+	);*/
 
   //Connection of jump_addr
   logic[31:0] jump_address;
@@ -171,17 +190,17 @@ module mips_cpu_harvard(
             );
 
   //Connection of Mux for Jump
-  logic [31:0] mux_jump_res;
+  /*logic [31:0] mux_jump_res;
   mux32 mux_jump ( //PCplus4
           .InputA(add_alu_res), .InputB(jump_address), .CtlSig(Jump),
           .Output(mux_jump_res)
-        );
+        );*/
 
   //Connection of Mux for JR
-  mux32 mux_JR (
+  /*mux32 mux_JR (
           .InputA(mux_jump_res), .InputB(rs_content), .CtlSig(JR),
           .Output(PCin)
-        );
+        );*/
 
   //Connection of Data Memory
   // data_mem_1 datamem (
@@ -208,7 +227,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n",instr_readdata, instr_address);
+	$monitor("CPU: instruction: %h, PC: %h\n branch_addr:%h delay_addr:%h delay:%b delay_early:%b Branch:%b",instr_readdata, instr_address, branch_address, delay_addr, delay, delay_early, Branch);
   end
 
 endmodule

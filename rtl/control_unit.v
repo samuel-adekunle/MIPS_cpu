@@ -8,6 +8,7 @@ module control_unit (
     output logic [1:0] MemtoReg, //if this is 2 select PCplus4
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
+    output logic delay_early, 
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt
@@ -24,6 +25,7 @@ module control_unit (
     RegWrite = 2'b0;
     RegDst   = 2'b0;
     MemtoReg = 2'b0;
+    delay_early = 1'b0; 
 
     // R type
     if(opcode == 6'h0)
@@ -33,6 +35,7 @@ module control_unit (
       if (funct == 6'h08)
       begin
         JR = 1'b1;
+ 	delay_early = 1'b1; 
       end
 
       else
@@ -44,6 +47,7 @@ module control_unit (
       begin
         JR = 1'b1;
 	MemtoReg = 2;
+	delay_early = 1'b1;
       end
       //if MTHI 
       if (funct == 6'h11)
@@ -97,6 +101,7 @@ module control_unit (
     if (opcode==6'h02 | opcode == 6'h03)
     begin
       Jump = 1'b1;
+      delay_early = 1'b1;
       //JAL
       if (opcode == 6'h03) begin
 	RegDst = 2'b10;
@@ -104,5 +109,10 @@ module control_unit (
 	RegWrite = 2'b11; 
       end
     end 
+
+    //Branch Instructions
+    if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1) begin
+	delay_early = 1'b1; 
+    end
   end
 endmodule
