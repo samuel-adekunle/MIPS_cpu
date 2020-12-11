@@ -111,7 +111,7 @@ module control_unit (
     end 
 
     //Branch Instructions
-    if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1) begin
+    if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1 | opcode==6'h7 | opcode==6'h6) begin
 	delay_early = 1'b1; 
     end
   end
