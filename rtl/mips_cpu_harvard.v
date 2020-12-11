@@ -117,7 +117,7 @@ module mips_cpu_harvard(
   logic [1:0] Branch;
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
-          .immediate(immediate), .rs_content(rs_content), .rt_content(rt_content),
+          .immediate(immediate), .rt_val(rt_instr),.rs_content(rs_content), .rt_content(rt_content),
           .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
         );
 
