@@ -1,15 +1,3 @@
-// `include "rtl/PC_1.v"
-// `include "rtl/instr_mem_1.v"
-// `include "rtl/control_unit.v"
-// `include "rtl/mux5.v"
-// `include "rtl/mux32.v"
-// `include "rtl/Registers.v"
-// `include "rtl/ALU_2.v"
-// `include "rtl/SignExtend.v"
-// `include "rtl/ShiftLeft2.v"
-// `include "rtl/Add_ALU.v"
-// `include "rtl/jump_addr.v"
-// `include "rtl/data_mem_1.v"
 
 module mips_cpu_harvard(
     /* Standard signals */
@@ -231,4 +219,3 @@ module mips_cpu_harvard(
   end
 
 endmodule
-
