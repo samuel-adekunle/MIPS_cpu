@@ -75,8 +75,8 @@ module mips_cpu_harvard(
   assign rt_instr = instr_readdata[20:16];
 
   //Control Unit connection
-  logic JR, Jump, RegWrite, MemRead, MemWrite, HI_write, LO_write;
-  logic [1:0] RegDst, MemtoReg;
+  logic JR, Jump, MemRead, MemWrite, HI_write, LO_write;
+  logic [1:0] RegDst, MemtoReg, RegWrite;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
