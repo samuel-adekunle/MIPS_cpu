@@ -4,10 +4,9 @@ module ALU_2 (
     input logic [5:0] opcode,
     input logic [4:0] shamt, // instr[10:6]
     input logic [15:0] immediate, //instr[15:0]
-    input logic [5:0] rt_val, //instr[20:16]
+    input logic [5:0] rt_instr, //instr[20:16]
     input logic [31:0] rs_content,
     input logic [31:0] rt_content,
-    input logig [5:0] rt_instr,
 
     //output
     output logic [1:0] sig_branch,
@@ -27,7 +26,7 @@ module ALU_2 (
     // signed value assigment
     signed_rs = rs_content;
     if (opcode == 6'h1||opcode ==  6'h7 || opcode == 6'h6) begin
-      signed_rt = rt_val;
+      signed_rt = rt_instr;
     end
     else begin 
       signed_rt = rt_content;

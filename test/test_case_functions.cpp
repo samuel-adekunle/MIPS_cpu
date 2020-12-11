@@ -64,6 +64,25 @@ void create_addu(string afile){
     infile.close();
 }
 
+void create_subu(string afile){
+    ofstream infile; 
+    srand (time(NULL));
+    int num1 = random_32();
+    int num2 = random_32();
+    int ans = 0-num1-num2;
+    infile.open(afile); 
+    infile<<"desc random two sub"<<endl;
+    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"subu $2, $2, $16"<<endl;
+    infile<<"subu $2, $2, $17"<<endl;
+    infile<<"jr $0"<<endl;
+    infile<<"data "<<int_to_hex(num1)<<endl;
+    infile<<"data "<<int_to_hex(num2)<<endl;
+    infile<<"#"<<int_to_hex(ans);
+    infile.close();
+}
+
 int main(int argc, char *argv[]){
     string test_case = argv[1];
     if (size_t pos = test_case.find("addiu")!= string::npos){
@@ -71,5 +90,8 @@ int main(int argc, char *argv[]){
     }
     else if (size_t pos = test_case.find("addu")!= string::npos){
         create_addu(test_case);
+    }
+    else if (size_t pos = test_case.find("subu")!= string::npos){
+        create_subu(test_case);
     }
 }

@@ -1,4 +1,4 @@
-desc small backwards jump use delay
+desc small backwards jump use delay //look at again later
 sll $0, $0, 0 //noop
 addiu $17, $17, 8
 addiu $16, $16, 2

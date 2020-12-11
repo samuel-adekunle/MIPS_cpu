@@ -1,4 +1,4 @@
-desc jump and skip
+desc jump and skip with delay
 lw $t1, 4($0) 
 sll $t1, $t1, 20
 addiu $t1, $t1, 24 
@@ -11,4 +11,4 @@ sll $0, $0, 0
 addiu $2, $2, 10
 data 0xBFC
 data 0x111
-#0x2 
+#0x4 
