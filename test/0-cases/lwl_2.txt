@@ -1,8 +1,8 @@
-desc simple lwl, empty regs
-lwl $2, 5($0)
+desc simple lwl, start at 0
+lwl $2, 6($0)
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
 data 0x12345678
 data 0x70605040
-#0x56780000
+#0x34567800
