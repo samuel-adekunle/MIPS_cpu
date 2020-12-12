@@ -64,7 +64,8 @@ module mips_cpu_harvard(
 
   //Control Unit connection
   logic JR, Jump, MemRead, MemWrite, delay_early;
-  logic [1:0] RegDst, MemtoReg, RegWrite, HI_write, LO_write;
+  logic [1:0] RegDst, RegWrite, HI_write, LO_write;
+  logic [2:0] MemtoReg; 
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
@@ -207,8 +208,9 @@ module mips_cpu_harvard(
   //Connection of Mux between data memory and reg write data
   logic [31:0] PCplus8;
   assign PCplus8 = PCplus4 + 4; 
-  mux32_3 mux_datamem (
+  mux32_5 mux_datamem (
           .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
+	  .HI_reg(HI_reg), .LO_reg(LO_reg), 
 	  .CtlSig(MemtoReg),
           .Output(write_data)
         );

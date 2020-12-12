@@ -5,7 +5,7 @@ module control_unit (
     output logic MemRead,
     output logic MemWrite,
     output logic [1:0] RegDst, // if this is 0 select rt, 1 select rd, 2 select $ra 
-    output logic [1:0] MemtoReg, //if this is 2 select PCplus4
+    output logic [2:0] MemtoReg, //if this is 2 select PCplus4, 3 select HI, 4 select LO
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
     output logic delay_early, 
@@ -24,7 +24,7 @@ module control_unit (
     MemWrite = 1'b0;
     RegWrite = 2'b0;
     RegDst   = 2'b0;
-    MemtoReg = 2'b0;
+    MemtoReg = 3'b0;
     delay_early = 1'b0; 
 
     // R type
@@ -59,6 +59,18 @@ module control_unit (
       begin
 	LO_write = 2'b11;
       end 
+      //if MFHI 
+      if (funct == 6'h10) 
+      begin
+	MemtoReg = 3'b011;
+	RegWrite = 2'b11;
+      end
+      //if MFLO 
+      if (funct==6'h12) 
+      begin
+	MemtoReg = 3'b100;
+	RegWrite = 2'b11; 
+      end
     end
 
     // For R-type, all branch instructions, SB, SH and SW don't enter this block 
@@ -105,7 +117,7 @@ module control_unit (
       //JAL
       if (opcode == 6'h03) begin
 	RegDst = 2'b10;
-        MemtoReg = 2'b10;
+        MemtoReg = 3'b010;
 	RegWrite = 2'b11; 
       end
     end 
@@ -117,7 +129,7 @@ module control_unit (
 		//BLTZAL or BGEZAL 
 		if (rt==6'h11 | rt==6'h10) begin
 			RegDst= 2'b10; 
-			MemtoReg= 2'b10;
+			MemtoReg= 3'b010;
 			RegWrite = 2'b11; 
 		end
 	end			
