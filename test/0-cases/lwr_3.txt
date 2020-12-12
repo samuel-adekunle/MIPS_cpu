@@ -1,6 +1,6 @@
 desc load into non empty
 addiu $2, $2, -1
-lwl $2, 5($0)
+lwr $2, 5($0)
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

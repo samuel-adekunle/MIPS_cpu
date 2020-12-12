@@ -64,9 +64,9 @@ module Registers (
     begin
 	case (data_address2LSB) 
 	0: register[WriteReg] <= {WriteData[31:0]}; 
-	1: register[WriteReg] <= {ReadData2[31:24], WriteData[23:0]}; 
-	2: register[WriteReg] <= {ReadData2[31:16], WriteData[15:0]}; 
-	3: register[WriteReg] <= {ReadData2[31:8], WriteData[7:0]}; 
+	1: register[WriteReg] <= {ReadData2[31:24], WriteData[31:8]}; 
+	2: register[WriteReg] <= {ReadData2[31:16], WriteData[31:16]}; 
+	3: register[WriteReg] <= {ReadData2[31:8], WriteData[31:24]}; 
 	endcase 
     end
 
