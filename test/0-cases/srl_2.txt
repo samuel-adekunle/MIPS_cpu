@@ -1,0 +1,7 @@
+desc unsigned "negative"
+addiu $16, $16, -8888
+srl $2, $16, 6 
+jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
+#0x3ffff75 

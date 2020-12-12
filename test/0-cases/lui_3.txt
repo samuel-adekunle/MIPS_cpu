@@ -1,0 +1,6 @@
+desc arbitrary immediate
+lui $2, 59844
+lui $2, 9281
+jr $0
+sll $0, $0, 0
+#0x24410000

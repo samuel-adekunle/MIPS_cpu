@@ -1,0 +1,6 @@
+desc simple small positive
+addiu $16, $16, 8
+addiu $17, $17, 2
+srlv $2, $16, $17
+jr $0
+#0x2

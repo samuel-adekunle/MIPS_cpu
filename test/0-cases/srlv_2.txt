@@ -1,0 +1,6 @@
+desc small negative
+addiu $16, $16, -123
+addiu $17, $17, 5
+srlv $2, $16, $17
+jr $0
+#0x07fffffc

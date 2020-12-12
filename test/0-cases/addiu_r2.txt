@@ -1,0 +1,5 @@
+desc random addiu
+addiu $2, $2, -22500
+addiu $2, $2, 10012
+jr $0
+#0xffffcf38

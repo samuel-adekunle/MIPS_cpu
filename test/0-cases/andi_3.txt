@@ -1,0 +1,6 @@
+desc random immediate
+lw $16, 4($zero)
+andi $2, $16, -8055
+jr $0
+data 0x516568a3
+#0x00006081

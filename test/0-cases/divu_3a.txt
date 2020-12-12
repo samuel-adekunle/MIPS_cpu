@@ -1,0 +1,9 @@
+desc random quotient
+lw $16, 4($zero)
+lw $17, 8($zero)
+divu $16, $17
+mflo $2
+jr $0
+data 0xe525840b
+data 0x46ebd645
+#0x00000003

@@ -1,6 +1,7 @@
 desc once to lo
 addiu $2, $2, 10
-mtlo $2 
+mtlo $2  //need 2 instruction diff
+addiu $2, $2, 10 //change value
 addiu $2, $2, 10 //change value
 mflo $2
 jr $0

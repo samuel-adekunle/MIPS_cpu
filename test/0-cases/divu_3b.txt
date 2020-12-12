@@ -1,0 +1,9 @@
+desc random remainder
+lw $16, 4($zero)
+lw $17, 8($zero)
+divu $16, $17
+mfhi $2
+jr $0
+data 0xe525840b
+data 0x46ebd645
+#0x1062013c

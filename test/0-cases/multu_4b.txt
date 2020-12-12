@@ -1,4 +1,4 @@
-desc random lo
+desc random hi
 lw $16, 4($zero)
 lw $17, 8($zero)
 multu $16, $17 

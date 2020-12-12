@@ -1,0 +1,8 @@
+desc random immediate
+lw $16, 4($zero)
+lw $17, 8($zero)
+or $2, $16, $17
+jr $0
+data 0x57b13236
+data 0x31843eff
+#0x77b53eff

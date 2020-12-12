@@ -1,0 +1,10 @@
+desc random hi
+lw $16, 4($zero)
+lw $17, 8($zero)
+multu $16, $17
+mfhi $2
+jr $0
+sll $0, $0, 0
+data 0x3ad72db6
+data 0xfd8ce316
+#0x3a470a0b
