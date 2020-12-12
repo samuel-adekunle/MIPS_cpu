@@ -19,7 +19,7 @@ module single_reg(
     begin
       register <=32'h0;
     end
-    else if (RegWrite == 2'b11 && !reset)
+    else if (RegWrite == 2'b11)
     begin
       register <= WriteData;
     end

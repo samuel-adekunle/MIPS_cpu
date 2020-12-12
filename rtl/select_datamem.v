@@ -11,7 +11,7 @@ always@(fullread,opcode, data_address2LSB) begin
 		ReadData = fullread; 
 	end
 	//LB
-	if (opcode==6'h20) begin
+	else if (opcode==6'h20) begin
 		case(data_address2LSB[1:0])
 		3: ReadData = {{24{fullread[31]}}, fullread[31:24]};
 		2: ReadData = {{24{fullread[23]}}, fullread[23:16]};
@@ -20,7 +20,7 @@ always@(fullread,opcode, data_address2LSB) begin
 		endcase
 	end
 	//LBU 
-	if (opcode==6'h24) begin
+	else if (opcode==6'h24) begin
 		case(data_address2LSB[1:0])
 		3: ReadData = {{24{1'b0}}, fullread[31:24]};
 		2: ReadData = {{24{1'b0}}, fullread[23:16]};
@@ -29,18 +29,21 @@ always@(fullread,opcode, data_address2LSB) begin
 		endcase
 	end
 	//LH
-	if (opcode==6'h21) begin
+	else if (opcode==6'h21) begin
 		case(data_address2LSB[1])
 		1: ReadData = {{16{fullread[31]}}, fullread[31:16]};
 		0: ReadData = {{16{fullread[15]}}, fullread[15:0]};
 		endcase
 	end
 	//LHU
-	if (opcode==6'h25) begin
+	else if (opcode==6'h25) begin
 		case(data_address2LSB[1])
 		1: ReadData = {{16{1'b0}}, fullread[31:16]};
 		0: ReadData = {{16{1'b0}}, fullread[15:0]};
 		endcase
+	end
+	else begin
+		ReadData = fullread; 
 	end
 end
 endmodule

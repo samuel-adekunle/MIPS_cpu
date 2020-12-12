@@ -8,6 +8,8 @@ module Registers (
     input logic [4:0] WriteReg,
     //WriteData: 32-bit input to be written into a register
     input logic [31:0] WriteData,
+    //2 LSB of data_address for LWL and LWR implementation
+    input logic [1:0] data_address2LSB, 
     //32-bit data read from registers selected by ReadReg, WriteReg
     output logic [31:0] ReadData1,
     output logic [31:0] ReadData2,
@@ -46,17 +48,28 @@ module Registers (
       register[WriteReg] <= WriteData;
     end
 	
-	// lwl to replace WriteData
-	if (RegWrite == 2'b01 && !reset)
-	begin
-	  register[WriteReg] <= WriteData;
-	end
+    // LWL to replace WriteData
+    if (RegWrite == 2'b01 && !reset)
+    begin
+	case (data_address2LSB) 
+	0: register[WriteReg] <= {WriteData[7:0], ReadData2[23:0]};
+	1: register[WriteReg] <= {WriteData[15:0], ReadData2[15:0]}; 
+	2: register[WriteReg] <= {WriteData[23:0], ReadData2[7:0]}; 
+	3: register[WriteReg] <= {WriteData[31:0]}; 
+	endcase 
+    end
 
-	//lwr to replace WriteData 
-	if (RegWrite == 2'b10 && !reset)
-	begin
-	  register[WriteReg] <= WriteData;
-	end
+    //LWR to replace WriteData 
+    if (RegWrite == 2'b10 && !reset)
+    begin
+	case (data_address2LSB) 
+	0: register[WriteReg] <= {WriteData[31:0]}; 
+	1: register[WriteReg] <= {ReadData2[31:24], WriteData[23:0]}; 
+	2: register[WriteReg] <= {ReadData2[31:16], WriteData[15:0]}; 
+	3: register[WriteReg] <= {ReadData2[31:8], WriteData[7:0]}; 
+	endcase 
+    end
+
   end
 
 endmodule

@@ -108,7 +108,8 @@ module mips_cpu_harvard(
   Registers regfile (
               .clk(clk), .RegWrite(RegWrite),
               .ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]),
-              .WriteReg(WriteReg), .WriteData(write_data),
+              .WriteReg(WriteReg), .WriteData(write_data), 
+	      .data_address2LSB(data_address[1:0]),
               .ReadData1(rs_content), .ReadData2(rt_content),
               .register_v0(register_v0), .reset(reset)
             );
