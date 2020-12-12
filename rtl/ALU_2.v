@@ -275,7 +275,10 @@ module ALU_2 (
           ALU_result = signed_rs + signExtend;
         6'h21 : //LH
           ALU_result = signed_rs + signExtend;
-        //left with LWL, LWR
+	6'h22 : //LWL
+	   ALU_result = signed_rs + signExtend;
+	6'h26 : //LWR
+	   ALU_result = signed_rs + signExtend;
       endcase
     end
   end

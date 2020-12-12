@@ -218,7 +218,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n branch_addr:%h delay_addr:%h delay:%b delay_early:%b Branch:%b",instr_readdata, instr_address, branch_address, delay_addr, delay, delay_early, Branch);
+	$monitor("CPU: instruction: %h, PC: %h\n write_data:%h ReadData2:%h selected_readdata:%h data_readdata:%h data_address:%h",instr_readdata, instr_address, write_data, rt_content, selected_readdata, data_readdata, data_address);
   end
 
 endmodule

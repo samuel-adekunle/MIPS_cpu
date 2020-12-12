@@ -86,6 +86,7 @@ module control_unit (
     begin
       RegWrite = 2'b01;
       RegDst   = 2'b00;
+      MemtoReg = 3'b001; 
     end
 
     //LWR
@@ -93,6 +94,7 @@ module control_unit (
     begin
       RegWrite = 2'b10;
       RegDst   = 2'b00;
+      MemtoReg = 3'b001; 
     end
 
     // For memory write operation
