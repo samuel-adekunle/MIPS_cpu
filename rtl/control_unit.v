@@ -26,6 +26,8 @@ module control_unit (
     RegDst   = 2'b0;
     MemtoReg = 3'b0;
     delay_early = 1'b0; 
+    HI_write = 0;
+    LO_write = 0;
 
     // R type
     if(opcode == 6'h0)
@@ -49,13 +51,13 @@ module control_unit (
 	MemtoReg = 2;
 	delay_early = 1'b1;
       end
-      //if MTHI 
-      if (funct == 6'h11)
+      //if MTHI/DIV/DIVU/MULT/MULTU
+      if (funct == 6'h11||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
       begin
 	HI_write = 2'b11; 
       end
-      //if MTLO
-      if (funct == 6'h13)
+      //if MTLO/DIV/DIVU/MULT/MULTU
+      if (funct == 6'h13||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
       begin
 	LO_write = 2'b11;
       end 

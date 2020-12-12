@@ -32,6 +32,8 @@ module ALU_2 (
       signed_rt = rt_content;
     end
     sig_branch = 1'b0; //default
+    HI = rs_content;
+    LO = rs_content;
     //FIXME - add default branches in case statements
 
     // R-type instruction
