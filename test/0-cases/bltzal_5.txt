@@ -1,12 +1,12 @@
-desc greater than zero no branch
+desc greater than zero no branch check vals
 addiu $16, $16, 1
 bltzal $16, 4
 sll $0, $0, 0 //noop
-addiu $2, $2, 1
+addiu $2, $2, 100
 addiu $2, $2, -1
-addiu $2, $2, 0
-addu $2, $0, $31
+addiu $2, $2, 3
+addiu $2, $2, 10
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-#0xbfc0000c
+#112

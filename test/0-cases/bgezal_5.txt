@@ -1,0 +1,12 @@
+desc greater than zero forwards check vals
+addiu $16, $16, 1
+bgezal $16, 4
+sll $0, $0, 0 //noop
+addiu $2, $2, 100
+addiu $2, $2, -1
+addiu $2, $2, 3
+addiu $2, $2, 10
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#10

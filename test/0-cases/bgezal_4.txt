@@ -1,0 +1,10 @@
+desc less than 0 no branch check vals
+addiu $16, $16, -1
+bgezal $16, 4
+sll $0, $0, 0 //noop
+addiu $2, $2, 1
+addiu $2, $2, 3
+addiu $2, $2, 2
+addiu $2, $2 46
+jr $0
+#52
