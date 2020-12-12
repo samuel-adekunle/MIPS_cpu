@@ -1,7 +1,8 @@
 desc positive division remainder
 addiu $16, $16, 105 
-addiu $17,$17, 10 
+addiu $17 ,$17, 10 
 div $16, $17 
+sll $0, $0, 0//no op for writing to regs
 mfhi $2 
 jr $0 
 sll $0, $0, 0

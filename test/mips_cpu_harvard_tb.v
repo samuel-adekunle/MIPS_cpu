@@ -73,6 +73,9 @@ module mips_cpu_harvard_tb;
         end
         $display("TB : V0 : %h", register_v0);
         $display("TB : Expected : %h", final_value);
+        if (register_v0==final_value) begin
+            $display("TB : correct final value");
+        end
         $fatal(2, "TB : Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);
     end
 

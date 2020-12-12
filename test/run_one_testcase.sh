@@ -48,6 +48,9 @@ set -e
 
 # Check whether the simulator returned a failure code, and immediately quit
 if [[ "${REG_RESULT}" -ne 0 ]] ; then
+   if grep -q "correct final value" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout; then
+    COMMENT+=", correct V0"
+   fi
    echo "${TESTCASE} ${INSTRUCTION} Fail Failure to run ${COMMENT}"
    exit
 fi
