@@ -1,6 +1,7 @@
 desc div 0 expect to carry on
 addiu $16, $16, -5 
 div $16, $17 
+sll $0, $0, 0
 addiu $2, $2, 5
 jr $0 
 sll $0, $0, 0
