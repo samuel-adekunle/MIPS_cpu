@@ -60,10 +60,10 @@ module control_unit (
 	LO_write = 2'b11;
       end 
     end
-    // If R-type, don't enter this block
-    // For R-type, BEQ, BNE, BEGZ, BLTZ, BGTZ, BLEZ, SB, SH and SW there is no need to register write
+
+    // For R-type, all branch instructions, SB, SH and SW don't enter this block 
     // For LWL and LWR, we regwrite 01 and 10 instead
-    if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h6 & opcode != 6'h7 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b & opcode != 6'h22 & opcode != 6'h26 & (opcode != 6'h1 | rt != 6'h0) & (opcode != 6'h1 | rt != 6'h1))
+    if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h6 & opcode != 6'h7 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b & opcode != 6'h22 & opcode != 6'h26 & opcode != 6'h1)
     begin
       RegWrite = 2'b11;
       RegDst   = 2'b00;
@@ -113,6 +113,15 @@ module control_unit (
     //Branch Instructions
     if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1 |opcode ==6'h6|opcode ==6'h7) begin
 	delay_early = 1'b1; 
+	if (opcode == 6'h1) begin
+		//BLTZAL or BGEZAL 
+		if (rt==6'h11 | rt==6'h10) begin
+			RegDst= 2'b10; 
+			MemtoReg= 2'b10;
+			RegWrite = 2'b11; 
+		end
+	end			
     end
+
   end
 endmodule
