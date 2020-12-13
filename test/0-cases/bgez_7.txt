@@ -1,0 +1,10 @@
+desc greater than 0 max backwards branch (branches to addiu31, stop)
+addiu $16, $16, 2
+bgez $16, -32768 //7fff
+sll $0, $0, 0 //noop 
+addiu $2, $2, 1
+addiu $2, $2, 1
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#31

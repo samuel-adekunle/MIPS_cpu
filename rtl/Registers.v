@@ -9,7 +9,7 @@ module Registers (
     //WriteData: 32-bit input to be written into a register
     input logic [31:0] WriteData,
     //2 LSB of data_address for LWL and LWR implementation
-    input logic [1:0] data_address2LSB, 
+    input logic [1:0] data_address2LSB,
     //32-bit data read from registers selected by ReadReg, WriteReg
     output logic [31:0] ReadData1,
     output logic [31:0] ReadData2,
@@ -38,36 +38,46 @@ module Registers (
   begin
     if (reset)
     begin
-      for (i = 0; i < 31; i = i + 1)
+      for (i = 0; i < 32; i = i + 1)
       begin
         register[i] <= 32'b0;
       end
     end
-    if (RegWrite == 2'b11 && !reset)
-    begin
-      register[WriteReg] <= WriteData;
-    end
-	
-    // LWL to replace WriteData
-    if (RegWrite == 2'b01 && !reset)
-    begin
-	case (data_address2LSB) 
-	0: register[WriteReg] <= {WriteData[7:0], ReadData2[23:0]};
-	1: register[WriteReg] <= {WriteData[15:0], ReadData2[15:0]}; 
-	2: register[WriteReg] <= {WriteData[23:0], ReadData2[7:0]}; 
-	3: register[WriteReg] <= {WriteData[31:0]}; 
-	endcase 
-    end
+    if (WriteReg !=0) begin
+      if (RegWrite == 2'b11 && !reset)
+      begin
+        register[WriteReg] <= WriteData;
+      end
 
-    //LWR to replace WriteData 
-    if (RegWrite == 2'b10 && !reset)
-    begin
-	case (data_address2LSB) 
-	0: register[WriteReg] <= {WriteData[31:0]}; 
-	1: register[WriteReg] <= {ReadData2[31:24], WriteData[31:8]}; 
-	2: register[WriteReg] <= {ReadData2[31:16], WriteData[31:16]}; 
-	3: register[WriteReg] <= {ReadData2[31:8], WriteData[31:24]}; 
-	endcase 
+      // LWL to replace WriteData
+      if (RegWrite == 2'b01 && !reset)
+      begin
+        case (data_address2LSB)
+          0:
+            register[WriteReg] <= {WriteData[7:0], ReadData2[23:0]};
+          1:
+            register[WriteReg] <= {WriteData[15:0], ReadData2[15:0]};
+          2:
+            register[WriteReg] <= {WriteData[23:0], ReadData2[7:0]};
+          3:
+            register[WriteReg] <= {WriteData[31:0]};
+        endcase
+      end
+
+      //LWR to replace WriteData
+      if (RegWrite == 2'b10 && !reset)
+      begin
+        case (data_address2LSB)
+          0:
+            register[WriteReg] <= {WriteData[31:0]};
+          1:
+            register[WriteReg] <= {ReadData2[31:24], WriteData[31:8]};
+          2:
+            register[WriteReg] <= {ReadData2[31:16], WriteData[31:16]};
+          3:
+            register[WriteReg] <= {ReadData2[31:8], WriteData[31:24]};
+        endcase
+      end
     end
 
   end
