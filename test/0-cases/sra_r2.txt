@@ -1,6 +1,6 @@
 desc random vals
 lw $16, 4($zero)
-sra $2, $16, 18
+sra $2, $16, 5
 jr $0
-data 0x4b8a1c1c
-#0x000012e2
+data 0x73768a19
+#0x039bb450

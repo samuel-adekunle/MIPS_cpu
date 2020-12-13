@@ -39,6 +39,11 @@ module control_unit (
         JR = 1'b1;
  	delay_early = 1'b1; 
       end
+      //if MTHI, MTLO
+      if (funct == 6'h11 | funct==6'h13) 
+      begin
+	RegWrite = 2'b00;
+      end
 
       else
       begin

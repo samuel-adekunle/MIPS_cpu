@@ -76,6 +76,16 @@ module ALU_2 (
           HI = rs_content%rt_content;
         end
 
+	6'h11: //MTHI
+	begin
+	  HI = rs_content + rt_content; 
+	end 
+
+	6'h13: //MTLO 
+	begin
+	 LO = rs_content + rt_content;
+	end
+
         6'h03 : //SRA
         begin
           temp = rt_content;

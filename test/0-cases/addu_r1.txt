@@ -4,6 +4,6 @@ lw $17, 8($zero)
 addu $2, $2, $16
 addu $2, $2, $17
 jr $0
-data 0x4b8a1c1c
-data 0x12c69052
-#0x5e50ac6e
+data 0x73768a19
+data 0x3de5af45
+#0xb15c395e
