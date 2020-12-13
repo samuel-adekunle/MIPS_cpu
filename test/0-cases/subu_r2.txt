@@ -4,6 +4,6 @@ lw $17, 8($zero)
 subu $2, $2, $16
 subu $2, $2, $17
 jr $0
-data 0x56c7c34d
-data 0x64f08e92
-#0x4447ae21
+data 0x7678acb8
+data 0x7142861e
+#0x1844cd2a
