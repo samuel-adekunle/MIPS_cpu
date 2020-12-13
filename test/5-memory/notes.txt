@@ -6,6 +6,7 @@ addu $2, $2, $17
 jr $0
 
 //maximum of branch is from curr_PC-FFFF8000 to curr_PC+00007FFF
+bfbe000c contains addiu $2, $2, 156
 Branching backwards to memory location bfbe000c containing
 addiu $2, $2, 31
 jr $0
@@ -14,3 +15,7 @@ jr $0
 Branching forwards to memory location bfc20008 containing
 addiu $2, $2, 20
 jr $0
+
+//maximum jump containing:
+b3fffffc addiu $2, $2, 10
+jr $31

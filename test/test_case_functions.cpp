@@ -42,13 +42,20 @@ string get_filename(string const& s)
     }
 }
 
+int rand_reg(){
+    int minr = 3;
+    int maxr = 30;
+    int reg1 = rand()%(maxr-minr + 1) + minr;
+    return reg1;
+
+}
 void create_addiu(string afile){
     ofstream infile; 
     int min = -32768;
     int max = 32767;
     srand(time(NULL));
-    int num1 = rand()%(max-min + 1) + min;;
-    int num2 = rand()%(max-min + 1) + min;;
+    int num1 = rand()%(max-min + 1) + min;
+    int num2 = rand()%(max-min + 1) + min;
     int ans = num1+num2;
     infile.open(afile); 
     infile<<"desc random addiu"<<endl;
@@ -59,18 +66,23 @@ void create_addiu(string afile){
     infile.close();
 }
 
-void create_addu(string afile){
+void create_addu(string afile){ //random regs
     ofstream infile; 
     srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1+num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random addu"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
-    infile<<"addu $2, $2, $16"<<endl;
-    infile<<"addu $2, $2, $17"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
+    infile<<"addu $2, $2, $"<<reg1<<endl;
+    infile<<"addu $2, $2, $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -84,12 +96,17 @@ void create_and(string afile){
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1&num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random "<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"and $2, $16, $17"<<endl;
+    infile<<"and $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -103,13 +120,14 @@ void create_andi(string afile){
     int num1 = random_32();
     int min = 0;
     int max = 0xffff;
-    int num2 = rand()%(max-min + 1) + min;;
+    int num2 = rand()%(max-min + 1) + min;
     int ans = num1&num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"andi $2, $16, "<<num2<<endl;
+    infile<<"andi $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -127,13 +145,18 @@ void create_div(string afile){
     int num2 = random_32();
     int q = num1/num2;
     int r = num1%num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infileq.open(div_q); 
     infiler.open(div_r); 
     infileq<<"desc random quotient"<<endl;
-    infileq<<"lw $16, 4($zero)"<<endl;
-    infileq<<"lw $17, 8($zero)"<<endl;
+    infileq<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infileq<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infileq<<"sll $0, $0, 0"<<endl;
-    infileq<<"div $16, $17"<<endl;
+    infileq<<"div $"<<reg1<<", $"<<reg2<<endl;
     infileq<<"mflo $2"<<endl;
     infileq<<"jr $0"<<endl;
     infileq<<"sll $0, $0, 0"<<endl;
@@ -142,10 +165,10 @@ void create_div(string afile){
     infileq<<"#"<<int_to_hex(q);
     infileq.close();
     infiler<<"desc random remainder"<<endl;
-    infiler<<"lw $16, 4($zero)"<<endl;
-    infiler<<"lw $17, 8($zero)"<<endl;
+    infiler<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infiler<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infiler<<"sll $0, $0, 0"<<endl;
-    infiler<<"div $16, $17"<<endl;
+    infiler<<"div $"<<reg1<<", $"<<reg2<<endl;
     infiler<<"mfhi $2"<<endl;
     infiler<<"jr $0"<<endl;
     infiler<<"sll $0, $0, 0"<<endl;
@@ -165,13 +188,18 @@ void create_divu(string afile){
     unsigned int num2 = random_32();
     unsigned int q = num1/num2;
     unsigned int r = num1%num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infileq.open(div_q); 
     infiler.open(div_r); 
     infileq<<"desc random quotient"<<endl;
-    infileq<<"lw $16, 4($zero)"<<endl;
-    infileq<<"lw $17, 8($zero)"<<endl;
+    infileq<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infileq<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infileq<<"sll $0, $0, 0"<<endl;
-    infileq<<"divu $16, $17"<<endl;
+    infileq<<"divu $"<<reg1<<", $"<<reg2<<endl;
     infileq<<"mflo $2"<<endl;
     infileq<<"jr $0"<<endl;
     infileq<<"sll $0, $0, 0"<<endl;
@@ -180,10 +208,10 @@ void create_divu(string afile){
     infileq<<"#"<<int_to_hex(q);
     infileq.close();
     infiler<<"desc random remainder"<<endl;
-    infiler<<"lw $16, 4($zero)"<<endl;
-    infiler<<"lw $17, 8($zero)"<<endl;
+    infiler<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infiler<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infiler<<"sll $0, $0, 0"<<endl;
-    infiler<<"divu $16, $17"<<endl;
+    infiler<<"divu $"<<reg1<<", $"<<reg2<<endl;
     infiler<<"mfhi $2"<<endl;
     infiler<<"jr $0"<<endl;
     infiler<<"sll $0, $0, 0"<<endl;
@@ -206,13 +234,18 @@ void create_mult(string afile){
     long int ans = x*y;
     int l = 0xffffffff&ans;
     int h = ans>>32;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infileh.open(mult_l); 
     infilel.open(mult_h); 
     infileh<<"desc random lo"<<endl;
-    infileh<<"lw $16, 4($zero)"<<endl;
-    infileh<<"lw $17, 8($zero)"<<endl;
+    infileh<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infileh<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infileh<<"sll $0, $0, 0"<<endl;
-    infileh<<"mult $16, $17"<<endl;
+    infileh<<"mult $"<<reg1<<", $"<<reg2<<endl;
     infileh<<"mflo $2"<<endl;
     infileh<<"jr $0"<<endl;
     infileh<<"sll $0, $0, 0"<<endl;
@@ -221,10 +254,10 @@ void create_mult(string afile){
     infileh<<"#"<<int_to_hex(l);
     infileh.close();
     infilel<<"desc random hi"<<endl;
-    infilel<<"lw $16, 4($zero)"<<endl;
-    infilel<<"lw $17, 8($zero)"<<endl;
+    infilel<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infilel<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infilel<<"sll $0, $0, 0"<<endl;
-    infilel<<"mult $16, $17"<<endl;
+    infilel<<"mult $"<<reg1<<", $"<<reg2<<endl;
     infilel<<"mfhi $2"<<endl;
     infilel<<"jr $0"<<endl;
     infilel<<"sll $0, $0, 0"<<endl;
@@ -247,13 +280,18 @@ void create_multu(string afile){
     unsigned long int ans = x*y;
     int l = 0xffffffff&ans;
     int h = ans>>32;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infileh.open(mult_l); 
     infilel.open(mult_h); 
     infileh<<"desc random lo"<<endl;
-    infileh<<"lw $16, 4($zero)"<<endl;
-    infileh<<"lw $17, 8($zero)"<<endl;
+    infileh<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infileh<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infileh<<"sll $0, $0, 0"<<endl;
-    infileh<<"multu $16, $17"<<endl;
+    infileh<<"multu $"<<reg1<<", $"<<reg2<<endl;
     infileh<<"mflo $2"<<endl;
     infileh<<"jr $0"<<endl;
     infileh<<"sll $0, $0, 0"<<endl;
@@ -262,10 +300,10 @@ void create_multu(string afile){
     infileh<<"#"<<int_to_hex(l);
     infileh.close();
     infilel<<"desc random hi"<<endl;
-    infilel<<"lw $16, 4($zero)"<<endl;
-    infilel<<"lw $17, 8($zero)"<<endl;
+    infilel<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infilel<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infilel<<"sll $0, $0, 0"<<endl;
-    infilel<<"multu $16, $17"<<endl;
+    infilel<<"multu $"<<reg1<<", $"<<reg2<<endl;
     infilel<<"mfhi $2"<<endl;
     infilel<<"jr $0"<<endl;
     infilel<<"sll $0, $0, 0"<<endl;
@@ -300,11 +338,12 @@ void create_ori(string afile){
     int max = 0xffff;
     int num2 = rand()%(max-min + 1) + min;
     int ans = num1|num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"ori $2, $16, "<<num2<<endl;
+    infile<<"ori $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -317,12 +356,17 @@ void create_or(string afile){
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1|num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random "<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"or $2, $16, $17"<<endl;
+    infile<<"or $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -336,13 +380,18 @@ void create_subu(string afile){
     int num1 = random_32();
     int num2 = random_32();
     int ans = 0-num1-num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random two sub"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"subu $2, $2, $16"<<endl;
-    infile<<"subu $2, $2, $17"<<endl;
+    infile<<"subu $2, $2, $"<<reg1<<endl;
+    infile<<"subu $2, $2, $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -356,12 +405,17 @@ void create_xor(string afile){
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1^num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random "<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"xor $2, $16, $17"<<endl;
+    infile<<"xor $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -375,13 +429,14 @@ void create_xori(string afile){
     int num1 = random_32();
     int min = 0;
     int max = 0xffff;
-    int num2 = rand()%(max-min + 1) + min;;
+    int num2 = rand()%(max-min + 1) + min;
     int ans = num1^num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"xori $2, $16, "<<num2<<endl;
+    infile<<"xori $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -394,13 +449,14 @@ void create_sll(string afile){
     int num1 = random_32();
     int min = 0;
     int max = 31;
-    int num2 = rand()%(max-min + 1) + min;;
+    int num2 = rand()%(max-min + 1) + min;
     int ans = num1<<num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"sll $2, $16, "<<num2<<endl;
+    infile<<"sll $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -413,12 +469,17 @@ void create_sllv(string afile){
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     int ans = num1<<num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"sllv $2, $16, $17"<<endl;
+    infile<<"sllv $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -432,13 +493,14 @@ void create_srl(string afile){
     unsigned int num1 = random_32();
     unsigned int min = 0;
     unsigned int max = 31;
-    unsigned int num2 = rand()%(max-min + 1) + min;;
+    unsigned int num2 = rand()%(max-min + 1) + min;
     unsigned int ans = num1>>num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"srl $2, $16, "<<num2<<endl;
+    infile<<"srl $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -451,12 +513,17 @@ void create_srlv(string afile){
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     unsigned int ans = num1>>num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"srlv $2, $16, $17"<<endl;
+    infile<<"srlv $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -470,13 +537,14 @@ void create_sra(string afile){
     int num1 = random_32();
     int min = 0;
     int max = 31;
-    int num2 = rand()%(max-min + 1) + min;;
+    int num2 = rand()%(max-min + 1) + min;
     int ans = num1>>num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"sra $2, $16, "<<num2<<endl;
+    infile<<"sra $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -489,12 +557,17 @@ void create_srav(string afile){
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1>>num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"srav $2, $16, $17"<<endl;
+    infile<<"srav $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -508,13 +581,18 @@ void create_slt(string afile){
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1<num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"slt $2, $17, $16"<<endl;
-    infile<<"slt $2, $16, $17"<<endl;
+    infile<<"slt $2, $"<<reg2<<", $"<<reg1<<endl;
+    infile<<"slt $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -530,12 +608,13 @@ void create_slti(string afile){
     int max = 32767;
     int num2 = rand()%(max-min + 1) + min;
     int ans = num1<num2;
+    int reg1 = rand_reg();
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"slti $2, $16, 3"<<endl;
-    infile<<"slti $2, $16, "<<num2<<endl;
+    infile<<"slti $2, $"<<reg1<<", 3"<<endl;
+    infile<<"slti $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -548,13 +627,18 @@ void create_sltu(string afile){
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     int ans = num1<num2;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
-    infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
+    infile<<"lw $"<<reg2<<", 8($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"sltu $2, $17, $16"<<endl;
-    infile<<"sltu $2, $16, $17"<<endl;
+    infile<<"sltu $2, $"<<reg2<<", $"<<reg1<<endl;
+    infile<<"sltu $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
@@ -571,12 +655,17 @@ void create_sltiu(string afile){
     int num2 = rand()%(max-min + 1) + min;
     unsigned int num = num2;
     int ans = num1<num;
+    int reg1 = rand_reg();
+    int reg2 = reg1;
+    while (reg2==reg1){
+        reg2 = rand_reg();
+    }
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
-    infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"lw $"<<reg1<<", 4($zero)"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
-    infile<<"sltiu $2, $16, 4"<<endl;
-    infile<<"sltiu $2, $16, "<<num2<<endl;
+    infile<<"sltiu $2, $"<<reg1<<", 4"<<endl;
+    infile<<"sltiu $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);

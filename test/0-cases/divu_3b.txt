@@ -1,4 +1,4 @@
-desc random remainder
+desc "negative" and positive
 lw $16, 4($zero)
 lw $17, 8($zero)
 divu $16, $17

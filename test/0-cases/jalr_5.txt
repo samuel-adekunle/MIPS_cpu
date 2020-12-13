@@ -1,0 +1,16 @@
+desc repeat and delay slot check final val
+lw $17, 4($0)
+lw $16, 8($0)
+jalr $5, $17 
+sll $0, $0, 0
+addiu $2, $2, 3
+addiu $2, $2, 3
+jalr $5, $16 //18
+addiu $2, $2, 3
+addiu $2, $2, 3 
+jr $0 //28
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0xbfc00018
+data 0xbfc00028
+#0x6

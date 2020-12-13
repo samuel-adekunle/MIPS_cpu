@@ -1,9 +1,0 @@
-desc positive division remainder
-addiu $16, $16, 105 
-addiu $17, $17, 10 
-divu $16, $17 
-mfhi $2 
-jr $0 
-sll $0, $0, 0
-addiu $2, $2, 10
-#5 

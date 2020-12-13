@@ -1,4 +1,4 @@
-desc use addr jump twice
+desc use addr, jump twice
 lw $17, 4($0)
 jal 66060292 //jump 3 ahead
 sll $0, $0, 0

@@ -1,0 +1,16 @@
+desc repeat overwrite check reg
+lw $17, 4($0)
+lw $16, 8($0)
+jalr $2, $17 
+sll $0, $0, 0 
+addiu $2, $2, 3
+addiu $2, $2, 3
+jalr $2, $16 //18
+sll $0, $0, 0 
+sll $0, $0, 0 
+jr $0 //28 
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0xbfc00018
+data 0xbfc00028
+#0xbfc00020

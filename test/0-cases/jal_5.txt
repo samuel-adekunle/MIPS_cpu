@@ -1,0 +1,9 @@
+desc jump max and delay
+addiu $2, $2, 10 
+jal 16777215 //jump max
+addiu $2, $2, 3 //following delay slot
+jr $0 
+sll $0, $0, 0
+addu $2, $2, $31
+jr $0
+#0x19

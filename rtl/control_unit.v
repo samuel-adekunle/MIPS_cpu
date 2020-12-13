@@ -4,11 +4,11 @@ module control_unit (
     output logic [1:0] RegWrite,
     output logic MemRead,
     output logic MemWrite,
-    output logic [1:0] RegDst, // if this is 0 select rt, 1 select rd, 2 select $ra 
+    output logic [1:0] RegDst, // if this is 0 select rt, 1 select rd, 2 select $ra
     output logic [2:0] MemtoReg, //if this is 2 select PCplus4, 3 select HI, 4 select LO
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
-    output logic delay_early, 
+    output logic delay_early,
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt
@@ -25,7 +25,7 @@ module control_unit (
     RegWrite = 2'b0;
     RegDst   = 2'b0;
     MemtoReg = 3'b0;
-    delay_early = 1'b0; 
+    delay_early = 1'b0;
     HI_write = 0;
     LO_write = 0;
 
@@ -36,36 +36,36 @@ module control_unit (
       //if JR
       //if (funct == 6'h08)
       //begin
-        //JR = 1'b1;
- 	//delay_early = 1'b1; 
-	//RegWrite = 2'b00;
+      //JR = 1'b1;
+      //delay_early = 1'b1;
+      //RegWrite = 2'b00;
       //end
-     //if MTHI/DIV/DIVU/MULT/MULTU/MTLO/JR
+      //if MTHI/DIV/DIVU/MULT/MULTU/MTLO/JR
       if (funct == 6'h11||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19 || funct == 6'h13 || funct==6'h08)
       begin
-	RegWrite = 2'b00; 
-	if (funct!=6'h13 & funct!=6'h08) 
-	begin
-		HI_write = 2'b11;
-	end
-	if (funct!=6'h11 & funct!=6'h08)
-	begin
-		LO_write = 2'b11;
-	end
-	//JR
-	if (funct==6'h08) 
-	begin
-		JR = 1'b1;
-		delay_early = 1'b1; 
-	end 
+        RegWrite = 2'b00;
+        if (funct!=6'h13 & funct!=6'h08)
+        begin
+          HI_write = 2'b11;
+        end
+        if (funct!=6'h11 & funct!=6'h08)
+        begin
+          LO_write = 2'b11;
+        end
+        //JR
+        if (funct==6'h08)
+        begin
+          JR = 1'b1;
+          delay_early = 1'b1;
+        end
       end
       //if MTLO/DIV/DIVU/MULT/MULTU
       //if (funct == 6'h13||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
       //begin
-	//LO_write = 2'b11;
-	//RegWrite = 2'b00; 
-      //end 
-      
+      //LO_write = 2'b11;
+      //RegWrite = 2'b00;
+      //end
+
 
       else
       begin
@@ -75,24 +75,24 @@ module control_unit (
       if (funct == 6'h09)
       begin
         JR = 1'b1;
-	MemtoReg = 2;
-	delay_early = 1'b1;
+        MemtoReg = 2;
+        delay_early = 1'b1;
       end
-      //if MFHI 
-      if (funct == 6'h10) 
+      //if MFHI
+      if (funct == 6'h10)
       begin
-	MemtoReg = 3'b011;
-	RegWrite = 2'b11;
+        MemtoReg = 3'b011;
+        RegWrite = 2'b11;
       end
-      //if MFLO 
-      if (funct==6'h12) 
+      //if MFLO
+      if (funct==6'h12)
       begin
-	MemtoReg = 3'b100;
-	RegWrite = 2'b11; 
+        MemtoReg = 3'b100;
+        RegWrite = 2'b11;
       end
     end
 
-    // For R-type, all branch instructions, SB, SH and SW don't enter this block 
+    // For R-type, all branch instructions, SB, SH and SW don't enter this block
     // For LWL and LWR, we regwrite 01 and 10 instead
     if(opcode != 6'h0 & opcode != 6'h4 & opcode != 6'h5 & opcode != 6'h6 & opcode != 6'h7 & opcode != 6'h28 & opcode != 6'h29 & opcode != 6'h2b & opcode != 6'h22 & opcode != 6'h26 & opcode != 6'h1)
     begin
@@ -100,12 +100,12 @@ module control_unit (
       RegDst   = 2'b00;
     end
 
-    //LWL 
+    //LWL
     if (opcode == 6'h22)
     begin
       RegWrite = 2'b01;
       RegDst   = 2'b00;
-      MemtoReg = 3'b001; 
+      MemtoReg = 3'b001;
     end
 
     //LWR
@@ -113,7 +113,7 @@ module control_unit (
     begin
       RegWrite = 2'b10;
       RegDst   = 2'b00;
-      MemtoReg = 3'b001; 
+      MemtoReg = 3'b001;
     end
 
     // For memory write operation
@@ -136,24 +136,28 @@ module control_unit (
       Jump = 1'b1;
       delay_early = 1'b1;
       //JAL
-      if (opcode == 6'h03) begin
-	RegDst = 2'b10;
+      if (opcode == 6'h03)
+      begin
+        RegDst = 2'b10;
         MemtoReg = 3'b010;
-	RegWrite = 2'b11; 
+        RegWrite = 2'b11;
       end
-    end 
+    end
 
     //Branch Instructions
-    if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1 |opcode ==6'h6|opcode ==6'h7) begin
-	delay_early = 1'b1; 
-	if (opcode == 6'h1) begin
-		//BLTZAL or BGEZAL 
-		if (rt==6'h11 | rt==6'h10) begin
-			RegDst= 2'b10; 
-			MemtoReg= 3'b010;
-			RegWrite = 2'b11; 
-		end
-	end			
+    if (opcode==6'h4 | opcode==6'h5 | opcode==6'h1 |opcode ==6'h6|opcode ==6'h7)
+    begin
+      delay_early = 1'b1;
+      if (opcode == 6'h1)
+      begin
+        //BLTZAL or BGEZAL
+        if (rt==6'h11 | rt==6'h10)
+        begin
+          RegDst= 2'b10;
+          MemtoReg= 3'b010;
+          RegWrite = 2'b11;
+        end
+      end
     end
 
   end

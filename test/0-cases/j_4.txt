@@ -1,9 +1,9 @@
-desc small backwards jump use delay //look at again later
-sll $0, $0, 0 //noop
-addiu $17, $17, 8
-addiu $16, $16, 2
-beq $16, $17, 3
-sll $0, $0, 0 //noop
+desc small backwards jump use delay //$16 is oscillating between 2 and 0 
+sll $0, $0, 0 //noop, 0
+addiu $17, $17, 8 
+addiu $16, $16, 2 
+beq $16, $17, 4 //c
+sll $0, $0, 3 //noop, 10
 j 66060290 //this is fc00008 shifted so returns to addiu 2
 addiu $2, $2, 3 //following delay slot
 jr $0

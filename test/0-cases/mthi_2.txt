@@ -1,0 +1,13 @@
+desc twice to hi
+addiu $2, $2, 10
+mthi $2  //needs 2 instructions diff between other hi access 
+addiu $2, $2, 10 //change value
+addiu $2, $2, 10 //change value
+mthi $2  //needs 2 instructions diff between other hi access 
+addiu $2, $2, 10 //change value
+addiu $2, $2, 10 //change value
+mfhi $2
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#30
