@@ -23,7 +23,7 @@ module ALU_2 (
 
   always @ (functcode,opcode, rs_content, rt_content, shamt, immediate)
   begin
-    // signed value assigment
+    // signed value assigment for branch instructions 
     signed_rs = rs_content;
     if (opcode == 6'h1||opcode ==  6'h7 || opcode == 6'h6) begin
       signed_rt = rt_instr;

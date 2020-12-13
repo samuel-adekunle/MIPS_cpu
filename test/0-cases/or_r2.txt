@@ -3,6 +3,6 @@ lw $16, 4($zero)
 lw $17, 8($zero)
 or $2, $16, $17
 jr $0
-data 0x7678acb8
-data 0x7142861e
-#0x777aaebe
+data 0x315f7477
+data 0xf1e49649
+#0xf1fff67f

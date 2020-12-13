@@ -1,6 +1,6 @@
 desc random immediate
-lui $2, 48056
-lui $2, 11692
+lui $2, 15991
+lui $2, 30324
 jr $0
 sll $0, $0, 0
-#0x2dac0000
+#0x76740000

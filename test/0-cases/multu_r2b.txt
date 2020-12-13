@@ -5,6 +5,6 @@ multu $16, $17
 mfhi $2
 jr $0
 sll $0, $0, 0
-data 0x7678acb8
-data 0x7142861e
-#0x346a0d6a
+data 0x315f7477
+data 0xf1e49649
+#0x2ea6f2a3

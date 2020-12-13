@@ -1,5 +1,5 @@
 desc random addiu
-addiu $2, $2, -3132
-addiu $2, $2, -31169
+addiu $2, $2, -16777
+addiu $2, $2, -2444
 jr $0
-#0xffff7a03
+#0xffffb4eb
