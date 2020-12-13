@@ -1,6 +1,0 @@
-desc random immediate
-lui $2, 49006
-lui $2, 16693
-jr $0
-sll $0, $0, 0
-#0x41350000

@@ -1,7 +1,0 @@
-desc random immediate
-lw $16, 4($zero)
-andi $2, $16, 22544
-jr $0
-sll $0, $0, 0
-data 0x774c356e
-#0x00001000

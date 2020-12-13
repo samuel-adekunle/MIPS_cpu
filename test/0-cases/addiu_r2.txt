@@ -1,5 +1,0 @@
-desc random addiu
-addiu $2, $2, 16238
-addiu $2, $2, -16075
-jr $0
-#0x000000a3

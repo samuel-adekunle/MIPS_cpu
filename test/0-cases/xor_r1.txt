@@ -1,8 +1,0 @@
-desc random 
-lw $16, 4($zero)
-lw $17, 8($zero)
-or $2, $16, $17
-jr $0
-data 0x774c356e
-data 0x97d99810
-#0xf7ddbd7e

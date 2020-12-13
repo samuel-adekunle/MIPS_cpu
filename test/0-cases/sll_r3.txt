@@ -1,6 +1,0 @@
-desc random immediate
-lw $16, 4($zero)
-sll $2, $16, 16
-jr $0
-data 0x774c356e
-#0x356e0000

@@ -1,6 +1,0 @@
-desc random vals
-lw $16, 4($zero)
-sra $2, $16, 16
-jr $0
-data 0x774c356e
-#0x0000774c

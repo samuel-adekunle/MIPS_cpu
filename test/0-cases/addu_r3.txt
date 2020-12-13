@@ -1,9 +1,0 @@
-desc random addu
-lw $16, 4($zero)
-lw $17, 8($zero)
-addu $2, $2, $16
-addu $2, $2, $17
-jr $0
-data 0x774c356e
-data 0x97d99810
-#0x0f25cd7e
