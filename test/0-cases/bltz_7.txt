@@ -1,11 +1,11 @@
-desc less than 0 noop max
+desc less than 0 forwards max delay slot
 addiu $16, $16, -1
-blez $16, 32767
-sll $0, $0, 0
+bltz $16, 32767
+addiu $2, $2, -65
 addiu $2, $2, 1
 addiu $2, $2, 3
 addiu $2, $2, 7
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-#20
+#-45

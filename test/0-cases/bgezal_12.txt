@@ -1,0 +1,17 @@
+desc greater than zero overwrite reg
+addiu $16, $16, 1 
+bgezal $16, 3
+sll $0, $0, 0 //noop
+addiu $2, $2, 1
+addiu $2, $2, -1
+bgezal $16, 2
+sll $0, $0, 0 //noop
+sll $0, $0, 0 //noop
+bgezal $16, 2
+sll $0, $0, 0 //noop
+sll $0, $0, 0 //noop
+addu $2, $0, $31
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#0xbfc00028

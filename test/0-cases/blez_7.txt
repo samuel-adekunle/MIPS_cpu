@@ -1,11 +1,11 @@
-desc equal 0 backwards noop
+desc 0 backwards max branch delay
 addiu $16, $16, 0
 blez $16, -32768
-sll $0, $0, 0
+addiu $2, $2, 13
 addiu $2, $2, 1
 addiu $2, $2, 3
 addiu $2, $2, 7
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-#187
+#200
