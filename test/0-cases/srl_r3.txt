@@ -1,6 +1,6 @@
 desc random immediate
 lw $16, 4($zero)
-srl $2, $16, 5
+srl $2, $16, 30
 jr $0
-data 0x73768a19
-#0x039bb450
+data 0x5b4223eb
+#0x00000001

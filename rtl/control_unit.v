@@ -39,11 +39,18 @@ module control_unit (
         JR = 1'b1;
  	delay_early = 1'b1; 
       end
-      //if MTHI, MTLO
-      if (funct == 6'h11 | funct==6'h13) 
+     //if MTHI/DIV/DIVU/MULT/MULTU
+      if (funct == 6'h11||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
       begin
-	RegWrite = 2'b00;
+	HI_write = 2'b11; 
+	RegWrite = 2'b00; 
       end
+      //if MTLO/DIV/DIVU/MULT/MULTU
+      if (funct == 6'h13||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
+      begin
+	LO_write = 2'b11;
+	RegWrite = 2'b00; 
+      end 
 
       else
       begin
@@ -56,16 +63,6 @@ module control_unit (
 	MemtoReg = 2;
 	delay_early = 1'b1;
       end
-      //if MTHI/DIV/DIVU/MULT/MULTU
-      if (funct == 6'h11||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
-      begin
-	HI_write = 2'b11; 
-      end
-      //if MTLO/DIV/DIVU/MULT/MULTU
-      if (funct == 6'h13||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
-      begin
-	LO_write = 2'b11;
-      end 
       //if MFHI 
       if (funct == 6'h10) 
       begin

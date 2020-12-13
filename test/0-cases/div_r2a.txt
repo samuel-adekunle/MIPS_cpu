@@ -5,6 +5,6 @@ div $16, $17
 mflo $2
 jr $0
 sll $0, $0, 0
-data 0x73768a19
-data 0x3de5af45
-#0x00000001
+data 0x5b4223eb
+data 0x7652fc5e
+#0x00000000

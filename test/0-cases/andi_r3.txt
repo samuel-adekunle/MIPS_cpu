@@ -1,7 +1,7 @@
 desc random immediate
 lw $16, 4($zero)
-andi $2, $16, 43845
+andi $2, $16, 37982
 jr $0
 sll $0, $0, 0
-data 0x73768a19
-#0x00008a01
+data 0x5b4223eb
+#0x0000004a
