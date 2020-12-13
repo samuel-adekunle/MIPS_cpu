@@ -88,6 +88,7 @@ void create_and(string afile){
     infile<<"desc random "<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"and $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -107,6 +108,7 @@ void create_andi(string afile){
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"andi $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
@@ -130,6 +132,7 @@ void create_div(string afile){
     infileq<<"desc random quotient"<<endl;
     infileq<<"lw $16, 4($zero)"<<endl;
     infileq<<"lw $17, 8($zero)"<<endl;
+    infileq<<"sll $0, $0, 0"<<endl;
     infileq<<"div $16, $17"<<endl;
     infileq<<"mflo $2"<<endl;
     infileq<<"jr $0"<<endl;
@@ -141,6 +144,7 @@ void create_div(string afile){
     infiler<<"desc random remainder"<<endl;
     infiler<<"lw $16, 4($zero)"<<endl;
     infiler<<"lw $17, 8($zero)"<<endl;
+    infiler<<"sll $0, $0, 0"<<endl;
     infiler<<"div $16, $17"<<endl;
     infiler<<"mfhi $2"<<endl;
     infiler<<"jr $0"<<endl;
@@ -166,6 +170,7 @@ void create_divu(string afile){
     infileq<<"desc random quotient"<<endl;
     infileq<<"lw $16, 4($zero)"<<endl;
     infileq<<"lw $17, 8($zero)"<<endl;
+    infileq<<"sll $0, $0, 0"<<endl;
     infileq<<"divu $16, $17"<<endl;
     infileq<<"mflo $2"<<endl;
     infileq<<"jr $0"<<endl;
@@ -177,6 +182,7 @@ void create_divu(string afile){
     infiler<<"desc random remainder"<<endl;
     infiler<<"lw $16, 4($zero)"<<endl;
     infiler<<"lw $17, 8($zero)"<<endl;
+    infiler<<"sll $0, $0, 0"<<endl;
     infiler<<"divu $16, $17"<<endl;
     infiler<<"mfhi $2"<<endl;
     infiler<<"jr $0"<<endl;
@@ -205,6 +211,7 @@ void create_mult(string afile){
     infileh<<"desc random lo"<<endl;
     infileh<<"lw $16, 4($zero)"<<endl;
     infileh<<"lw $17, 8($zero)"<<endl;
+    infileh<<"sll $0, $0, 0"<<endl;
     infileh<<"mult $16, $17"<<endl;
     infileh<<"mflo $2"<<endl;
     infileh<<"jr $0"<<endl;
@@ -216,6 +223,7 @@ void create_mult(string afile){
     infilel<<"desc random hi"<<endl;
     infilel<<"lw $16, 4($zero)"<<endl;
     infilel<<"lw $17, 8($zero)"<<endl;
+    infilel<<"sll $0, $0, 0"<<endl;
     infilel<<"mult $16, $17"<<endl;
     infilel<<"mfhi $2"<<endl;
     infilel<<"jr $0"<<endl;
@@ -244,6 +252,7 @@ void create_multu(string afile){
     infileh<<"desc random lo"<<endl;
     infileh<<"lw $16, 4($zero)"<<endl;
     infileh<<"lw $17, 8($zero)"<<endl;
+    infileh<<"sll $0, $0, 0"<<endl;
     infileh<<"multu $16, $17"<<endl;
     infileh<<"mflo $2"<<endl;
     infileh<<"jr $0"<<endl;
@@ -255,6 +264,7 @@ void create_multu(string afile){
     infilel<<"desc random hi"<<endl;
     infilel<<"lw $16, 4($zero)"<<endl;
     infilel<<"lw $17, 8($zero)"<<endl;
+    infilel<<"sll $0, $0, 0"<<endl;
     infilel<<"multu $16, $17"<<endl;
     infilel<<"mfhi $2"<<endl;
     infilel<<"jr $0"<<endl;
@@ -293,6 +303,7 @@ void create_ori(string afile){
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"ori $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -310,6 +321,7 @@ void create_or(string afile){
     infile<<"desc random "<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"or $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -328,6 +340,7 @@ void create_subu(string afile){
     infile<<"desc random two sub"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"subu $2, $2, $16"<<endl;
     infile<<"subu $2, $2, $17"<<endl;
     infile<<"jr $0"<<endl;
@@ -347,6 +360,7 @@ void create_xor(string afile){
     infile<<"desc random "<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"xor $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -366,6 +380,7 @@ void create_xori(string afile){
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"xori $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -384,6 +399,7 @@ void create_sll(string afile){
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"sll $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -401,6 +417,7 @@ void create_sllv(string afile){
     infile<<"desc random immediate"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"sllv $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -420,6 +437,7 @@ void create_srl(string afile){
     infile.open(afile); 
     infile<<"desc random immediate"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"srl $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -437,6 +455,7 @@ void create_srlv(string afile){
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"srlv $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -456,6 +475,7 @@ void create_sra(string afile){
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"sra $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -473,6 +493,7 @@ void create_srav(string afile){
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"srav $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
@@ -491,6 +512,7 @@ void create_slt(string afile){
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"slt $2, $17, $16"<<endl;
     infile<<"slt $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
@@ -511,6 +533,7 @@ void create_slti(string afile){
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"slti $2, $16, 3"<<endl;
     infile<<"slti $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
@@ -529,6 +552,7 @@ void create_sltu(string afile){
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
     infile<<"lw $17, 8($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"sltu $2, $17, $16"<<endl;
     infile<<"sltu $2, $16, $17"<<endl;
     infile<<"jr $0"<<endl;
@@ -545,10 +569,12 @@ void create_sltiu(string afile){
     int min = -32768;
     int max = 32767;
     int num2 = rand()%(max-min + 1) + min;
-    int ans = num1<num2;
+    unsigned int num = num2;
+    int ans = num1<num;
     infile.open(afile); 
     infile<<"desc random vals"<<endl;
     infile<<"lw $16, 4($zero)"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"sltiu $2, $16, 4"<<endl;
     infile<<"sltiu $2, $16, "<<num2<<endl;
     infile<<"jr $0"<<endl;
