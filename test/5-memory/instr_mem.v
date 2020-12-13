@@ -8,7 +8,7 @@ parameter BRANCH_JUMP_INIT_FILE = "test_loadk.txt";
 parameter [31:0] rst = 32'hbfc00000; 
 parameter [31:0] branch_max = 32'h0007fff<<2; 
 parameter [31:0] branch_min = 32'hffff8000<<2; 
-parameter [31:0] max_jump_addr = 32'hc0000000; 
+parameter [31:0] max_jump_addr = 32'hb3fffffc; 
 parameter reset_offset = 60;
 parameter no_offset = 20; //11-20 jump backwards //same addrs
 parameter branch_back_offset = 21; //21-30 branch backwards maximum 
@@ -56,7 +56,7 @@ always @(*) begin
 		//branch forwards to addresses 32'hbfc1fffc + 10 addr
 		instr = memory[x]; 
 	end
-	else if (address>=max_jump_addr) begin 
+	else if (address>=max_jump_addr&& address<=max_jump_addr+40) begin 
 		//jump forwards to addresses 32'hc0000000 + 10 addr
 		x = ((address-max_jump_addr)>>2)+jump_forward_offset;
 		instr = memory[x]; 

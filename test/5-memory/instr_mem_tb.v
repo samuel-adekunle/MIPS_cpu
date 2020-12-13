@@ -45,7 +45,7 @@ module instr_mem_tb(
             $display("branch forwards instruction :%h at address %h", instr, address);
             address=address+4;
         end
-        address = 32'hc0000000; //jump forwards
+        address = 32'hb3fffffc; //jump forwards
         repeat (10) begin
             @(posedge clk);
             #1;
