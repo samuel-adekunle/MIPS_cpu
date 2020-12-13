@@ -34,23 +34,38 @@ module control_unit (
     begin
       RegDst = 1;
       //if JR
-      if (funct == 6'h08)
+      //if (funct == 6'h08)
+      //begin
+        //JR = 1'b1;
+ 	//delay_early = 1'b1; 
+	//RegWrite = 2'b00;
+      //end
+     //if MTHI/DIV/DIVU/MULT/MULTU/MTLO/JR
+      if (funct == 6'h11||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19 || funct == 6'h13 || funct==6'h08)
       begin
-        JR = 1'b1;
- 	delay_early = 1'b1; 
-      end
-     //if MTHI/DIV/DIVU/MULT/MULTU
-      if (funct == 6'h11||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
-      begin
-	HI_write = 2'b11; 
 	RegWrite = 2'b00; 
+	if (funct!=6'h13 & funct!=6'h08) 
+	begin
+		HI_write = 2'b11;
+	end
+	if (funct!=6'h11 & funct!=6'h08)
+	begin
+		LO_write = 2'b11;
+	end
+	//JR
+	if (funct==6'h08) 
+	begin
+		JR = 1'b1;
+		delay_early = 1'b1; 
+	end 
       end
       //if MTLO/DIV/DIVU/MULT/MULTU
-      if (funct == 6'h13||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
-      begin
-	LO_write = 2'b11;
-	RegWrite = 2'b00; 
-      end 
+      //if (funct == 6'h13||funct == 6'h1a||funct == 6'h1b||funct == 6'h18||funct == 6'h19)
+      //begin
+	//LO_write = 2'b11;
+	//RegWrite = 2'b00; 
+      //end 
+      
 
       else
       begin
