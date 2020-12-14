@@ -36,6 +36,7 @@ module Registers (
 
   always @(posedge clk) //_ff
   begin
+    $display("2:%h 16:%h", register[2],register[16]);
     if (reset)
     begin
       for (i = 0; i < 32; i = i + 1)

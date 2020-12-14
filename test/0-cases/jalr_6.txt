@@ -1,7 +1,7 @@
 desc repeat overwrite check reg
 lw $17, 4($0)
 lw $16, 8($0)
-jalr $2, $17 
+jalr $2, $17  //8
 sll $0, $0, 0 
 addiu $2, $2, 3
 addiu $2, $2, 3
