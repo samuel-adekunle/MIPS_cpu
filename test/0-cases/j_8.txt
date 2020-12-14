@@ -1,0 +1,15 @@
+desc jump jump to prev delay slot
+j 66060294 //jump to next jump
+addiu $2, $2, 4   //4
+addiu $2, $2, 8  //8
+jr $0 //to stop
+sll $0, $0, 0
+addiu $2, $2, 2
+j 66060289 //jump to addiu 
+addiu $2, $2, 1
+addiu $2, $2, 2
+addu $2, $2, $31
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#17

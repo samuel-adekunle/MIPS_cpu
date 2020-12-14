@@ -1,4 +1,4 @@
-desc positive remainder
+desc negative remainder
 addiu $16, $16, -5
 addiu $17, $17, -2 
 div $16, $17
