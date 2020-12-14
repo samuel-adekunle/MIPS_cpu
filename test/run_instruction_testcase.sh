@@ -7,7 +7,7 @@ if [[ ! -f test/0-cases/${2}_1.txt ]] ; then
     echo 'No testcase found'
     exit
 fi
-
+VARIANT="$3"
 #create random test case where possible
 RANDOMTEST1=${2}
 RANDOMTEST1+="_r1"
@@ -23,7 +23,7 @@ for i in ${TESTCASES} ; do
     # Extract just the testcase name from the filename.
     TESTNAME=$(basename ${i} .txt)
     # Dispatch to the main test-case script
-    ./test/run_one_testcase.sh ${DIRECTORY} ${TESTNAME}
+    ./test/run_one_testcase.sh ${DIRECTORY} ${TESTNAME} ${VARIANT}
 done
 
 # NUMBER=$(echo ${TESTNAME//[^0-9]})

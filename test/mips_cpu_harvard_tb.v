@@ -1,7 +1,5 @@
 module mips_cpu_harvard_tb;
     timeunit 1ns / 10ps;
-
-    // parameter RAM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter DATA_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
     parameter ANSWER_FILE = "test/4-reference/addiu_1.txt";
@@ -25,10 +23,6 @@ module mips_cpu_harvard_tb;
     logic [31:0] final_value;
     integer fd;
     integer x;
-    // RAM_32x4096_harvard #(RAM_INIT_FILE) ramInst(.clk(clk), .instr_address(instr_address), .instr_readdata(instr_readdata), 
-    // .data_write(data_write), .data_read(data_read),.data_address(data_address), .data_writedata(data_writedata),
-    // .data_readdata(data_readdata));
-
 
     data_mem #(DATA_MEM_INIT_FILE) dataInst(.address(data_address), 
                                             .WriteData(data_writedata), 

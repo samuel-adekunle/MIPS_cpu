@@ -2,6 +2,7 @@
 set -eou pipefail
 
 DIRECTORY="$1"   
+VARIANT="$2"
 TESTCASES="test/0-cases/*.txt"
 #create random where possible 
 INSTRUCTIONS="test/0-cases/*_1.txt"
@@ -21,7 +22,7 @@ for i in ${TESTCASES} ; do
     # Extract just the testcase name from the filename
     TESTNAME=$(basename ${i} .txt)
     # Dispatch to the main test-case script
-    ./test/run_one_testcase.sh ${DIRECTORY} ${TESTNAME}
+    ./test/run_one_testcase.sh ${DIRECTORY} ${TESTNAME} ${VARIANT} 
 done
 
 #delete the random files(not necessary)
