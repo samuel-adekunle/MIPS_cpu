@@ -2,6 +2,12 @@
 set -eou pipefail
 VARIANT="bus"
 DIRECTORY="$1"
+chmod u+x test/run_all_testcases.sh
+chmod u+x test/run_instruction_testcase.sh
+chmod u+x test/run_one_testcase.sh
+#compile utils?
+g++ ./test/test_cases.cpp -o test/test_cases
+g++ ./test/test_case_functions.cpp -o test/test_case_fns
 
 if [ $# -ge 2 ]
 then
