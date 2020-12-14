@@ -1,11 +1,11 @@
-desc repeat and delay slot check final val
+desc repeat save to same reg and delay slot check final val
 lw $17, 4($0)
 lw $16, 8($0)
 jalr $4, $17 
 addiu $2, $2, 3
 addiu $2, $2, 3
 addiu $2, $2, 3
-jalr $5, $16 //18 //its reading reg 5 not reg 16
+jalr $4, $16 //18 //its reading reg 4 not reg 16
 addiu $2, $2, 3
 addiu $2, $2, 3 
 addiu $2, $2, 3 

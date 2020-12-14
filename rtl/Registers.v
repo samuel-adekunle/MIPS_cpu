@@ -34,7 +34,7 @@ module Registers (
 
   //at rising edge of clk, if RegWrite_en is 11, write WriteData into register selected by WriteReg
 
-  always_ff @(posedge clk)
+  always @(posedge clk) //_ff
   begin
     if (reset)
     begin

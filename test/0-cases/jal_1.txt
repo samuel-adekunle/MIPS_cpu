@@ -4,6 +4,7 @@ jal 66060292 //jump 3 ahead
 sll $0, $0, 0
 addiu $2, $2, 1
 addiu $17, $17, 3
+sll $0, $0, 0
 addu $2, $0, $31
 jr $0
 sll $0, $0, 0

@@ -8,6 +8,7 @@ jal 66060296 //jump 3 ahead
 sll $0, $0, 0 
 jr $0 
 sll $0, $0, 0
+sll $0, $0, 0
 addu $2, $2, $31
 jr $0
 #0xbfc00029

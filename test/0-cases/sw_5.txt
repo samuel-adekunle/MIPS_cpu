@@ -1,0 +1,14 @@
+desc store to same place random numbers
+addiu $16, $16, -9484
+addiu $20, $20, 4
+sw $16, 8($20) 
+addiu $16, $16, 344
+sw $16, 8($20)
+addiu $16, $16, 344
+sw $16, 8($20)
+sll $0, $0, 0 
+lw $v0, 8($20) //assuming lw works
+jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
+#-8796

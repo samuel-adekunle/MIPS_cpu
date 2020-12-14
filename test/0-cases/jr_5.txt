@@ -1,0 +1,13 @@
+desc jump jump jump branch delay
+lw $16, 4($0) 
+lw $17, 8($0) 
+jr $16 
+addiu $2, $2, 11
+jr $0 //end
+sll $0, $0, 0
+sll $0, $0, 0
+jr $17 //here first
+addiu $2, $2, 10
+data 0xbfc0001c
+data 0xbfc00010
+#21

@@ -133,6 +133,7 @@ module control_unit (
     // J, JAL
     if (opcode==6'h02 | opcode == 6'h03)
     begin
+      RegWrite = 2'b0;
       Jump = 1'b1;
       delay_early = 1'b1;
       //JAL

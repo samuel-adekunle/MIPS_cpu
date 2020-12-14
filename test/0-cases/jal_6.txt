@@ -1,0 +1,15 @@
+desc jump jump jump and delays
+jal 66060291 //jump to next jump
+addiu $2, $2, 1   //4
+addiu $2, $2, 2   //8
+jal 66060294 //to next jump 
+addiu $2, $2, 1
+addiu $2, $2, 2
+jal 66060297 //jump to addu 
+addiu $2, $2, 1
+addiu $2, $2, 2
+addu $2, $2, $31
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#0xbfc00023
