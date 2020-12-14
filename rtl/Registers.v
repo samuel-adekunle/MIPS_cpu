@@ -34,9 +34,8 @@ module Registers (
 
   //at rising edge of clk, if RegWrite_en is 11, write WriteData into register selected by WriteReg
 
-  always @(posedge clk) //_ff
+  always_ff @(posedge clk) //_ff
   begin
-    $display("2:%h 16:%h", register[2],register[16]);
     if (reset)
     begin
       for (i = 0; i < 32; i = i + 1)
