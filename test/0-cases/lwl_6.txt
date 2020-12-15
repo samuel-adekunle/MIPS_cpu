@@ -1,9 +1,8 @@
-desc leave reg unchanged
-addiu $2, $2, -1
-lwl $2, 6($0)
+desc byte
+lwl $2, 4($0)
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
 data 0x12345678
 data 0x70605040
-#0x345678ff
+#0x78000000

@@ -1,4 +1,4 @@
-desc random lo
+desc mult 0 lo
 lw $16, 4($zero)
 lw $17, 8($zero)
 mult $16, $17
@@ -6,5 +6,5 @@ mflo $2
 jr $0
 sll $0, $0, 0
 data 0x5b285a93
-data 0xfe5a8bd9
-#0xe010979b
+data 0x0
+#0x0

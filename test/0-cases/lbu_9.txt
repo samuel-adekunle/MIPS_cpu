@@ -1,6 +1,8 @@
 desc load load load
 lbu $2, 6($0)
+sll $0, $0, 0
 lbu $2, 5($0)
+sll $0, $0, 0
 lbu $2, 4($0)
 jr $0
 sll $0, $0, 0

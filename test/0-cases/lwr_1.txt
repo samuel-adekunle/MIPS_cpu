@@ -1,4 +1,4 @@
-desc  load into empty reg part
+desc load into empty reg first
 lwr $2, 7($0)
 jr $0
 sll $0, $0, 0

@@ -1,0 +1,14 @@
+desc overwrite consecutive load words(not subject to load delay)
+addiu $2, $2, -1
+addiu $3, $3, 32767
+addiu $3, $3, 6
+lwr $v0, -32768($3) 
+lwr $v0, 11($0)
+sll $0, $0, 0
+sll $0, $0, 0
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12345678
+data 0x70605040
+#0xff123470
