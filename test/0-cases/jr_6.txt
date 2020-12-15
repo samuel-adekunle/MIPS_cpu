@@ -1,0 +1,12 @@
+desc jump to branch delay
+lw $16, 4($0) 
+lw $17, 8($0) 
+jr $16 
+addiu $2, $2, 11
+jr $0 //end
+sll $0, $0, 0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0xbfc0000c
+data 0xbfc00012
+#22

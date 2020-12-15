@@ -53,7 +53,7 @@ void create_addiu(string afile){
     ofstream infile; 
     int min = -32768;
     int max = 32767;
-    srand(time(NULL));
+    //srand(time(NULL));
     int num1 = rand()%(max-min + 1) + min;
     int num2 = rand()%(max-min + 1) + min;
     int ans = num1+num2;
@@ -68,7 +68,7 @@ void create_addiu(string afile){
 
 void create_addu(string afile){ //random regs
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1+num2;
@@ -94,7 +94,7 @@ void create_addu(string afile){ //random regs
 
 void create_and(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1&num2;
@@ -120,7 +120,7 @@ void create_and(string afile){
 
 void create_andi(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int min = 0;
     int max = 0xffff;
@@ -146,7 +146,7 @@ void create_div(string afile){
     string div_r = get_filename(afile)+"b.txt";
     ofstream infileq; 
     ofstream infiler;
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int q = num1/num2;
@@ -191,7 +191,7 @@ void create_divu(string afile){
     string div_r = get_filename(afile)+"b.txt";
     ofstream infileq; 
     ofstream infiler;
-    srand (time(NULL));
+    //srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     unsigned int q = num1/num2;
@@ -234,7 +234,7 @@ void create_mult(string afile){
     string mult_h = get_filename(afile)+"b.txt";
     ofstream infileh; 
     ofstream infilel;
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     long int x = num1;
@@ -280,7 +280,7 @@ void create_multu(string afile){
     string mult_h = get_filename(afile)+"b.txt";
     ofstream infileh; 
     ofstream infilel;
-    srand (time(NULL));
+    //srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     long int x = num1;
@@ -323,7 +323,7 @@ void create_multu(string afile){
 
 void create_lui(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int min = 0;
     int max = 0xffff;
     int num1 = rand()%(max-min + 1) + min;
@@ -340,7 +340,7 @@ void create_lui(string afile){
 
 void create_ori(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int min = 0;
     int max = 0xffff;
@@ -360,7 +360,7 @@ void create_ori(string afile){
 
 void create_or(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1|num2;
@@ -384,7 +384,7 @@ void create_or(string afile){
 
 void create_subu(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = 0-num1-num2;
@@ -409,7 +409,7 @@ void create_subu(string afile){
 
 void create_xor(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1^num2;
@@ -433,7 +433,7 @@ void create_xor(string afile){
 
 void create_xori(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int min = 0;
     int max = 0xffff;
@@ -453,7 +453,7 @@ void create_xori(string afile){
 
 void create_sll(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     int num1 = random_32();
     int min = 0;
     int max = 31;
@@ -473,7 +473,7 @@ void create_sll(string afile){
 
 void create_sllv(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     int ans = num1<<num2;
@@ -497,7 +497,7 @@ void create_sllv(string afile){
 
 void create_srl(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    //srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int min = 0;
     unsigned int max = 31;
@@ -517,7 +517,7 @@ void create_srl(string afile){
 
 void create_srlv(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     unsigned int ans = num1>>num2;
@@ -541,7 +541,7 @@ void create_srlv(string afile){
 
 void create_sra(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     int num1 = random_32();
     int min = 0;
     int max = 31;
@@ -561,7 +561,7 @@ void create_sra(string afile){
 
 void create_srav(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1>>num2;
@@ -585,7 +585,7 @@ void create_srav(string afile){
 
 void create_slt(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     int num1 = random_32();
     int num2 = random_32();
     int ans = num1<num2;
@@ -610,7 +610,7 @@ void create_slt(string afile){
 
 void create_slti(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     int num1 = random_32();
     int min = -32768;
     int max = 32767;
@@ -631,7 +631,7 @@ void create_slti(string afile){
 
 void create_sltu(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
     int ans = num1<num2;
@@ -656,7 +656,7 @@ void create_sltu(string afile){
 
 void create_sltiu(string afile){
     ofstream infile; 
-    srand (time(NULL));
+    ////srand (time(NULL));
     int num1 = random_32();
     int min = -32768;
     int max = 32767;
@@ -679,9 +679,23 @@ void create_sltiu(string afile){
     infile<<"#"<<int_to_hex(ans);
     infile.close();
 }
-
+unsigned long mix(unsigned long a, unsigned long b, unsigned long c)
+{
+    a=a-b;  a=a-c;  a=a^(c >> 13);
+    b=b-c;  b=b-a;  b=b^(a << 8);
+    c=c-a;  c=c-b;  c=c^(b >> 13);
+    a=a-b;  a=a-c;  a=a^(c >> 12);
+    b=b-c;  b=b-a;  b=b^(a << 16);
+    c=c-a;  c=c-b;  c=c^(b >> 5);
+    a=a-b;  a=a-c;  a=a^(c >> 3);
+    b=b-c;  b=b-a;  b=b^(a << 10);
+    c=c-a;  c=c-b;  c=c^(b >> 15);
+    return c;
+}
 
 int main(int argc, char *argv[]){
+    unsigned long seed = mix(clock(), time(NULL), random_32());
+    srand(seed);
     string test_case = argv[1];
     if (size_t pos = test_case.find("addiu")!= string::npos){
         create_addiu(test_case);
