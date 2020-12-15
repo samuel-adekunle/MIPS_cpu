@@ -1,0 +1,10 @@
+desc greater than zero repeat branch delay slot
+addiu $16, $16, 1 
+bgezal $16, 0
+addiu $2, $2, 2
+addiu $2, $2, -1
+addiu $2, $2, -1
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#2

@@ -1,6 +1,6 @@
 desc greater than zero no branch
 addiu $16, $16, 1
-bltzal $16, 4
+bltzal $16, 16
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, -1

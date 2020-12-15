@@ -1,10 +1,10 @@
-desc equal delay slot modify reg in equal->not sure if this is allowed
-addiu $2, $2, 3
+desc not equal go to delay slot
+addiu $16, $16, 2
 addiu $17, $17, 3
-beq $2, $17, -3
+bne $16, $17, 0
 addiu $2, $2, 71
 addiu $2, $2, 11
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-#159
+#153

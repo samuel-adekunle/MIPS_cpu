@@ -1,12 +1,12 @@
 desc equal to 0 repeat branch branch with delay
-blez $16, 6
+blez $16, 24
 addiu $2, $2, 7 //runs once
 addiu $2, $2, 1
 addiu $2, $2, 3
-blez $16, 7
+blez $16, 28
 addiu $2, $2, 7 //runs once
 addiu $2, $2, 1
-blez $16, -4 
+blez $16, -16 
 addiu $2, $2, 7 //runs once
 addiu $2, $2, 1
 addiu $2, $2, 3

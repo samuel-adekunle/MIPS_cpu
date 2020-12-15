@@ -2,7 +2,7 @@ desc jump loop with branch //seems to be legal
 sll $0, $0, 0 //noop, 0
 addiu $17, $17, 8 
 addiu $16, $16, 8
-bne $16, $17, 3 //c
+bne $16, $17, 12 //c
 sll $0, $0, 0 //noop, 10
 j 66060290 //this is fc00008 shifted so returns to addiu 8
 addiu $2, $2, 3 //following delay slot

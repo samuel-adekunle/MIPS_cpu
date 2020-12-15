@@ -1,7 +1,7 @@
 desc equal 0 backwards delay slot check vals
 addiu $16, $16, 10
 addiu $16, $16, -2
-bgezal $16, -2
+bgezal $16, -8
 addiu $2, $2, 1
 jr $0
 #6

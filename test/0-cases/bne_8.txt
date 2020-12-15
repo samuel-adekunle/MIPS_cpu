@@ -1,12 +1,12 @@
 desc not equal consecutive backwards
 addiu $16, $16, 3
 addiu $17, $17, 2
-bne $16, $17, 4
+bne $16, $17, 16
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, 2
 addiu $17, $17, 1
-bne $16, $17, -3
+bne $16, $17, -12
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, 3

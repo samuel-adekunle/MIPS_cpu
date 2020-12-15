@@ -1,6 +1,6 @@
 desc greater than 0 using branch delay
 addiu $16, $16, 1
-bgtz $16, 3
+bgtz $16, 12
 addiu $2, $2, 5
 addiu $2, $2, 1
 addiu $2, $2, 3

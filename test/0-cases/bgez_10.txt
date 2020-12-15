@@ -2,17 +2,17 @@ desc equal 0 consecutive loop change comparison value in branch delay UNSURE IF 
 addiu $2, $2, 1 
 addiu $2, $2, 2
 addiu $2, $2, 3
-bgez $16, -3
+bgez $16, -12
 addiu $16, $16, -2 //alter $16 for the next cycle?
 addiu $2, $2, 2
 addiu $2, $2, 3
 addiu $16, $16, 4
-bgez $16, 4
+bgez $16, 12
 addiu $2, $2, -1 
 addiu $2, $2, 2
 jr $0
 sll $0, $0, 0
-bgez $16, -3
+bgez $16, -12
 sll $0, $0, 0
 addiu $2, $2, 10
 #15

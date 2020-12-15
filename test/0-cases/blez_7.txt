@@ -1,6 +1,6 @@
 desc 0 backwards max branch delay
 addiu $16, $16, 0
-blez $16, -32768
+blez $16, -131072
 addiu $2, $2, 13
 addiu $2, $2, 1
 addiu $2, $2, 3

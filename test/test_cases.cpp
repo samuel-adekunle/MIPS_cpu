@@ -118,7 +118,7 @@ string I_TypeProcess(vector<string> &params, int pc){
     if(op == "beq" || op == "bne"){
         Rs = registerCode(params[1]);
         Rt = registerCode(params[2]);
-        int num = stoi(params[3]); ///not sure about this
+        int num = stoi(params[3])>>2; ///not sure about this
         bitset<16> y(num);
         imm = y.to_string<char,string::traits_type,string::allocator_type>();
         if(op == "beq")
@@ -212,7 +212,7 @@ string I_TypeProcess(vector<string> &params, int pc){
     else if(op == "blez" || op == "bltz" || op == "bgtz" || op == "bgez"||op =="bgezal"||op =="bltzal"){
         Rs = registerCode(params[1]);
         //get address for jump, add to counter
-        bitset<16> y(stoi(params[2]));
+        bitset<16> y(stoi(params[2])>>2);
         imm = y.to_string<char,string::traits_type,string::allocator_type>();
 
         if(op == "bgez"){
@@ -279,12 +279,12 @@ string R_TypeProcess(vector<string> &params){
     else if (op == "jalr"){
         Rt = "00000";
         Rs = "11111";
-        Rd = "11111";
-        if (params.size()==3){
+        Rd = "11111"; 
+        if (params.size()==2){
+            Rs = registerCode(params[1]);
+        }else{
             Rd = registerCode(params[1]);
             Rs = registerCode(params[2]);
-        }else{
-             Rs = registerCode(params[1]);
         }
         shamt ="00000";
         funct = "001001";

@@ -1,5 +1,5 @@
 desc equal to zero
-bltz $16, 3
+bltz $16, 12
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, 3

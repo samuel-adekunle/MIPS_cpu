@@ -1,7 +1,7 @@
 desc backwards and include delay
 addiu $16, $16, 7654
 addiu $17, $17, -10
-bne $16, $17, -32768
+bne $16, $17, -131072
 addiu $2, $2, 1 //noop
 addiu $2, $2, 1
 addiu $2, $2, 3

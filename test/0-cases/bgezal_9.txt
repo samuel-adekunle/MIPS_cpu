@@ -1,7 +1,7 @@
 desc equal 0 backwards delay slot check reg
 addiu $16, $16, 10
 addiu $16, $16, -2
-bgezal $16, -2
+bgezal $16, -8
 addu $2, $0, $31
 jr $0
 #0xbfc00010

@@ -1,11 +1,11 @@
 desc less than 0 repeated branch check reg
 addiu $16, $16, -1
-bltzal $16, 4
+bltzal $16, 16
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, -1
 addiu $2, $2, 0
-bltzal $16, 2
+bltzal $16, 8
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addu $2, $0, $31

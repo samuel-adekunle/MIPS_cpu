@@ -1,6 +1,6 @@
 desc less than 0 backwards delay slot
 addiu $16, $16, -1
-bltz $16, -32768
+bltz $16, -131072
 addiu $2, $2, -65
 addiu $2, $2, 1
 addiu $2, $2, 3

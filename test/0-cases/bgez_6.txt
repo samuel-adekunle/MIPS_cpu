@@ -1,5 +1,5 @@
 desc greater than 0 max forward branch
-bgez $16, 32767 //7fff
+bgez $16, 131068 //7fff
 sll $0, $0, 0 //noop 
 addiu $2, $2, 1
 addiu $2, $2, 1

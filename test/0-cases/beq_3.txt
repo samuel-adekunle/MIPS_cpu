@@ -1,7 +1,7 @@
 desc beq equal using delay
 addiu $16, $16, 3
 addiu $17, $17, 3
-beq $16, $17, 3
+beq $16, $17, 12
 addiu $2, $2, 1 //execute due to branch delay
 addiu $2, $2, 1
 addiu $2, $2, 1

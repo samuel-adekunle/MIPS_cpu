@@ -1,5 +1,5 @@
 desc equal to zero backwards max
-bgezal $16, -32768
+bgezal $16, -131072
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, -1

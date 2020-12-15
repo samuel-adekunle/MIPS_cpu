@@ -1,6 +1,6 @@
 desc less than 0 backwards
 addiu $16, $16, -1
-blez $16, -32768
+blez $16, -131072
 sll $0, $0, 0
 addiu $2, $2, 1
 addiu $2, $2, 3

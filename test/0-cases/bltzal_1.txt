@@ -1,5 +1,5 @@
-desc equal to zero no branch
-bltzal $16, 4
+desc equal to zero no branch check reg
+bltzal $16, 16
 sll $0, $0, 0 //noop
 addiu $2, $2, 1
 addiu $2, $2, -1

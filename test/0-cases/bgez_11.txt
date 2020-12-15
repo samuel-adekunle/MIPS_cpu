@@ -1,0 +1,9 @@
+desc branch to delay
+bgez $16, 0
+addiu $2, $2, 4
+addiu $2, $2, 2
+addiu $2, $2, 3
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#13

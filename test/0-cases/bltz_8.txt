@@ -1,12 +1,12 @@
 desc branch branch
 addiu $16, $16, -1
-bltz $16, 2
+bltz $16, 8
 addiu $2, $2, 1
 addiu $2, $2, 1
-bltz $16, 2
+bltz $16, 8
 addiu $2, $2, 1
 addiu $2, $2, 1
-bltz $16, 2
+bltz $16, 8
 addiu $2, $2, 1
 addiu $2, $2, 1
 jr $0

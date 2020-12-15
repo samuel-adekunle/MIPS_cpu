@@ -1,6 +1,6 @@
 desc less than 0 delay slot check vals
 addiu $16, $16, -1
-bgezal $16, 4
+bgezal $16, 16
 addiu $2, $2, 7
 addiu $2, $2, 1
 addiu $2, $2, 3

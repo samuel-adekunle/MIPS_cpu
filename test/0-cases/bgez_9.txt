@@ -1,13 +1,13 @@
 desc equal 0 consecutive with branch delay
-bgez $16, 3
+bgez $16, 12
 addiu $2, $2, 1 
 addiu $2, $2, 2
 addiu $2, $2, 3
-bgez $16, 3
+bgez $16, 12
 addiu $2, $2, 1 
 addiu $2, $2, 2
 addiu $2, $2, 3
-bgez $16, 3
+bgez $16, 12
 addiu $2, $2, 1 
 addiu $2, $2, 2
 addiu $2, $2, 3

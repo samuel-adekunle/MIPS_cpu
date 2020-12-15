@@ -1,10 +1,10 @@
-desc greater than max forward branch
+desc greater than branch none
 addiu $16, $16, 3
-bgtz $16, 131068 //7fff
-sll $0, $0, 0 //noop 
+bgtz $16, 0
+addiu $2, $2, 1
 addiu $2, $2, 1
 addiu $2, $2, 1
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-#20
+#4

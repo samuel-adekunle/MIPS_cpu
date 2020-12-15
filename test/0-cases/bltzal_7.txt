@@ -1,5 +1,5 @@
 desc equal 0 delay slot check vals
-bltzal $16, 4
+bltzal $16, 16
 addiu $2, $2, 7
 addiu $2, $2, 1
 addiu $2, $2, 3

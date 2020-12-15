@@ -1,11 +1,11 @@
 desc repeat overwrite check reg
 lw $17, 4($0)
 lw $16, 8($0)
-jalr $2, $17  //8
+jalr $2, $17 
 sll $0, $0, 0 
 addiu $2, $2, 3
 addiu $2, $2, 3
-jalr $2, $16 //18
+jalr $2, $16
 sll $0, $0, 0 
 sll $0, $0, 0 
 sll $0, $0, 0 

@@ -1,7 +1,7 @@
 desc beq not equal max backwards branch
 addiu $16, $16, 3
 addiu $17, $17, 2
-bne $16, $17, -32768 //8000 min
+bne $16, $17, -131072 //8000 min
 sll $0, $0, 0 //noop //noop
 addiu $2, $2, 1
 addiu $2, $2, 1

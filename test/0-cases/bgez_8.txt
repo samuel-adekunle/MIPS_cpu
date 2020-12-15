@@ -1,5 +1,5 @@
 desc equal 0 max backwards branch with delay (branches to addiu31, stop)
-bgez $16, -32768 //7fff
+bgez $16, -131072 //7fff
 addiu $2, $2, 1 //noop 
 addiu $2, $2, 1
 addiu $2, $2, 1

@@ -1,6 +1,6 @@
 desc less than 0 forwards max delay slot
 addiu $16, $16, -1
-bltz $16, 32767
+bltz $16, 131068
 addiu $2, $2, -65
 addiu $2, $2, 1
 addiu $2, $2, 3
