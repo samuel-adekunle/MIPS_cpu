@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eou pipefail
 
-# Can be used to echo commands
-# set -o xtrace
 DIRECTORY="$1"
 TESTCASE="$2"
 INSTRUCTION=$(echo $TESTCASE | cut -d _ -f 1)
@@ -10,17 +8,12 @@ FLAGS="-g 2012 -Wall"
 VARIANT="$3"
 
 ##assemble test case
-#bin/assembler <test/0-assembly/${TESTCASE}.asm.txt >test/1-binary/${TESTCASE}.hex.txt
 COMMENT=$(./test/test_cases "test/0-cases/${TESTCASE}.txt" "test/1-binary/instr_${TESTCASE}.hex.txt" "test/1-binary/data_${TESTCASE}.hex.txt" "test/4-reference/${TESTCASE}.txt")
-##compile test bench
-# iverilog -g 2012 \
-#    ${DIRECTORY}/*.v test/*.v  -s mips_cpu_${VARIANT}_tb \
-#    -Pmips_cpu_${VARIANT}_tb.RAM_INIT_FILE=\"test/1-binary/${TESTCASE}.hex.txt\" \
-#    -o test/2-simulator/mips_cpu_${VARIANT}_tb_${TESTCASE}
+
 if ls ${DIRECTORY}/mips_cpu/*.v &> /dev/null; then
   # if $DIRECTORY/mips_cpu exists, compile the stuff in it ->theres nothing here rn
      iverilog -g 2012 \
-   ${DIRECTORY}/*.v ${DIRECTORY}/mips_cpu/*.v test/mips_cpu_${VARIANT}_tb.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
+   ${DIRECTORY}/mips_cpu_*.v ${DIRECTORY}/mips_cpu/*.v test/mips_cpu_${VARIANT}_tb.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
    -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/data_${TESTCASE}.hex.txt\" \
    -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
    -Pmips_cpu_${VARIANT}_tb.ANSWER_FILE=\"test/4-reference/${TESTCASE}.txt\"\
@@ -58,18 +51,6 @@ fi
 # V0 contents 
 PATTERN="TB : V0 :"
 NOTHING=""
-# Use "grep" to look only for lines containing PATTERN
-# set +e
-# grep "${PATTERN}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines
-# set -e
-# # Use "sed" to replace "CPU : V0   :" with nothing
-# sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out-lines > test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out
-#removing trailing zeros not really working
-#awk '{$1+=0}1' mips_cpu_${VARIANT}_tb_${TESTCASE}.out >mips_cpu_${VARIANT}_tb_${TESTCASE}.out
-# >&2 echo "  4 - Running reference simulator" #reference outputs for RAM and v0?
-# set +e
-# bin/simulator < test/1-binary/${TESTCASE}.hex.txt > test/4-reference/${TESTCASE}.out
-# set -e
 SUCCESS="success"
 set +e
 if grep -q "${SUCCESS}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout; then
@@ -78,27 +59,6 @@ else
     REG_RESULT=1
 fi
 set -e
-
-##compare v0 results
-# set +e
-# diff -w test/4-reference/${TESTCASE}.out test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out &>/dev/null
-# REG_RESULT=$?
-# set -e
-#some iff things with comments
-# if [[ "${REG_RESULT}" -ne 0 ]] ; then
-#    COMMENT+=" Error in output"
-# fi
-
-##check some stuff in RAM
-# set +e
-# diff -w test/4-reference/${TESTCASE}.out test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.out &>/dev/null
-# MEM_RESULT=$?
-# set -e
-# if [[ "${MEM_RESULT}" -ne 0 ]] ; then
-#    COMMENT+=" Error in RAM"
-# fi
-
-
 
 # Based on whether differences were found, either pass or fail
 if [[ "${REG_RESULT}" -ne 0 ]] ; then
