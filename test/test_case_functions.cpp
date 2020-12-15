@@ -84,6 +84,8 @@ void create_addu(string afile){ //random regs
     infile<<"addu $2, $2, $"<<reg1<<endl;
     infile<<"addu $2, $2, $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
+    infile<<"addiu $2, $2, 1"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -108,6 +110,8 @@ void create_and(string afile){
     infile<<"sll $0, $0, 0"<<endl;
     infile<<"and $2, $"<<reg1<<", $"<<reg2<<endl;
     infile<<"jr $0"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
+    infile<<"addiu $2, $2, 1"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"data "<<int_to_hex(num2)<<endl;
     infile<<"#"<<int_to_hex(ans);
@@ -130,6 +134,8 @@ void create_andi(string afile){
     infile<<"andi $2, $"<<reg1<<", "<<num2<<endl;
     infile<<"jr $0"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
+    infile<<"addiu $2, $2, 1"<<endl;
     infile<<"data "<<int_to_hex(num1)<<endl;
     infile<<"#"<<int_to_hex(ans);
     infile.close();
@@ -160,6 +166,7 @@ void create_div(string afile){
     infileq<<"mflo $2"<<endl;
     infileq<<"jr $0"<<endl;
     infileq<<"sll $0, $0, 0"<<endl;
+    infileq<<"addiu $2, $2, 1"<<endl;
     infileq<<"data "<<int_to_hex(num1)<<endl;
     infileq<<"data "<<int_to_hex(num2)<<endl;
     infileq<<"#"<<int_to_hex(q);
@@ -172,6 +179,7 @@ void create_div(string afile){
     infiler<<"mfhi $2"<<endl;
     infiler<<"jr $0"<<endl;
     infiler<<"sll $0, $0, 0"<<endl;
+    infiler<<"addiu $2, $2, 1"<<endl;
     infiler<<"data "<<int_to_hex(num1)<<endl;
     infiler<<"data "<<int_to_hex(num2)<<endl;
     infiler<<"#"<<int_to_hex(r);
