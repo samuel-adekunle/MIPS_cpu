@@ -11,12 +11,13 @@ module control_unit (
     output logic delay_early,
     input logic [5:0] opcode,
     input logic [5:0] funct,
-    input logic [5:0] rt
+    input logic [5:0] rt,
+    input logic [2:0] state
   );
 
   always @(opcode, funct, rt)
   begin
-
+  
     // First, reset all signals
     JR = 1'b0;
     Jump = 1'b0;

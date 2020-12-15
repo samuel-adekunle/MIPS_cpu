@@ -103,7 +103,8 @@ module mips_cpu_bus(
 		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_instr)
+                 .rt(rt_instr),
+		 .state(state) 
                );
 
   //delay slot implementation 
