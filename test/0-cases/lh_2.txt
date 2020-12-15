@@ -1,4 +1,4 @@
-desc negative
+desc negative upper half
 lh $2, 6($0)
 jr $0
 sll $0, $0, 0

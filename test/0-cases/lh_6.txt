@@ -1,8 +1,8 @@
-desc load upper half, negative offset
+desc load lower half, negative offset
 addiu $3, $3, 10
-lh $2, -4($3)
+lh $2, -6($3)
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
 data 0x20131234
-#0x2013
+#0x1234

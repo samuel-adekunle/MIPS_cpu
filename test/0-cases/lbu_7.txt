@@ -1,0 +1,7 @@
+desc min
+lbu $2, 4($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12345678
+#0x78

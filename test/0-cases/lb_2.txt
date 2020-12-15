@@ -1,4 +1,5 @@
-desc negative
+desc negative max
+addiu $2, $2, 1
 lb $2, 7($0)
 jr $0
 sll $0, $0, 0

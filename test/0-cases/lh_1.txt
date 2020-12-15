@@ -1,4 +1,4 @@
-desc max
+desc load upper half
 lh $2, 6($0)
 jr $0
 sll $0, $0, 0

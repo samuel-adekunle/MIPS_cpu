@@ -1,4 +1,5 @@
-desc lower half neg
+desc load load
+lh $2, 6($0)
 lh $2, 4($0)
 jr $0
 sll $0, $0, 0
