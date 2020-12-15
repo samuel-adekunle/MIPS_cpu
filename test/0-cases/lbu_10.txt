@@ -1,8 +1,8 @@
 desc negative offset
-addiu $3, $3, 10
-lhu $2, -6($3)
+addiu $17, $17, 10
+lbu $2, -6($17)
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-data 0xfffcffff
-#0xffff
+data 0x12345687
+#0x87

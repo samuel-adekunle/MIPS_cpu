@@ -1,0 +1,9 @@
+desc consecutive
+lb $2, 6($0)
+lb $2, 5($0)
+lb $2, 4($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12345687
+#0xffffff87
