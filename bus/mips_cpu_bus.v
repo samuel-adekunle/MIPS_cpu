@@ -16,14 +16,15 @@ module mips_cpu_bus(
 );
 
     /* using enum to define CPU states. */
-    typedef enum logic[1:0] {
-        IDLE = 2'b00,
-        RUNNING = 2'b01,
-	WAITING = 2'b10, 
-        HALTED  = 2'b11,
+    typedef enum logic[2:0] {
+        IDLE = 0,
+        FETCH_INSTR = 1, //Read Instr from Mem
+	EXEC_INSTR = 2, //either Read or Write Data from Mem
+	WAITING = 3, 
+        HALTED  = 4
     } state_t;
 
-  logic[1:0] state; 
+  logic[2:0] state; 
 
   initial
   begin
@@ -40,23 +41,45 @@ module mips_cpu_bus(
   logic[31:0] PCplus4;
   add4 adder(.PC(instr_address), .PCplus4(PCplus4)); 
 
+  //FSM implementation
   always_ff@(posedge clk)
   begin
     if (reset)
     begin
       active <= 1'b1;
-      state <= RUNNING; 
+      state <= FETCH_INSTR; 
     end
     if (address==0) //instr_address == 0 
     begin
       active <= 1'b0;
       state <= HALTED; 
     end
-    if (waitrequest)
-    begin 
-	state <= WAITING; 
+    
+    else if (state==FETCH_INSTR) 
+    begin
+	if (waitrequest) begin //memory asserts waitrequest if in reset/reading/writing 
+	     state <= WAITING; //def applies for lw sw? 
+    	end
+	else begin
+	     state <= EXEC_INSTR; 
+	end 
     end
+
+    else if (state==WAITING) 
+    begin
+	if (!waitrequest) begin
+	     state <= EXEC_INSTR;
+	end
+    end
+
+    else if (state==EXEC_INSTR) 
+    begin 
+	state <= FETCH_INSTR;
+    end
+
   end
+
+    logic[31:0] instr_constant; 
 
   // Parse instruction
   logic [5:0] functcode;
