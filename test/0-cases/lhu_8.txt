@@ -1,7 +1,7 @@
-desc maximum negative offset
-addiu $3, $3, 32767
+desc maximum positive offset
+addiu $3, $3, -32768
 addiu $3, $3, 7
-lhu $2, -32768($3) 
+lhu $2, 32767($3) 
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

@@ -1,9 +1,9 @@
 desc maximum negative offset
 addiu $3, $3, 32767
-addiu $3, $3, 7
-lhu $2, -32768($3) 
+addiu $3, $3, 5
+lh $v0, -32768($3) 
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-data 0xfffcffff
-#0xfffc
+data 0x2013f234
+#0xfffff234

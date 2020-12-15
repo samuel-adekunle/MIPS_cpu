@@ -1,0 +1,13 @@
+desc maximum positive offset
+addiu $3, $3, -32768
+addiu $3, $3, 5
+lw $v0, 32767($3) 
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0xff5427df
+data 8
+data 10
+data 15
+data 0x71
+#0xff5427df

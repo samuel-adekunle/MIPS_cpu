@@ -1,0 +1,9 @@
+desc max positive offset
+addiu $3, $3, -32768
+addiu $3, $3, 5
+lb $v0, 32767($3) 
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12345687
+#0xffffff87

@@ -1,4 +1,4 @@
-desc max
+desc upper
 lbu $2, 7($0)
 jr $0
 sll $0, $0, 0
