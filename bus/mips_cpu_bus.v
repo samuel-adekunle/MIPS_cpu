@@ -77,6 +77,10 @@ module mips_cpu_bus(
 	state <= FETCH_INSTR;
     end
 
+    else if (state==HALTED)
+    begin
+      active <= 1'b0;
+    end
   end
 
     logic[31:0] instr_constant; 
