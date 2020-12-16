@@ -1,0 +1,7 @@
+desc "large negative"
+lw $3, 4($zero)
+sll $0, $0, 0
+srl $2, $3, 15
+jr $0
+data 0x8ac9f9c8
+#0x00011593

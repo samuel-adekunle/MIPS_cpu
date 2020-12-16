@@ -1,0 +1,7 @@
+desc large "negative"
+lw $22, 4($zero)
+sll $0, $0, 0
+srl $2, $22, 11
+jr $0
+data 0xb5220b8b
+#0x0016a441
