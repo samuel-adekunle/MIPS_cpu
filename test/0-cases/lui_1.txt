@@ -1,5 +1,6 @@
 desc load upper max
 lui $2, 65535
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

@@ -2,6 +2,7 @@ desc arbitrary immediate repeat
 lui $2, 59844
 sll $0, $0, 0
 lui $2, 9281
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 #0x24410000

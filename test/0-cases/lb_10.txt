@@ -1,6 +1,7 @@
 desc negative offset
 addiu $17, $17, 10
 lb $2, -6($17)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

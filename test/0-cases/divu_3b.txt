@@ -1,6 +1,7 @@
 desc "negative" and positive
 lw $16, 4($zero)
 lw $17, 8($zero)
+sll $0, $0, 0
 divu $16, $17
 mfhi $2
 jr $0

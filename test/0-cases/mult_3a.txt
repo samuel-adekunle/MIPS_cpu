@@ -1,5 +1,6 @@
 desc large mult positive
 lw $16, 4($0) 
+sll $0, $0, 0
 mult $16, $16 
 mflo $2 
 jr $0 

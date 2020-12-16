@@ -1,6 +1,6 @@
 desc sign extend negatives
 addiu $17, $17, 2 
-addiu $16, $16,  -1 
+addiu $16, $16,  -2 
 srav $2, $16, $17 
 jr $0 
 sll $0, $0, 0

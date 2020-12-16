@@ -2,6 +2,7 @@ desc load load
 lh $2, 6($0)
 sll $0, $0, 0
 lh $2, 8($0)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

@@ -2,6 +2,7 @@ desc max positive offset
 addiu $3, $3, -32768
 addiu $3, $3, 5
 lbu $v0, 32767($3) 
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

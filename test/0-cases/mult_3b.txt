@@ -1,5 +1,6 @@
 desc large mult pos
 lw $16, 4($0) 
+sll $0, $0, 0
 mult $16, $16 
 mfhi $2 
 jr $0 

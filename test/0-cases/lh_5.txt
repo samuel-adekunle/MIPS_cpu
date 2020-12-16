@@ -1,6 +1,7 @@
 desc load upper half, negative offset
 addiu $3, $3, 10
 lh $2, -4($3)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
