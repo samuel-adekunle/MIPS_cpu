@@ -8,6 +8,7 @@ addiu $16, $16, 344
 sw $16, 8($20)
 sll $0, $0, 0 
 lw $v0, 8($20) //assuming lw works
+sll $0, $0, 0
 jr $0 
 sll $0, $0, 0
 addiu $2, $2, 10

@@ -1,6 +1,7 @@
 desc small positive sub
 addiu $17, $17, 30 
 addiu $16, $16, 10 
+sll $0, $0, 0
 subu $2, $17, $16 
 jr $0  
 sll $0, $0, 0

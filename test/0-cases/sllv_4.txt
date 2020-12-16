@@ -1,5 +1,6 @@
 desc random immediate
 lw $16, 4($zero)
+sll $0, $0, 0
 sll $2, $16, 31
 jr $0
 data 0x5d63ca7c

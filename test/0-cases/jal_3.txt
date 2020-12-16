@@ -1,5 +1,5 @@
 desc use addr, jump twice
-lw $17, 4($0)
+sll $0, $0, 0
 jal 66060292 //jump 3 ahead
 sll $0, $0, 0
 jr $0

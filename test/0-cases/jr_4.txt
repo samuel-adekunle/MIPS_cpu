@@ -1,5 +1,6 @@
 desc jump to minimum 
 lw $t1, 4($0) 
+sll $0, $0, 0 
 jr $t1 
 sll $0, $0, 0 
 addiu $2, $2, 2 
