@@ -1,6 +1,7 @@
 desc middle negative aligned sum
 addiu $17, $17, 3
 lb $2, 3($17)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

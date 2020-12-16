@@ -332,6 +332,7 @@ void create_lui(string afile){
     infile<<"desc random immediate"<<endl;
     infile<<"lui $2, "<<num1<<endl;
     infile<<"lui $2, "<<num2<<endl;
+    infile<<"sll $0, $0, 0"<<endl;
     infile<<"jr $0"<<endl;
     infile<<"sll $0, $0, 0"<<endl;
     infile<<"#"<<int_to_hex(num2<<16);
