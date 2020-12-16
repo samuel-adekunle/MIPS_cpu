@@ -79,12 +79,12 @@ module mips_cpu_harvard_tb;
         @(posedge clk);
 	    clk_enable <= 1;
         reset <= 0;
-        $display("TB : Reset reg and mem. reset: %b clk_en: %b", reset, clk_enable);
+        $display("TB : Reset reg and mem. reset: %b clk_en: %b memread:%b memwrite:%b", reset, clk_enable, data_read, data_write);
         //@(posedge clk); 
         // clk_enable <= 1; //undefined behaviours-when reset high, other components need to stop?
         // reset <= 0;
         @(posedge clk); 
-         $display("TB : Begin. reset: %b clk_en: %b, active: %b", reset, clk_enable, active);
+         $display("TB : Begin. reset: %b clk_en: %b, active: %b memread:%b memwrite:%b", reset, clk_enable, active, data_read, data_write);
         @(posedge clk);
         assert(active==1)else $display("TB : active not set after reset.");
 
