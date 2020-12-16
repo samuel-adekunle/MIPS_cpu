@@ -1,0 +1,12 @@
+desc max negative offset
+addiu $17, $17, 77
+addiu $3, $3, 32767
+addiu $3, $3, 11
+sb $17, -32768($3) 
+lw $2, 8($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12
+data 0xbcf0ffff
+#0xbc4dffff

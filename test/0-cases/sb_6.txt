@@ -1,0 +1,12 @@
+desc place in existing val twice
+addiu $17, $17, 28
+sb $17, 10($0)
+addiu $17, $17, 28
+sb $17, 10($0)
+lw $2, 8($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12
+data 0xbcf0ffff
+#0xbc38ffff
