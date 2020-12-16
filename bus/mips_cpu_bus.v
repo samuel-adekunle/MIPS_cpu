@@ -19,8 +19,8 @@ module mips_cpu_bus(
     typedef enum logic[2:0] {
         IDLE = 0,
         FETCH_INSTR = 1, //Read Instr from Mem
-	EXEC_INSTR = 2, //either Read or Write Data from Mem
-	WAITING = 3, 
+	EXEC1_INSTR = 2, //either Read or Write Data from Mem
+	EXEC2_INSTR = 3, 
         HALTED  = 4
     } state_t;
 
@@ -41,6 +41,8 @@ module mips_cpu_bus(
   logic[31:0] PCplus4;
   add4 adder(.PC(instr_address), .PCplus4(PCplus4)); 
 
+ 
+
   //FSM implementation
   always_ff@(posedge clk)
   begin
@@ -57,29 +59,36 @@ module mips_cpu_bus(
     
     else if (state==FETCH_INSTR) 
     begin
-	if (waitrequest) begin //memory asserts waitrequest if in reset/reading/writing 
-	     state <= WAITING; //def applies for lw sw? 
-    	end
-	else begin
-	     state <= EXEC_INSTR; 
-	end 
+	state <= EXEC1_INSTR;
     end
 
-    else if (state==WAITING) 
+    else if (state==EXEC1_INSTR) 
     begin
-	if (!waitrequest) begin
-	     state <= EXEC_INSTR;
-	end
+	state <= EXEC2_INSTR;
     end
 
-    else if (state==EXEC_INSTR) 
-    begin 
+    else if (state==EXEC2_INSTR) 
+    begin
 	state <= FETCH_INSTR;
     end
 
+    else if (state==HALTED)
+    begin
+      active <= 1'b0;
+    end
   end
 
-    logic[31:0] instr_constant; 
+ //IR mux select signal from FSM 
+  logic IRsel; 
+  always_comb begin
+  	if (state == EXEC1_INSTR) begin
+		IRsel = 1; 
+	end
+	else begin
+		IRsel = 0; 
+	end
+  end 
+  
 
   // Parse instruction
   logic [5:0] functcode;
@@ -93,14 +102,29 @@ module mips_cpu_bus(
   assign shamt = instr_readdata[10:6];
   assign rt_instr = instr_readdata[20:16];
 
+  //instr_readdata
+
+  //Connection of Instruction Register
+  logic [31:0] IRinstr; 
+  single_reg IR (
+	.clk(clk), .RegWrite(IRwrite), .reset(reset), .WriteData(readdata),
+	.ReadData(IRinstr)
+  ); 
+
+  //Connection of Mux 
+  mux32 IRmux (
+	.InputA(IRinstr), .InputB(readdata), .CtlSig(IRsel), .Output(instr_readdata)
+  ); 
+
   //Control Unit connection
   logic JR, Jump, MemRead, MemWrite, delay_early;
-  logic [1:0] RegDst, RegWrite, HI_write, LO_write;
+  logic [1:0] RegDst, RegWrite, HI_write, LO_write, IRwrite;
   logic [2:0] MemtoReg; 
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
 		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
+		 .IRwrite(IRwrite), //added for bus
                  .opcode(opcode),
                  .funct(functcode),
                  .rt(rt_instr),

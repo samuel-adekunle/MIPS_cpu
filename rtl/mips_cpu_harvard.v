@@ -137,7 +137,8 @@ module mips_cpu_harvard(
 
   //Connection of select_writedata as input to data mem
   select_datawrite selectwrite (
-	.rt_content(rt_content), .opcode(opcode), .data_writedata(data_writedata)
+	.rt_content(rt_content), .data_readdata(data_readdata), .opcode(opcode), 
+	.data_address2LSB(data_address[1:0]), .data_writedata(data_writedata)
   );
 
   //Connection of Sign Extend
@@ -159,19 +160,6 @@ module mips_cpu_harvard(
             .Add_ALUresult(branch_address)
           );
 
-  //Connection of Mux for branch
-  /*logic [31:0] add_alu_res;
-  mux32 mux_branch (
-          .InputA(PCplus4), .InputB(branch_address), .CtlSig(Branch[0]),
-          .Output(add_alu_res)
-        );*/
-
-  //Connection of Branch register to store branch address
-  /*logic [31:0] branch_reg; 
-  single_reg Branchreg (
-	.clk(clk), .RegWrite(Branch), .reset(reset), .WriteData(add_alu_res), .ReadData(branch_reg)
-	);*/
-
   //Connection of jump_addr
   logic[31:0] jump_address;
   jump_addr jump_addr_mod (
@@ -179,18 +167,6 @@ module mips_cpu_harvard(
               .jump_address(jump_address)
             );
 
-  //Connection of Mux for Jump
-  /*logic [31:0] mux_jump_res;
-  mux32 mux_jump ( //PCplus4
-          .InputA(add_alu_res), .InputB(jump_address), .CtlSig(Jump),
-          .Output(mux_jump_res)
-        );*/
-
-  //Connection of Mux for JR
-  /*mux32 mux_JR (
-          .InputA(mux_jump_res), .InputB(rs_content), .CtlSig(JR),
-          .Output(PCin)
-        );*/
 
   //Connection of Data Memory
   // data_mem_1 datamem (
@@ -218,7 +194,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n write_data:%h ReadData1:%h ReadData2:%h RegWrite:%b data_address:%h",instr_readdata, instr_address, write_data, rs_content, rt_content, RegWrite, data_address);
+	$monitor("CPU: instruction: %h, PC: %h\n write_data:%h ReadData2:%h data_address:%h data_writedata:%h MemRead:%b MemWrite:%b",instr_readdata, instr_address, write_data, rt_content, data_address, data_writedata, MemRead, MemWrite);
   end
 
 endmodule
