@@ -1,0 +1,7 @@
+desc large positive
+lw $19, 4($zero)
+sll $0, $0, 0
+sra $2, $19, 18
+jr $0
+data 0x633abf7d
+#0x000018ce
