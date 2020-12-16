@@ -8,7 +8,7 @@ FLAGS="-g 2012 -Wall"
 VARIANT="$3"
 
 ##assemble test case
-COMMENT=$(./test/test_cases "test/0-cases/${TESTCASE}.txt" "test/1-binary/instr_${TESTCASE}.hex.txt" "test/1-binary/data_${TESTCASE}.hex.txt" "test/4-reference/${TESTCASE}.txt")
+COMMENT=$(./test/assembler "test/0-cases/${TESTCASE}.txt" "test/1-binary/instr_${TESTCASE}.hex.txt" "test/1-binary/data_${TESTCASE}.hex.txt" "test/4-reference/${TESTCASE}.txt")
 
 if ls ${DIRECTORY}/mips_cpu/*.v &> /dev/null; then
   # if $DIRECTORY/mips_cpu exists, compile the stuff in it ->theres nothing here rn
