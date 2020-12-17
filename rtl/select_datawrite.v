@@ -19,7 +19,7 @@ always@(rt_content, data_readdata, opcode, data_address2LSB, stall) begin
 		data_writedata = rt_content; 
 	end
 	//SB
-	if (opcode==6'h28) begin
+	if (opcode==6'h28 & stall!=1) begin
 		case(data_address2LSB[1:0])
 		3: 
 		    data_writedata = {rt7_0, data_readdata[23:0]};
@@ -32,7 +32,7 @@ always@(rt_content, data_readdata, opcode, data_address2LSB, stall) begin
 		endcase
 	end
 	//SH
-	if (opcode==6'h29) begin
+	if (opcode==6'h29 & stall!=1) begin
 		case(data_address2LSB[1:0])
 		2: 
 		    data_writedata = {rt15_0, data_readdata[15:0]};

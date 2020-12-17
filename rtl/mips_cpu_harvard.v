@@ -97,7 +97,7 @@ module mips_cpu_harvard(
 		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_instr)
+                 .rt(rt_instr), .stall(stall)
                );
 
   //delay slot implementation 
@@ -163,7 +163,7 @@ module mips_cpu_harvard(
   //Connection of select_writedata as input to data mem
   logic[31:0] data_readdelayed; 
   always_ff@(posedge clk) begin
-	data_readdelayed <= data_readdata;
+	data_readdelayed <= selected_readdata;
   end
   select_datawrite selectwrite (
 	.rt_content(rt_content), .data_readdata(data_readdelayed), .opcode(opcode), 
@@ -224,7 +224,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n ReadData2:%h data_address:%h data_writedata:%h stall:%b selected_readdata:%h readdelayed:%h",instr_readdata, instr_address, rt_content, data_address, data_writedata, stall, selected_readdata, data_readdelayed);
+	$monitor("CPU: instruction: %h, PC: %h\n ReadData2:%h data_address:%h data_writedata:%h stall:%b selected_readdata:%h readdelayed:%h data_readdata:%h MemWrite:%b",instr_readdata, instr_address, rt_content, data_address, data_writedata, stall, selected_readdata, data_readdelayed, data_readdata, MemWrite);
   end
 
 endmodule
