@@ -90,6 +90,7 @@ module mips_cpu_harvard_tb;
 
         while (active) begin
             @(posedge clk);
+            //$display("TB : new edge: memread:%b memwrite:%b", data_read, data_write);
         end
         @(negedge clk)
         if (instr_readdata==0) //allow 0 to execute

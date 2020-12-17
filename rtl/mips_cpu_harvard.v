@@ -39,7 +39,7 @@ module mips_cpu_harvard(
      end
   end
 
- always_ff@(posedge clk) begin
+ always@(posedge clk) begin
     if (stall == 1) begin
 	stall <= 0;
      end

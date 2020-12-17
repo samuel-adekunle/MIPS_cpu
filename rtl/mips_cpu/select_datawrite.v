@@ -19,26 +19,30 @@ always@(rt_content, data_readdata, opcode, data_address2LSB, stall) begin
 		data_writedata = rt_content; 
 	end
 	//SB
-	if (opcode==6'h28 & stall!=1) begin
-		case(data_address2LSB[1:0])
-		3: 
-		    data_writedata = {rt7_0, data_readdata[23:0]};
-		2: 
-		    data_writedata = {data_readdata[31:24], rt7_0, data_readdata[15:0]};
-		1: 
-		    data_writedata = {data_readdata[31:16], rt7_0, data_readdata[7:0]};
-		0: 
-		    data_writedata = {data_readdata[31:8], rt7_0};
-		endcase
-	end
+	if (opcode==6'h28) begin
+		if (stall!=1) begin
+			case(data_address2LSB[1:0])
+			3: 
+				data_writedata = {rt7_0, data_readdata[23:0]};
+			2: 
+				data_writedata = {data_readdata[31:24], rt7_0, data_readdata[15:0]};
+			1: 
+				data_writedata = {data_readdata[31:16], rt7_0, data_readdata[7:0]};
+			0: 
+				data_writedata = {data_readdata[31:8], rt7_0};
+			endcase
+		end
+	end 
 	//SH
-	if (opcode==6'h29 & stall!=1) begin
-		case(data_address2LSB[1:0])
-		2: 
-		    data_writedata = {rt15_0, data_readdata[15:0]};
-		0: 
-		    data_writedata = {data_readdata[31:16], rt15_0};
-		endcase
+	if (opcode==6'h29) begin
+		if (stall !=1) begin
+			case(data_address2LSB[1:0])
+			2: 
+				data_writedata = {rt15_0, data_readdata[15:0]};
+			0: 
+				data_writedata = {data_readdata[31:16], rt15_0};
+			endcase
+		end
 	end
 end
 endmodule

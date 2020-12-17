@@ -15,7 +15,7 @@ module control_unit (
     input logic stall //for sb sh
   );
 
-  always @(opcode, funct, rt)
+  always @(opcode, funct, rt, stall)
   begin
 
     // First, reset all signals
@@ -122,9 +122,11 @@ module control_unit (
     if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b))
     begin
 	if (stall==1) begin
-             MemRead = 1'b1;
+      MemRead = 1'b1;
 	end
-	MemWrite = 1'b1;
+  else begin
+    MemWrite = 1'b1;
+  end
     end
     // For memory read operation
     // LW, LB, LBU, LH, LHU, LWL, LWR
