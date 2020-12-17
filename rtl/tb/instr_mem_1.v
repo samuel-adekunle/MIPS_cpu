@@ -18,6 +18,7 @@ module instr_mem_1 (
 
   //we use byte addressing hence 2 LSB is ignored
   //combi read path
+
   always_comb
   begin
     instr = memory[(address-32'hBFC00000)>>2];

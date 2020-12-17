@@ -14,7 +14,7 @@ module data_mem_1(
 
   initial
   begin
-    $readmemh("data/Datamem_0.txt", Mem);
+    $readmemh("data/datamem_0.txt", Mem);
   end
 
   //we use byte addressing hence 2 LSB is ignored
