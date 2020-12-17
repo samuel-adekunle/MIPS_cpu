@@ -1,7 +1,10 @@
 desc max pos offset
+lw $2, 4($0) 
 addiu $3, $3, -32768
 addiu $3, $3, 11
-lw $v0, 32767($3) 
+sh $2, 32767($3) 
+lw $2, 8($0)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
