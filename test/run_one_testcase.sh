@@ -22,7 +22,7 @@ if ls ${DIRECTORY}/mips_cpu/*.v &> /dev/null; then
 else
    #this should compile stuff with mips_cpu_{variant}, currently compiles everything in the folder
    iverilog -g 2012 \
-   ${DIRECTORY}/*.v test/mips_cpu_${VARIANT}_tb.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
+   ${DIRECTORY}/mips_cpu_*.v test/mips_cpu_${VARIANT}_tb.v test/5-memory/*.v -s mips_cpu_${VARIANT}_tb \
    -Pmips_cpu_${VARIANT}_tb.DATA_MEM_INIT_FILE=\"test/1-binary/data_${TESTCASE}.hex.txt\" \
    -Pmips_cpu_${VARIANT}_tb.INSTR_MEM_INIT_FILE=\"test/1-binary/instr_${TESTCASE}.hex.txt\"\
    -Pmips_cpu_${VARIANT}_tb.ANSWER_FILE=\"test/4-reference/${TESTCASE}.txt\"\
