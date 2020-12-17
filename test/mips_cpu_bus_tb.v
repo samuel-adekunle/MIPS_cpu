@@ -14,6 +14,7 @@ module mips_cpu_bus_tb;
   logic active;
   logic [31:0] register_v0;
   logic clk_enable;
+
   /* Avalon memory mapped bus controller (master) */
   logic[31:0] address;
   logic write;
@@ -22,6 +23,7 @@ module mips_cpu_bus_tb;
   logic[31:0] writedata;
   logic[3:0] byteenable;
   logic[31:0] readdata;
+
   integer fd;
   integer x;
 

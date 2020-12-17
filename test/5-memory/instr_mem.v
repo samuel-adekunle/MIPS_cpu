@@ -4,7 +4,7 @@ module instr_mem(
     output logic [31:0] instr
   );
   parameter INSTR_INIT_FILE = "test_load.txt";
-  parameter BRANCH_JUMP_INIT_FILE = "test_loadk.txt";
+  parameter BRANCH_JUMP_INIT_FILE = "test_load.txt";
   parameter [31:0] rst = 32'hbfc00000;
   parameter [31:0] branch_max = 32'h0007fff<<2;
   parameter [31:0] branch_min = 32'hffff8000<<2;
