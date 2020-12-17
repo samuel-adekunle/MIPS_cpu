@@ -1,5 +1,6 @@
  module avalon_mem(  ///idk need to understand properly 
-    input logic[31:0] address,
+    input logic clk,
+	input logic[31:0] address,
     input logic write,
     input logic read,
     output logic waitrequest,
@@ -7,9 +8,9 @@
     input logic[3:0] byteenable,
     output logic[31:0] readdata
 ); 
-parameter INSTR_INIT_FILE = "test_load.txt";
+parameter INSTR_MEM_INIT_FILE = "test_load.txt";
 parameter BRANCH_JUMP_INIT_FILE = "test_load.txt";
-parameter DATA_INIT_FILE = "test_load.txt";
+parameter DATA_MEM_INIT_FILE = "test_load.txt";
 parameter [31:0] rst = 32'hbfc00000; 
 parameter [31:0] branch_max = 32'h0007fff<<2; 
 parameter [31:0] branch_min = 32'hffff8000<<2; 
@@ -86,30 +87,51 @@ always @(*) begin
 	if (write) begin 
 		if ((address>>2) <= no_offset)begin 
 			//jump back to 11-20 or data 0-10
-			temp_read = memory[address>>2];
+			temp_write = memory[address>>2];
 			//sb
-			temp_write[31:24] = byteenable[3] ? temp_read[31:24] : writedata[31:24];
-			temp_write[23:16] = byteenable[2] ? temp_read[23:16] : writedata[23:16];
-			temp_write[15:8] = byteenable[1] ? temp_read[15:8] : writedata[15:8];
-			temp_write[7:0] = byteenable[0] ? temp_read[7:0] : writedata[7:0];
+			temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
+			temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
+			temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
+			temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
 			memory[address>>2] = temp_write; 
 		end
 		else if (address>=(rst+(branch_min))&&address<(rst+branch_min+40))begin
 			x = ((address-(rst+branch_min))>>2)+branch_back_offset;
-			memory[x] = writedata;
+			temp_write = memory[x];
+			temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
+			temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
+			temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
+			temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
+			memory[x] = temp_write;
 		end
 		else if (address>=rst+branch_max && address <= rst+branch_max+40) begin 
 			x = ((address-rst-branch_max)>>2)+branch_forward_offset;
 			//branch forwards to addresses 32'hbfc1fffc + 10 addr
-			memory[x] = writedata; 
+			temp_write = memory[x];
+			temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
+			temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
+			temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
+			temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
+			memory[x] = temp_write;
 		end
 		else if (address>=max_jump_addr&& address<=max_jump_addr+40) begin 
 			//jump forwards to addresses 32'hc0000000 + 10 addr
 			x = ((address-max_jump_addr)>>2)+jump_forward_offset;
-			memory[x] = writedata; 
+			temp_write = memory[x];
+			temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
+			temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
+			temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
+			temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
+			memory[x] = temp_write;
 		end
 		else begin
-			memory[((address-rst)>>2)+reset_offset] = writedata;
+			x = ((address-rst)>>2)+reset_offset;
+			temp_write = memory[x];
+			temp_write[31:24] = byteenable[3] ? temp_write[31:24] : writedata[31:24];
+			temp_write[23:16] = byteenable[2] ? temp_write[23:16] : writedata[23:16];
+			temp_write[15:8] = byteenable[1] ? temp_write[15:8] : writedata[15:8];
+			temp_write[7:0] = byteenable[0] ? temp_write[7:0] : writedata[7:0];
+			memory[x] = temp_write;
 		end
 	end
 end 
