@@ -1,13 +1,12 @@
-desc jump to non contig (uses addu)
+desc jump to non contig branch delay
 lw $t1, 4($0) 
 sll $0, $0, 0 
 jr $t1 
-sll $0, $0, 0 
 addiu $2, $2, 2 
 addiu $2, $2, 2 
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10
-data 44
-data 0xffd
-#0xffd
+data 0xbfc20008
+data 0xbfc20008
+#22

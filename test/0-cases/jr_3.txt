@@ -1,7 +1,7 @@
-desc jump to minimum and branch delay
-lw $t1, 4($0) 
+desc jump to non contig (uses addu) and branch delay
+addiu $17, $17, 44
 sll $0, $0, 0 
-jr $t1 
+jr $17 
 addiu $2, $2, 2  
 addiu $2, $2, 2 
 addiu $2, $2, 2 
