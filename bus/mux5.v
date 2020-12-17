@@ -12,9 +12,8 @@ module mux5 (
         WriteReg = inst20_16;
       1:
         WriteReg = inst15_11;
-        //FIXME - default case for multiplexer
-      2: 
-	WriteReg = 31; 
+      2:
+        WriteReg = 31;
     endcase
   end
 endmodule

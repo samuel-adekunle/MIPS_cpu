@@ -13,9 +13,8 @@ module mux32_3 (
         Output = InputA;
       1:
         Output = InputB;
-      //FIXME - default case for multiplexer
-      2: 
-	Output = InputC; 
+      2:
+        Output = InputC;
     endcase
   end
 endmodule

@@ -7,12 +7,11 @@ module PC_1 (
   );
 
 
-
   always_ff @(posedge clk)
   begin
-    if (reset) 
+    if (reset)
     begin
-	PCout <= 32'hBFC00000;
+      PCout <= 32'hBFC00000;
     end
     if (clk_enable)
     begin

@@ -12,7 +12,6 @@ module mux32 (
         Output = InputA;
       1:
         Output = InputB;
-      //FIXME - default case for multiplexer
     endcase
   end
 endmodule

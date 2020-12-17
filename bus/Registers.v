@@ -18,6 +18,7 @@ module Registers (
 
   //32 32-bit registers. Initialise register values using regmem.txt
   //REVIEW logic [31:0] register [32];
+
   logic [31:0] register [0:31];
   //for loop
   integer i;
@@ -43,7 +44,8 @@ module Registers (
         register[i] <= 32'b0;
       end
     end
-    if (WriteReg !=0) begin
+    if (WriteReg !=0)
+    begin
       if (RegWrite == 2'b11 && !reset)
       begin
         register[WriteReg] <= WriteData;

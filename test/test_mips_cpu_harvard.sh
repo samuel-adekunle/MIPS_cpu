@@ -9,8 +9,7 @@ chmod u+x test/run_one_testcase.sh
 g++ ./test/assembler.cpp -o test/assembler
 g++ ./test/test_case_functions.cpp -o test/test_case_fns
 
-if [ $# -ge 2 ]
-then
+if [ $# -ge 2 ]; then
     TESTCASE="$2"
     #test for one
     ./test/run_instruction_testcase.sh ${DIRECTORY} ${TESTCASE} ${VARIANT}

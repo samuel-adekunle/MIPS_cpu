@@ -118,15 +118,17 @@ module control_unit (
     end
 
     // For memory write operation
-    // SB, SH and SW use memory to write (SB SH only write in second cycle) 
+    // SB, SH and SW use memory to write (SB SH only write in second cycle)
     if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b))
     begin
-	if (stall==1) begin
-      MemRead = 1'b1;
-	end
-  else begin
-    MemWrite = 1'b1;
-  end
+      if (stall==1)
+      begin
+        MemRead = 1'b1;
+      end
+      else
+      begin
+        MemWrite = 1'b1;
+      end
     end
     // For memory read operation
     // LW, LB, LBU, LH, LHU, LWL, LWR

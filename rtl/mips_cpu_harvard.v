@@ -1,4 +1,3 @@
-
 module mips_cpu_harvard(
     /* Standard signals */
     input logic         clk,
@@ -24,41 +23,46 @@ module mips_cpu_harvard(
   initial
   begin
     active = 0;
-    stall = 0; 
+    stall = 0;
   end
 
   logic[31:0] PCin;
-  logic stall; 
+  logic stall;
 
-  always_comb begin 
-     if ((opcode == 6'h28 | opcode == 6'h29)) begin
-	stall = 1; 
-     end 
-     else begin
-	stall = 0; 
-     end
+  always_comb
+  begin
+    if ((opcode == 6'h28 | opcode == 6'h29))
+    begin
+      stall = 1;
+    end
+    else
+    begin
+      stall = 0;
+    end
   end
 
- always@(posedge clk) begin
-    if (stall == 1) begin
-	stall <= 0;
-     end
- end
-	
+  always@(posedge clk)
+  begin
+    if (stall == 1)
+    begin
+      stall <= 0;
+    end
+  end
 
- logic [31:0] prev_instr; 
- assign prev_instr = PCin-4; 
 
-	
+  logic [31:0] prev_instr;
+  assign prev_instr = PCin-4;
+
+
   // Program counter connection
   PC_1 pc (.PCin(PCin), .clk(clk), .reset(reset),
-           .clk_enable(clk_enable), .stall(stall), .prev_instr(prev_instr), 
-	   .PCout(instr_address)
-  );
+           .clk_enable(clk_enable), .stall(stall), .prev_instr(prev_instr),
+           .PCout(instr_address)
+          );
 
   //add4 connection
   logic[31:0] PCplus4;
-  add4 adder(.PC(instr_address), .PCplus4(PCplus4)); 
+  add4 adder(.PC(instr_address), .PCplus4(PCplus4));
 
   always_ff@(posedge clk)
   begin
@@ -90,40 +94,41 @@ module mips_cpu_harvard(
   //Control Unit connection
   logic JR, Jump, MemRead, MemWrite, delay_early;
   logic [1:0] RegDst, RegWrite, HI_write, LO_write;
-  logic [2:0] MemtoReg; 
+  logic [2:0] MemtoReg;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
-		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
+                 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
                  .rt(rt_instr), .stall(stall)
                );
 
-  //delay slot implementation 
-  logic delay; 
-  always_ff@(posedge clk) begin
-	delay <= delay_early;
+  //delay slot implementation
+  logic delay;
+  always_ff@(posedge clk)
+  begin
+    delay <= delay_early;
   end
-  
-  
-  logic [31:0] delay_addr; 
-  delayslot delayreg (
-	.clk(clk), .Branch(Branch), .Jump(Jump), .JR(JR), .branch_address(branch_address), 
-	.jump_address(jump_address), .PCplus8(PCplus8), .rs_content(rs_content), 
-	.delay_addr(delay_addr)
-   );
 
-   mux32 pcaddr (
-	.InputA(PCplus4), .InputB(delay_addr), .CtlSig(delay), .Output(PCin)
-   ); 
+
+  logic [31:0] delay_addr;
+  delayslot delayreg (
+              .clk(clk), .Branch(Branch), .Jump(Jump), .JR(JR), .branch_address(branch_address),
+              .jump_address(jump_address), .PCplus8(PCplus8), .rs_content(rs_content),
+              .delay_addr(delay_addr)
+            );
+
+  mux32 pcaddr (
+          .InputA(PCplus4), .InputB(delay_addr), .CtlSig(delay), .Output(PCin)
+        );
 
 
   //Mux5 between instr_mem and reg file
   logic [4:0] WriteReg;
   mux5 mux_reg (
-         .inst20_16(instr_readdata[20:16]), .inst15_11(instr_readdata[15:11]), 
-	 .RegDst(RegDst),
+         .inst20_16(instr_readdata[20:16]), .inst15_11(instr_readdata[15:11]),
+         .RegDst(RegDst),
          .WriteReg(WriteReg)
        );
 
@@ -133,8 +138,8 @@ module mips_cpu_harvard(
   Registers regfile (
               .clk(clk), .RegWrite(RegWrite),
               .ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]),
-              .WriteReg(WriteReg), .WriteData(write_data), 
-	      .data_address2LSB(data_address[1:0]),
+              .WriteReg(WriteReg), .WriteData(write_data),
+              .data_address2LSB(data_address[1:0]),
               .ReadData1(rs_content), .ReadData2(rt_content),
               .register_v0(register_v0), .reset(reset)
             );
@@ -149,27 +154,28 @@ module mips_cpu_harvard(
         );
 
   //Connection of HI register to ALU
-  logic [31:0] HI_reg; 
+  logic [31:0] HI_reg;
   single_reg HIreg (
-	.clk(clk), .RegWrite(HI_write), .reset(reset), .WriteData(HI), .ReadData(HI_reg)
-	);
+               .clk(clk), .RegWrite(HI_write), .reset(reset), .WriteData(HI), .ReadData(HI_reg)
+             );
 
   //Connection of LO register to ALU
-  logic [31:0] LO_reg; 
+  logic [31:0] LO_reg;
   single_reg LOreg (
-	.clk(clk), .RegWrite(LO_write), .reset(reset), .WriteData(LO), .ReadData(LO_reg)
-	);
+               .clk(clk), .RegWrite(LO_write), .reset(reset), .WriteData(LO), .ReadData(LO_reg)
+             );
 
   //Connection of select_writedata as input to data mem
-  logic[31:0] data_readdelayed; 
-  always_ff@(posedge clk) begin
-	data_readdelayed <= selected_readdata;
+  logic[31:0] data_readdelayed;
+  always_ff@(posedge clk)
+  begin
+    data_readdelayed <= selected_readdata;
   end
   select_datawrite selectwrite (
-	.rt_content(rt_content), .data_readdata(data_readdelayed), .opcode(opcode), 
-	.data_address2LSB(data_address[1:0]), .data_writedata(data_writedata), 
-	.stall(stall)
-  );
+                     .rt_content(rt_content), .data_readdata(data_readdelayed), .opcode(opcode),
+                     .data_address2LSB(data_address[1:0]), .data_writedata(data_writedata),
+                     .stall(stall)
+                   );
 
   //Connection of Sign Extend
   logic [31:0] Extend32;
@@ -206,25 +212,25 @@ module mips_cpu_harvard(
   //            );
 
   //Connection of select_datamem for input to MemtoReg mux
-  logic [31:0] selected_readdata; 
+  logic [31:0] selected_readdata;
   select_datamem selectmod (
-	.fullread(data_readdata), .opcode(opcode), .data_address2LSB(data_address[1:0]),
-	.ReadData(selected_readdata)
-  );
+                   .fullread(data_readdata), .opcode(opcode), .data_address2LSB(data_address[1:0]),
+                   .ReadData(selected_readdata)
+                 );
 
   //Connection of Mux between data memory and reg write data
   logic [31:0] PCplus8;
-  assign PCplus8 = PCplus4 + 4; 
+  assign PCplus8 = PCplus4 + 4;
   mux32_5 mux_datamem (
-          .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
-	  .HI_reg(HI_reg), .LO_reg(LO_reg), 
-	  .CtlSig(MemtoReg),
-          .Output(write_data)
-        );
+            .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
+            .HI_reg(HI_reg), .LO_reg(LO_reg),
+            .CtlSig(MemtoReg),
+            .Output(write_data)
+          );
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n ReadData2:%h data_address:%h data_writedata:%h stall:%b selected_readdata:%h readdelayed:%h data_readdata:%h MemWrite:%b",instr_readdata, instr_address, rt_content, data_address, data_writedata, stall, selected_readdata, data_readdelayed, data_readdata, MemWrite);
+    $monitor("CPU: instruction: %h, PC: %h\n ReadData2:%h data_address:%h data_writedata:%h stall:%b selected_readdata:%h readdelayed:%h data_readdata:%h MemWrite:%b",instr_readdata, instr_address, rt_content, data_address, data_writedata, stall, selected_readdata, data_readdelayed, data_readdata, MemWrite);
   end
 
 endmodule

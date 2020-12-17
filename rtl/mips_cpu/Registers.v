@@ -43,7 +43,8 @@ module Registers (
         register[i] <= 32'b0;
       end
     end
-    if (WriteReg !=0) begin
+    if (WriteReg !=0)
+    begin
       if (RegWrite == 2'b11 && !reset)
       begin
         register[WriteReg] <= WriteData;

@@ -9,7 +9,7 @@ module control_unit (
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
     output logic delay_early,
-    output logic [1:0] IRwrite, //added this for bus 
+    output logic [1:0] IRwrite, //added this for bus
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt,
@@ -18,13 +18,15 @@ module control_unit (
 
   always @(opcode, funct, rt)
   begin
-    if (state == EXEC1_INSTR) begin
-	IRwrite = 2'b11; 
+    if (state == EXEC1_INSTR)
+    begin
+      IRwrite = 2'b11;
     end
-    else begin
-	IRwrite == 2'b00; 
+    else
+    begin
+      IRwrite == 2'b00;
     end
-	
+
     // First, reset all signals
     JR = 1'b0;
     Jump = 1'b0;
@@ -168,7 +170,7 @@ module control_unit (
         end
       end
     end
-    
-    end
+
   end
+end
 endmodule

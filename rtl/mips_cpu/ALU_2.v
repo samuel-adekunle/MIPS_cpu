@@ -23,12 +23,14 @@ module ALU_2 (
 
   always @ (functcode,opcode, rs_content, rt_content, shamt, immediate)
   begin
-    // signed value assigment for branch instructions 
+    // signed value assigment for branch instructions
     signed_rs = rs_content;
-    if (opcode == 6'h1||opcode ==  6'h7 || opcode == 6'h6) begin
+    if (opcode == 6'h1||opcode ==  6'h7 || opcode == 6'h6)
+    begin
       signed_rt = rt_instr;
     end
-    else begin 
+    else
+    begin
       signed_rt = rt_content;
     end
     sig_branch = 1'b0; //default
@@ -76,15 +78,15 @@ module ALU_2 (
           HI = rs_content%rt_content;
         end
 
-	6'h11: //MTHI
-	begin
-	  HI = rs_content + rt_content; 
-	end 
+        6'h11: //MTHI
+        begin
+          HI = rs_content + rt_content;
+        end
 
-	6'h13: //MTLO 
-	begin
-	 LO = rs_content + rt_content;
-	end
+        6'h13: //MTLO
+        begin
+          LO = rs_content + rt_content;
+        end
 
         6'h03 : //SRA
         begin
@@ -194,22 +196,22 @@ module ALU_2 (
         begin
           if (rt_instr == 6'h0 && signed_rs < 0) // BLTZ, branch if the register is less than zero
           begin
-              sig_branch = 1'b1;
+            sig_branch = 1'b1;
           end
 
           else if (rt_instr == 6'h10 && signed_rs < 0) // BLTZAL, branch if the register is less than zero and saves the return address in $31
           begin
-              sig_branch = 1'b1;
+            sig_branch = 1'b1;
           end
 
           else if (rt_instr == 6'h1 && signed_rs >=0) // BGEZ, branch if the register is greater than or equal to zero
           begin
-              sig_branch = 1'b1;
+            sig_branch = 1'b1;
           end
 
           else if (rt_instr == 6'h11 && signed_rs >= 0) // BGEZAL, branch if the register is greater than or equal to zero and saves the return address in $31
           begin
-              sig_branch = 1'b1;
+            sig_branch = 1'b1;
           end
           else
           begin
@@ -219,10 +221,10 @@ module ALU_2 (
 
         6'h7 : // BGTZ branch greater than zero
         begin
-          
+
           if (rt_instr == 6'h0 && signed_rs > 0)
           begin
-              sig_branch = 1'b1;
+            sig_branch = 1'b1;
           end
           else
           begin
@@ -234,7 +236,7 @@ module ALU_2 (
         begin
           if (rt_instr == 6'h0 && signed_rs <= 0)
           begin
-              sig_branch = 1'b1;
+            sig_branch = 1'b1;
           end
           else
           begin
@@ -287,10 +289,10 @@ module ALU_2 (
           ALU_result = signed_rs + signExtend;
         6'h21 : //LH
           ALU_result = signed_rs + signExtend;
-	6'h22 : //LWL
-	   ALU_result = signed_rs + signExtend;
-	6'h26 : //LWR
-	   ALU_result = signed_rs + signExtend;
+        6'h22 : //LWL
+          ALU_result = signed_rs + signExtend;
+        6'h26 : //LWR
+          ALU_result = signed_rs + signExtend;
       endcase
     end
   end

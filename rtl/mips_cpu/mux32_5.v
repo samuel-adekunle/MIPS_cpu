@@ -15,7 +15,6 @@ module mux32_5 (
         Output = InputA;
       1:
         Output = InputB;
-      //FIXME - default case for multiplexer
       2:
         Output = InputC;
       3:

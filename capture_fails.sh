@@ -2,7 +2,8 @@
 VARIANT="$1"
 time test/test_mips_cpu_${VARIANT}.sh rtl | tee failed_tests.txt
 TESTCASES=$(wc -l failed_tests.txt | awk '{ print $1 }')
-grep -v "Pass" failed_tests.txt > mtests.txt; mv mtests.txt failed_tests.txt
+grep -v "Pass" failed_tests.txt >mtests.txt
+mv mtests.txt failed_tests.txt
 FAILS=$(wc -l failed_tests.txt | awk '{ print $1 }')
 echo ""
 echo "Failed: ${FAILS} / ${TESTCASES} testcases"

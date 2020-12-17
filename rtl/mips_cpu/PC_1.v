@@ -11,19 +11,19 @@ module PC_1 (
 
   always_ff @(posedge clk)
   begin
-    if (reset) 
+    if (reset)
     begin
-	PCout <= 32'hBFC00000;
+      PCout <= 32'hBFC00000;
     end
-    if (stall) 
-    begin 
-	PCout <= prev_instr; 
+    if (stall)
+    begin
+      PCout <= prev_instr;
     end
     else if (clk_enable)
     begin
       PCout <= PCin;
     end
-    
+
   end
 
 

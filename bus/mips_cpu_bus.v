@@ -13,22 +13,22 @@ module mips_cpu_bus(
     output logic[31:0] writedata,
     output logic[3:0] byteenable,
     input logic[31:0] readdata
-);
+  );
 
-    /* using enum to define CPU states. */
-    typedef enum logic[2:0] {
-        IDLE = 0,
-        FETCH_INSTR = 1, //Read Instr from Mem
-	EXEC1_INSTR = 2, //either Read or Write Data from Mem
-	EXEC2_INSTR = 3, 
-        HALTED  = 4
-    } state_t;
+  /* using enum to define CPU states. */
+  typedef enum logic[2:0] {
+            IDLE = 0,
+            FETCH_INSTR = 1, //Read Instr from Mem
+            EXEC1_INSTR = 2, //either Read or Write Data from Mem
+            EXEC2_INSTR = 3,
+            HALTED  = 4
+          } state_t;
 
-  logic[2:0] state; 
+  logic[2:0] state;
 
   initial
   begin
-    state = IDLE; 
+    state = IDLE;
     active = 0;
   end
 
@@ -39,9 +39,9 @@ module mips_cpu_bus(
 
   //add4 connection
   logic[31:0] PCplus4;
-  add4 adder(.PC(instr_address), .PCplus4(PCplus4)); 
+  add4 adder(.PC(instr_address), .PCplus4(PCplus4));
 
- 
+
 
   //FSM implementation
   always_ff@(posedge clk)
@@ -49,27 +49,27 @@ module mips_cpu_bus(
     if (reset)
     begin
       active <= 1'b1;
-      state <= FETCH_INSTR; 
+      state <= FETCH_INSTR;
     end
-    if (address==0) //instr_address == 0 
+    if (address==0) //instr_address == 0
     begin
       active <= 1'b0;
-      state <= HALTED; 
-    end
-    
-    else if (state==FETCH_INSTR) 
-    begin
-	state <= EXEC1_INSTR;
+      state <= HALTED;
     end
 
-    else if (state==EXEC1_INSTR) 
+    else if (state==FETCH_INSTR)
     begin
-	state <= EXEC2_INSTR;
+      state <= EXEC1_INSTR;
     end
 
-    else if (state==EXEC2_INSTR) 
+    else if (state==EXEC1_INSTR)
     begin
-	state <= FETCH_INSTR;
+      state <= EXEC2_INSTR;
+    end
+
+    else if (state==EXEC2_INSTR)
+    begin
+      state <= FETCH_INSTR;
     end
 
     else if (state==HALTED)
@@ -78,17 +78,20 @@ module mips_cpu_bus(
     end
   end
 
- //IR mux select signal from FSM 
-  logic IRsel; 
-  always_comb begin
-  	if (state == EXEC1_INSTR) begin
-		IRsel = 1; 
-	end
-	else begin
-		IRsel = 0; 
-	end
-  end 
-  
+  //IR mux select signal from FSM
+  logic IRsel;
+  always_comb
+  begin
+    if (state == EXEC1_INSTR)
+    begin
+      IRsel = 1;
+    end
+    else
+    begin
+      IRsel = 0;
+    end
+  end
+
 
   // Parse instruction
   logic [5:0] functcode;
@@ -105,56 +108,57 @@ module mips_cpu_bus(
   //instr_readdata
 
   //Connection of Instruction Register
-  logic [31:0] IRinstr; 
+  logic [31:0] IRinstr;
   single_reg IR (
-	.clk(clk), .RegWrite(IRwrite), .reset(reset), .WriteData(readdata),
-	.ReadData(IRinstr)
-  ); 
+               .clk(clk), .RegWrite(IRwrite), .reset(reset), .WriteData(readdata),
+               .ReadData(IRinstr)
+             );
 
-  //Connection of Mux 
+  //Connection of Mux
   mux32 IRmux (
-	.InputA(IRinstr), .InputB(readdata), .CtlSig(IRsel), .Output(instr_readdata)
-  ); 
+          .InputA(IRinstr), .InputB(readdata), .CtlSig(IRsel), .Output(instr_readdata)
+        );
 
   //Control Unit connection
   logic JR, Jump, MemRead, MemWrite, delay_early;
   logic [1:0] RegDst, RegWrite, HI_write, LO_write, IRwrite;
-  logic [2:0] MemtoReg; 
+  logic [2:0] MemtoReg;
   control_unit maincontrol (
                  .JR(JR), .Jump(Jump), .RegWrite(RegWrite), .MemRead(data_read),
                  .MemWrite(data_write), .RegDst(RegDst), .MemtoReg(MemtoReg),
-		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
-		 .IRwrite(IRwrite), //added for bus
+                 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
+                 .IRwrite(IRwrite), //added for bus
                  .opcode(opcode),
                  .funct(functcode),
                  .rt(rt_instr),
-		 .state(state) 
+                 .state(state)
                );
 
-  //delay slot implementation 
-  logic delay; 
-  always_ff@(posedge clk) begin
-	delay <= delay_early;
+  //delay slot implementation
+  logic delay;
+  always_ff@(posedge clk)
+  begin
+    delay <= delay_early;
   end
-  
-  
-  logic [31:0] delay_addr; 
-  delayslot delayreg (
-	.clk(clk), .Branch(Branch), .Jump(Jump), .JR(JR), .branch_address(branch_address), 
-	.jump_address(jump_address), .PCplus8(PCplus8), .rs_content(rs_content), 
-	.delay_addr(delay_addr)
-   );
 
-   mux32 pcaddr (
-	.InputA(PCplus4), .InputB(delay_addr), .CtlSig(delay), .Output(PCin)
-   ); 
+
+  logic [31:0] delay_addr;
+  delayslot delayreg (
+              .clk(clk), .Branch(Branch), .Jump(Jump), .JR(JR), .branch_address(branch_address),
+              .jump_address(jump_address), .PCplus8(PCplus8), .rs_content(rs_content),
+              .delay_addr(delay_addr)
+            );
+
+  mux32 pcaddr (
+          .InputA(PCplus4), .InputB(delay_addr), .CtlSig(delay), .Output(PCin)
+        );
 
 
   //Mux5 between instr_mem and reg file
   logic [4:0] WriteReg;
   mux5 mux_reg (
-         .inst20_16(instr_readdata[20:16]), .inst15_11(instr_readdata[15:11]), 
-	 .RegDst(RegDst),
+         .inst20_16(instr_readdata[20:16]), .inst15_11(instr_readdata[15:11]),
+         .RegDst(RegDst),
          .WriteReg(WriteReg)
        );
 
@@ -164,8 +168,8 @@ module mips_cpu_bus(
   Registers regfile (
               .clk(clk), .RegWrite(RegWrite),
               .ReadReg1(instr_readdata[25:21]), .ReadReg2(instr_readdata[20:16]),
-              .WriteReg(WriteReg), .WriteData(write_data), 
-	      .data_address2LSB(data_address[1:0]),
+              .WriteReg(WriteReg), .WriteData(write_data),
+              .data_address2LSB(data_address[1:0]),
               .ReadData1(rs_content), .ReadData2(rt_content),
               .register_v0(register_v0), .reset(reset)
             );
@@ -180,21 +184,21 @@ module mips_cpu_bus(
         );
 
   //Connection of HI register to ALU
-  logic [31:0] HI_reg; 
+  logic [31:0] HI_reg;
   single_reg HIreg (
-	.clk(clk), .RegWrite(HI_write), .reset(reset), .WriteData(HI), .ReadData(HI_reg)
-	);
+               .clk(clk), .RegWrite(HI_write), .reset(reset), .WriteData(HI), .ReadData(HI_reg)
+             );
 
   //Connection of LO register to ALU
-  logic [31:0] LO_reg; 
+  logic [31:0] LO_reg;
   single_reg LOreg (
-	.clk(clk), .RegWrite(LO_write), .reset(reset), .WriteData(LO), .ReadData(LO_reg)
-	);
+               .clk(clk), .RegWrite(LO_write), .reset(reset), .WriteData(LO), .ReadData(LO_reg)
+             );
 
   //Connection of select_writedata as input to data mem
   select_datawrite selectwrite (
-	.rt_content(rt_content), .opcode(opcode), .data_writedata(data_writedata)
-  );
+                     .rt_content(rt_content), .opcode(opcode), .data_writedata(data_writedata)
+                   );
 
   //Connection of Sign Extend
   logic [31:0] Extend32;
@@ -223,10 +227,10 @@ module mips_cpu_bus(
         );*/
 
   //Connection of Branch register to store branch address
-  /*logic [31:0] branch_reg; 
+  /*logic [31:0] branch_reg;
   single_reg Branchreg (
-	.clk(clk), .RegWrite(Branch), .reset(reset), .WriteData(add_alu_res), .ReadData(branch_reg)
-	);*/
+  .clk(clk), .RegWrite(Branch), .reset(reset), .WriteData(add_alu_res), .ReadData(branch_reg)
+  );*/
 
   //Connection of jump_addr
   logic[31:0] jump_address;
@@ -256,25 +260,25 @@ module mips_cpu_bus(
   //            );
 
   //Connection of select_datamem for input to MemtoReg mux
-  logic [31:0] selected_readdata; 
+  logic [31:0] selected_readdata;
   select_datamem selectmod (
-	.fullread(data_readdata), .opcode(opcode), .data_address2LSB(data_address[1:0]),
-	.ReadData(selected_readdata)
-  );
+                   .fullread(data_readdata), .opcode(opcode), .data_address2LSB(data_address[1:0]),
+                   .ReadData(selected_readdata)
+                 );
 
   //Connection of Mux between data memory and reg write data
   logic [31:0] PCplus8;
-  assign PCplus8 = PCplus4 + 4; 
+  assign PCplus8 = PCplus4 + 4;
   mux32_5 mux_datamem (
-          .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
-	  .HI_reg(HI_reg), .LO_reg(LO_reg), 
-	  .CtlSig(MemtoReg),
-          .Output(write_data)
-        );
+            .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
+            .HI_reg(HI_reg), .LO_reg(LO_reg),
+            .CtlSig(MemtoReg),
+            .Output(write_data)
+          );
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n write_data:%h ReadData1:%h ReadData2:%h RegWrite:%b data_address:%h",instr_readdata, instr_address, write_data, rs_content, rt_content, RegWrite, data_address);
+    $monitor("CPU: instruction: %h, PC: %h\n write_data:%h ReadData1:%h ReadData2:%h RegWrite:%b data_address:%h",instr_readdata, instr_address, write_data, rs_content, rt_content, RegWrite, data_address);
   end
 
 endmodule
