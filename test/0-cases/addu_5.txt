@@ -1,0 +1,7 @@
+desc add to 0 reg
+addiu $0, $0, 10
+addu $2, $2, $0
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#0
