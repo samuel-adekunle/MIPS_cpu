@@ -1,7 +1,10 @@
 desc max neg offset
+lw $2, 4($0) 
 addiu $3, $3, 32767
 addiu $3, $3, 11
-lw $v0, -32768($3) 
+sh $2, -32768($3) 
+lw $2, 8($0)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

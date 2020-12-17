@@ -24,12 +24,37 @@ module mips_cpu_harvard(
   initial
   begin
     active = 0;
+    stall = 0; 
   end
 
   logic[31:0] PCin;
+  logic stall; 
+
+  always_comb begin 
+     if ((opcode == 6'h28 | opcode == 6'h29)) begin
+	stall = 1; 
+     end 
+     else begin
+	stall = 0; 
+     end
+  end
+
+ always@(posedge clk) begin
+    if (stall == 1) begin
+	stall <= 0;
+     end
+ end
+	
+
+ logic [31:0] prev_instr; 
+ assign prev_instr = PCin-4; 
+
+	
   // Program counter connection
   PC_1 pc (.PCin(PCin), .clk(clk), .reset(reset),
-           .clk_enable(clk_enable),.PCout(instr_address));
+           .clk_enable(clk_enable), .stall(stall), .prev_instr(prev_instr), 
+	   .PCout(instr_address)
+  );
 
   //add4 connection
   logic[31:0] PCplus4;
@@ -72,7 +97,7 @@ module mips_cpu_harvard(
 		 .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_instr)
+                 .rt(rt_instr), .stall(stall)
                );
 
   //delay slot implementation 
@@ -136,9 +161,14 @@ module mips_cpu_harvard(
 	);
 
   //Connection of select_writedata as input to data mem
+  logic[31:0] data_readdelayed; 
+  always_ff@(posedge clk) begin
+	data_readdelayed <= selected_readdata;
+  end
   select_datawrite selectwrite (
-	.rt_content(rt_content), .data_readdata(data_readdata), .opcode(opcode), 
-	.data_address2LSB(data_address[1:0]), .data_writedata(data_writedata)
+	.rt_content(rt_content), .data_readdata(data_readdelayed), .opcode(opcode), 
+	.data_address2LSB(data_address[1:0]), .data_writedata(data_writedata), 
+	.stall(stall)
   );
 
   //Connection of Sign Extend
@@ -194,7 +224,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-	$monitor("CPU: instruction: %h, PC: %h\n write_data:%h ReadData2:%h data_address:%h data_writedata:%h MemRead:%b MemWrite:%b",instr_readdata, instr_address, write_data, rt_content, data_address, data_writedata, MemRead, MemWrite);
+	$monitor("CPU: instruction: %h, PC: %h\n ReadData2:%h data_address:%h data_writedata:%h stall:%b selected_readdata:%h readdelayed:%h data_readdata:%h MemWrite:%b",instr_readdata, instr_address, rt_content, data_address, data_writedata, stall, selected_readdata, data_readdelayed, data_readdata, MemWrite);
   end
 
 endmodule

@@ -1,7 +1,9 @@
 desc store onto value upper
 lw $17, 4($0)
+sll $0, $0, 0
 sh $17, 10($0)
 lw $2, 8($0)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

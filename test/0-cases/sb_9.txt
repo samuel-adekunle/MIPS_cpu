@@ -1,0 +1,17 @@
+desc store full
+addiu $17, $17, 77
+sb $17, 4($0) 
+addiu $17, $17, 1
+sb $17, 5($0)
+addiu $17, $17, 1
+sb $17, 6($0)
+addiu $17, $17, 1
+sb $17, 7($0)
+addiu $17, $17, 1   
+lw $2, 4($0)
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+data 0x12
+data 0xbcf0ffff
+#0x504f4e4d

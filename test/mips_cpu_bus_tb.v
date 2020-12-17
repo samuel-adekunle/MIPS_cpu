@@ -29,7 +29,7 @@ module mips_cpu_bus_tb;
                                                 .clk(clk), 
                                                 .write(write),
                                                 .read(read),
-                                                .waitrequest(waitrequest)
+                                                .waitrequest(waitrequest),
                                                 .writedata(writedata),
                                                 .byteenable(byteenable),
                                                 .readdata(readdata));
@@ -41,7 +41,7 @@ module mips_cpu_bus_tb;
                             .address(address), 
                             .write(write),
                             .read(read),
-                            .waitrequest(waitrequest)
+                            .waitrequest(waitrequest),
                             .writedata(writedata),
                             .byteenable(byteenable),
                             .readdata(readdata));

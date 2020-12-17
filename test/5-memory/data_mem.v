@@ -31,7 +31,7 @@ end
 //we use byte addressing hence 2 LSB is ignored 
 //single-cycle write 
 always_ff @ (posedge clk) begin 
-	if (MemWrite) begin 
+	if (MemWrite&!MemRead) begin 
 		Mem[address>>2] <= WriteData; 
 	end 
 end 
@@ -40,7 +40,7 @@ end
 //assign ReadData = MemWrite ? WriteData : Mem[address>>2];
 //combinatorial read path 
 always_comb begin 
-	if (MemRead) begin 
+	if (MemRead&!MemWrite) begin 
 		ReadData = Mem[address>>2]; 
 	end
 end  

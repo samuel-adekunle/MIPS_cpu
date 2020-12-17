@@ -1,0 +1,7 @@
+desc with 0
+addiu $20, $20, 0
+andi $2, $20, 79 
+jr $0 
+sll $0, $0, 0
+addiu $2, $2, 10
+#0x0 

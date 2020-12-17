@@ -1,7 +1,9 @@
 desc large "positive"
 lw $16, 4($zero)
+lw $17, 8($zero)
 sll $0, $0, 0
-srl $2, $16, 16
+srlv $2, $16, $17
 jr $0
 data 0x058a10c7
+data 16
 #0x0000058a

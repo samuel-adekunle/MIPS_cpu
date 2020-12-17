@@ -1,7 +1,9 @@
 desc negative large
 lw $22, 4($zero)
+lw $21, 8($zero)
 sll $0, $0, 0
-sra $2, $22, 14
+srav $2, $22, $21
 jr $0
 data 0xafafad15
+data 0xe
 #0xfffebebe

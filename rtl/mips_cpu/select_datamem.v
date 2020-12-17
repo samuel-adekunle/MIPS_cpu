@@ -30,15 +30,15 @@ always@(fullread,opcode, data_address2LSB) begin
 	end
 	//LH
 	else if (opcode==6'h21) begin
-		case(data_address2LSB[1])
-		1: ReadData = {{16{fullread[31]}}, fullread[31:16]};
+		case(data_address2LSB[1:0])
+		2: ReadData = {{16{fullread[31]}}, fullread[31:16]};
 		0: ReadData = {{16{fullread[15]}}, fullread[15:0]};
 		endcase
 	end
 	//LHU
 	else if (opcode==6'h25) begin
-		case(data_address2LSB[1])
-		1: ReadData = {{16{1'b0}}, fullread[31:16]};
+		case(data_address2LSB[1:0])
+		2: ReadData = {{16{1'b0}}, fullread[31:16]};
 		0: ReadData = {{16{1'b0}}, fullread[15:0]};
 		endcase
 	end

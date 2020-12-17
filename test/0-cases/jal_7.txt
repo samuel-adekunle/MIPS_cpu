@@ -1,0 +1,16 @@
+desc jump "back"
+jal 66060296 //jump to next jump
+addiu $2, $2, 1   //4
+addiu $2, $2, 2   //8
+addiu $2, $2, 2  //final
+addu $2, $2, $31
+jr $0
+sll $0, $0, 0
+sll $0, $0, 0
+jal 66060291 //jump to addu
+addiu $2, $2, 4
+addiu $2, $2, 2
+jr $0
+sll $0, $0, 0
+addiu $2, $2, 10
+#0xbfc0002f

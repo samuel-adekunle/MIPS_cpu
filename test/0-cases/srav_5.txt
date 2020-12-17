@@ -1,9 +1,9 @@
-desc positive large
+desc sign extend over 32
 lw $21, 4($zero)
 lw $24, 8($zero)
 sll $0, $0, 0
 srav $2, $21, $24
 jr $0
-data 0x2e53eae2
-data 6
-#0x00b94fab
+data 0xfe53eae2
+data 32
+#0xffffffff
