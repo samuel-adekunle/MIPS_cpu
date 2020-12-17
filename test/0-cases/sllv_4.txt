@@ -1,7 +1,7 @@
-desc random immediate
-lw $16, 4($zero)
+desc random i
+lw $29, 4($zero)
 sll $0, $0, 0
-sll $2, $16, 31
+sll $2, $29, 22
 jr $0
-data 0x5d63ca7c
-#0x00000000
+data 0x99253673
+#0x9cc00000

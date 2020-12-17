@@ -1,0 +1,9 @@
+desc "negative" sub
+lw $5, 4($zero)
+lw $11, 8($zero)
+sll $0, $0, 0
+subu $2, $5, $11
+jr $0
+data 0xf1ce5a2e
+data 0x892297ae
+#0x68abc280

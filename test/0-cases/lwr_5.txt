@@ -1,5 +1,6 @@
 desc load into empty reg half word
 lwr $2, 6($0)
+sll $0, $0, 0
 jr $0
 sll $0, $0, 0
 addiu $2, $2, 10

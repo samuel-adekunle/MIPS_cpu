@@ -1,4 +1,4 @@
-desc random immediate
+desc random large
 lw $16, 4($zero)
 sll $0, $0, 0
 ori $2, $16, 3094

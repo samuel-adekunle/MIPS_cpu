@@ -1,4 +1,4 @@
-desc 32 bit or
+desc 32 bit or neg
 addiu $16, $16, -1
 addiu $17, $17, 2 
 sll $0, $0, 0

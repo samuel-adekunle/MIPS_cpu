@@ -5,7 +5,7 @@ jalr $4, $17
 addiu $2, $2, 3
 addiu $2, $2, 3
 addiu $2, $2, 3
-jalr $5, $16 //18 //its reading reg 5 not reg 16
+jalr $5, $16 
 addiu $2, $2, 3
 addiu $2, $2, 3 
 addiu $2, $2, 3 

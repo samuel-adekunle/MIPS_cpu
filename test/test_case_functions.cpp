@@ -387,9 +387,9 @@ void create_or(string afile){
 void create_subu(string afile){
     ofstream infile; 
     //srand (time(NULL));
-    int num1 = random_32();
-    int num2 = random_32();
-    int ans = 0-num1-num2;
+    unsigned int num1 = random_32();
+    unsigned int num2 = random_32();
+    unsigned int ans = 0-num1-num2;
     int reg1 = rand_reg();
     int reg2 = reg1;
     while (reg2==reg1){
@@ -478,7 +478,10 @@ void create_sllv(string afile){
     //srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
-    int ans = num1<<num2;
+    int ans = num1<<num2; //undefined behaviours in c++
+    if (num2>32){
+        ans = 0;
+    }
     int reg1 = rand_reg();
     int reg2 = reg1;
     while (reg2==reg1){
@@ -521,7 +524,9 @@ void create_srlv(string afile){
     ofstream infile; 
     ////srand (time(NULL));
     unsigned int num1 = random_32();
-    unsigned int num2 = random_32();
+    unsigned int min = 0;
+    unsigned int max = 31;
+    unsigned int num2 = rand()%(max-min + 1) + min;
     unsigned int ans = num1>>num2;
     int reg1 = rand_reg();
     int reg2 = reg1;
@@ -565,7 +570,9 @@ void create_srav(string afile){
     ofstream infile; 
     ////srand (time(NULL));
     int num1 = random_32();
-    int num2 = random_32();
+    int min = 0;
+    int max = 31;
+    int num2 = rand()%(max-min + 1) + min;
     int ans = num1>>num2;
     int reg1 = rand_reg();
     int reg2 = reg1;
@@ -741,7 +748,7 @@ int main(int argc, char *argv[]){
     else if (size_t pos = test_case.find("multu")!= string::npos){
         create_multu(test_case);
     }
-    else if (size_t pos = test_case.find("sra")!= string::npos){
+    else if (size_t pos = test_case.find("sra_")!= string::npos){
         create_sra(test_case);
     }
     else if (size_t pos = test_case.find("srav")!= string::npos){
@@ -753,7 +760,7 @@ int main(int argc, char *argv[]){
     else if (size_t pos = test_case.find("srlv")!= string::npos){
         create_srlv(test_case);
     }
-    else if (size_t pos = test_case.find("sll")!= string::npos){
+    else if (size_t pos = test_case.find("sll_")!= string::npos){
         create_sll(test_case);
     }
     else if (size_t pos = test_case.find("sllv")!= string::npos){
