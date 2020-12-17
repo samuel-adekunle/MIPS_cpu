@@ -11,6 +11,7 @@
 parameter INSTR_MEM_INIT_FILE = "test_load.txt";
 parameter BRANCH_JUMP_INIT_FILE = "test_load.txt";
 parameter DATA_MEM_INIT_FILE = "test_load.txt";
+parameter incomplete = 0;
 parameter [31:0] rst = 32'hbfc00000; 
 parameter [31:0] branch_max = 32'h0007fff<<2; 
 parameter [31:0] branch_min = 32'hffff8000<<2; 
@@ -54,7 +55,6 @@ integer x;
 //we use byte addressing hence 2 LSB is ignored 
 //combi read path
 always @(*) begin 
-	waitrequest = 0;
 	if (read) begin 
 		if ((address>>2) <= no_offset)begin 
 			//jump back to 11-20 or data 0-10
@@ -82,8 +82,9 @@ always @(*) begin
 		readdata[15:8] = byteenable[1] ? temp_read[15:8] : 8'b0;
 		readdata[7:0] = byteenable[0] ? temp_read[7:0] : 8'b0;
 		
-
 	end
+end 
+always @(posedge clk) begin 
 	if (write) begin 
 		if ((address>>2) <= no_offset)begin 
 			//jump back to 11-20 or data 0-10
@@ -133,6 +134,7 @@ always @(*) begin
 			temp_write[7:0] = byteenable[0] ? temp_write[7:0] : writedata[7:0];
 			memory[x] = temp_write;
 		end
+		waitrequest = (read|write)&& (incomplete!=0);
 	end
 end 
 
