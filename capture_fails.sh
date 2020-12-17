@@ -10,3 +10,4 @@ echo "Failed: ${FAILS} / ${TESTCASES} testcases"
 echo ""
 echo "Please Check: "
 cat failed_tests.txt
+
