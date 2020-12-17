@@ -12,6 +12,7 @@ module avalon_mem(  ///idk need to understand properly
   parameter INSTR_MEM_INIT_FILE = "test_load.txt";
   parameter BRANCH_JUMP_INIT_FILE = "test_load.txt";
   parameter DATA_MEM_INIT_FILE = "test_load.txt";
+
   parameter incomplete = 0;
   parameter [31:0] rst = 32'hbfc00000;
   parameter [31:0] branch_max = 32'h0007fff<<2;
@@ -22,15 +23,13 @@ module avalon_mem(  ///idk need to understand properly
   parameter branch_back_offset = 21; //21-30 branch backwards maximum
   parameter branch_forward_offset = 31; //31-40 branch forwards maximum
   parameter jump_forward_offset = 41; //41-50 jump maximum
+
   //let 40 be the reset vector. around it can be other locations
   //instr mem has capacity for 4096 32-bit entries.
   //initialise the content at each address using a text file containing the instructions.
   logic [31:0] temp_read = 0;
   logic [31:0] temp_write = 0;
   logic [31:0] memory [0:1023];
-  // initial begin
-  // 	$readmemh(INSTR_INIT_FILE, memory);
-  // end
   initial
   begin
     integer i;
@@ -40,15 +39,15 @@ module avalon_mem(  ///idk need to understand properly
       memory[i]=0;
     end
     /* Load contents from file if specified */
-    if (DATA_INIT_FILE != "")
+    if (DATA_MEM_INIT_FILE != "")
     begin
-      $display("AVALON : INIT : Loading DATA contents from %s", DATA_INIT_FILE);
-      $readmemh(DATA_INIT_FILE, memory,1, 10);
+      $display("AVALON : INIT : Loading DATA contents from %s", DATA_MEM_INIT_FILE);
+      $readmemh(DATA_MEM_INIT_FILE, memory,1, 10);
     end
-    if (INSTR_INIT_FILE != "")
+    if (INSTR_MEM_INIT_FILE != "")
     begin
-      $display("AVALON : INIT : Loading INSTR contents from %s", INSTR_INIT_FILE);
-      $readmemh(INSTR_INIT_FILE, memory,reset_offset);
+      $display("AVALON : INIT : Loading INSTR contents from %s", INSTR_MEM_INIT_FILE);
+      $readmemh(INSTR_MEM_INIT_FILE, memory,reset_offset);
     end
     if (BRANCH_JUMP_INIT_FILE != "")
     begin

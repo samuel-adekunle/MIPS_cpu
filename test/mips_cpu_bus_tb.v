@@ -24,17 +24,19 @@ module mips_cpu_bus_tb;
   logic[3:0] byteenable;
   logic[31:0] readdata;
 
+  logic[31:0] final_value;
   integer fd;
   integer x;
 
-  avalon_mem #(DATA_MEM_INIT_FILE, INSTR_MEM_INIT_FILE, BRANCH_JUMP_INIT_FILE) avalonInst(.address(address),
-             .clk(clk),
-             .write(write),
-             .read(read),
-             .waitrequest(waitrequest),
-             .writedata(writedata),
-             .byteenable(byteenable),
-             .readdata(readdata));
+  avalon_mem #(DATA_MEM_INIT_FILE, INSTR_MEM_INIT_FILE, BRANCH_JUMP_INIT_FILE) avalonInst(
+               .address(address),
+               .clk(clk),
+               .write(write),
+               .read(read),
+               .waitrequest(waitrequest),
+               .writedata(writedata),
+               .byteenable(byteenable),
+               .readdata(readdata));
 
   mips_cpu_bus cpuInst(.clk(clk),
                        .reset(reset),
@@ -99,11 +101,11 @@ module mips_cpu_bus_tb;
       @(posedge clk);
     end
     @(negedge clk)
-     if (instr_readdata==0) //allow 0 to execute
+     if (readdata==0) //allow 0 to execute
        $display("TB : read at memory location 0");
     begin
       @(posedge clk);
-      if (instr_readdata != 0) //it has read the next address, guaranteed to not be 0
+      if (readdata != 0) //it has read the next address, guaranteed to not be 0
       begin
         $fatal(2,"TB : Simulation did not stop after executing 0");
       end
