@@ -721,17 +721,17 @@ int main(int argc, char *argv[]){
     else if (size_t pos = test_case.find("subu")!= string::npos){
         create_subu(test_case);
     }
-    else if (size_t pos = test_case.find("or_")!= string::npos){
-        create_or(test_case);
-    }
-    else if (size_t pos = test_case.find("ori")!= string::npos){
-        create_ori(test_case);
-    }
     else if (size_t pos = test_case.find("xori")!= string::npos){
         create_xori(test_case);
     }
     else if (size_t pos = test_case.find("xor_")!= string::npos){
         create_xor(test_case);
+    }
+    else if (size_t pos = test_case.find("or_")!= string::npos){
+        create_or(test_case);
+    }
+    else if (size_t pos = test_case.find("ori")!= string::npos){
+        create_ori(test_case);
     }
     else if (size_t pos = test_case.find("div_")!= string::npos){
         create_div(test_case);
@@ -754,7 +754,7 @@ int main(int argc, char *argv[]){
     else if (size_t pos = test_case.find("srav")!= string::npos){
         create_srav(test_case);
     }
-    else if (size_t pos = test_case.find("srl")!= string::npos){
+    else if (size_t pos = test_case.find("srl_")!= string::npos){
         create_srl(test_case);
     }
     else if (size_t pos = test_case.find("srlv")!= string::npos){

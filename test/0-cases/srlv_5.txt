@@ -1,0 +1,9 @@
+desc zero extend over 32
+lw $21, 4($zero)
+lw $24, 8($zero)
+sll $0, $0, 0
+srlv $2, $21, $24
+jr $0
+data 0xfe53eae2
+data 32
+#0x00000000
