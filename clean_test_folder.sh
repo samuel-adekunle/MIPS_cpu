@@ -5,5 +5,11 @@ rm -rf test/3-output/*stdout
 rm -rf test/0-cases/*r3.txt
 rm -rf test/0-cases/*r2.txt
 rm -rf test/0-cases/*r1.txt
+rm -rf test/0-cases/*r3a.txt
+rm -rf test/0-cases/*r2a.txt
+rm -rf test/0-cases/*r1a.txt
+rm -rf test/0-cases/*r3b.txt
+rm -rf test/0-cases/*r2b.txt
+rm -rf test/0-cases/*r1b.txt
 rm -rf test/assembler
 rm -rf test/test_case_fns

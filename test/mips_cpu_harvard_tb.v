@@ -97,7 +97,7 @@ module mips_cpu_harvard_tb;
     while (active)
     begin
       @(posedge clk);
-      $display("TB : new edge: data address:%h instruction address:%h memread:%b memwrite:%b, V0: %b", data_address, instr_address ,data_read, data_write, register_v0);
+      //$display("TB : new edge: data address:%h instruction address:%h memread:%b memwrite:%b, V0: %b", data_address, instr_address ,data_read, data_write, register_v0);
     end
     @(negedge clk)
      if (instr_readdata==0) //allow 0 to execute
