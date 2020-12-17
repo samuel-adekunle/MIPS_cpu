@@ -7,6 +7,7 @@ if [[ ! -f test/0-cases/${2}_1.txt ]]; then
     echo 'No testcase found'
     exit
 fi
+
 VARIANT="$3"
 #create random test case where possible
 RANDOMTEST1=${2}
