@@ -57,7 +57,6 @@ module bus_controller(
     av_writedata = 0;
     av_byteenable = 4'b1111;
     clk_enable = 1;
-    av_waitrequest = 0;
   end
 
   //case statement to set byteenable
