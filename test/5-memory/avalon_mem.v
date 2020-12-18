@@ -103,11 +103,8 @@ module avalon_mem(  ///idk need to understand properly
       end
 
     end
-  end
-  always @(posedge clk)
-  begin
-    //$display("address: %h, byteen %b temp read %h",address, byteenable, temp_read);
-    if (write)
+
+    else if (write)
     begin
       if ((address>>2) <= no_offset)
       begin
