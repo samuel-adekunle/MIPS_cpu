@@ -30,6 +30,7 @@ module mips_cpu_bus_tb;
 
   avalon_mem #(DATA_MEM_INIT_FILE, INSTR_MEM_INIT_FILE, BRANCH_JUMP_INIT_FILE) avalonInst(
                .address(address),
+               .rst(reset),
                .clk(clk),
                .write(write),
                .read(read),
@@ -99,7 +100,7 @@ module mips_cpu_bus_tb;
     while (active)
     begin
       @(posedge clk);
-      //$display("TB : new edge: address:%h writedata:%h readdata:%h, V0: %h", address, writedata, readdata, register_v0);
+      $display("TB : new edge: address:%h writedata:%h readdata:%h, V0: %h", address, writedata, readdata, register_v0);
     end
     @(negedge clk)
      if (readdata==0) //allow 0 to execute
