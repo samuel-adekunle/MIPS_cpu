@@ -9,9 +9,9 @@ module avalon_mem(  ///idk need to understand properly
     output logic[31:0] readdata
   );
 
-  parameter INSTR_MEM_INIT_FILE = "test_load.txt";
-  parameter BRANCH_JUMP_INIT_FILE = "test_load.txt";
   parameter DATA_MEM_INIT_FILE = "test_load.txt";
+  parameter INSTR_MEM_INIT_FILE = "test_load.txt";
+  parameter BRANCH_JUMP_INIT_FILE = "test_loadj.txt";
 
   parameter incomplete = 0;
   parameter [31:0] rst = 32'hbfc00000;
@@ -67,6 +67,7 @@ module avalon_mem(  ///idk need to understand properly
       begin
         //jump back to 11-20 or data 0-10
         temp_read = memory[address>>2];
+        x = address>>2;
       end
       else if (address>=(rst+(branch_min))&&address<(rst+branch_min+40))
       begin
@@ -87,12 +88,19 @@ module avalon_mem(  ///idk need to understand properly
       end
       else
       begin
-        temp_read = memory[((address-rst)>>2)+reset_offset];
+        x = ((address-rst)>>2)+reset_offset;
+        temp_read = memory[x];
       end
-      readdata[31:24] = byteenable[3] ? temp_read[31:24] : 8'b0;
-      readdata[23:16] = byteenable[2] ? temp_read[23:16] : 8'b0;
-      readdata[15:8] = byteenable[1] ? temp_read[15:8] : 8'b0;
-      readdata[7:0] = byteenable[0] ? temp_read[7:0] : 8'b0;
+      //$display("address: %h, byteen %b temp read %h",address, byteenable, temp_read);
+      if (byteenable == 0) begin
+        readdata = temp_read;
+      end
+      else begin
+        readdata[31:24] = byteenable[3] ? temp_read[31:24] : 8'b0;
+        readdata[23:16] = byteenable[2] ? temp_read[23:16] : 8'b0;
+        readdata[15:8] = byteenable[1] ? temp_read[15:8] : 8'b0;
+        readdata[7:0] = byteenable[0] ? temp_read[7:0] : 8'b0;
+      end
 
     end
   end
@@ -153,7 +161,7 @@ module avalon_mem(  ///idk need to understand properly
         temp_write[7:0] = byteenable[0] ? temp_write[7:0] : writedata[7:0];
         memory[x] = temp_write;
       end
-      waitrequest = (read|write)&& (incomplete!=0);
+      waitrequest = (read|write)&&(incomplete!=0);
     end
   end
 

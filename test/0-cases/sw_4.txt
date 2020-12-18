@@ -1,6 +1,5 @@
 desc store to same place again
 addiu $16, $16, -1
-addiu $20, $20, 1024
 sw $16, 8($20) 
 addiu $16, $16, 3
 sw $16, 8($20) 

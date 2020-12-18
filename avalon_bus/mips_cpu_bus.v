@@ -1,6 +1,6 @@
 // wraps harvard and bus controller tgt
 
-module mips_cpu_bus_2(
+module mips_cpu_bus(
     /* Standard signals */
     input logic clk,
     input logic reset,
@@ -29,7 +29,7 @@ module mips_cpu_bus_2(
 
     bus_controller busController(
         .clk(clk),
-        .reset(reset),
+        //.reset(reset),
         .register_v0(register_v0),
         .active(active),
         .clk_enable(clk_enable),

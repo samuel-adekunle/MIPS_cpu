@@ -99,6 +99,7 @@ module mips_cpu_bus_tb;
     while (active)
     begin
       @(posedge clk);
+      //$display("TB : new edge: address:%h writedata:%h readdata:%h, V0: %h", address, writedata, readdata, register_v0);
     end
     @(negedge clk)
      if (readdata==0) //allow 0 to execute
