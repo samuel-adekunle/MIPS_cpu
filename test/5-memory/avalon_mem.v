@@ -54,7 +54,7 @@ module avalon_mem(  ///idk need to understand properly
       $display("AVALON : INIT : Loading BRANCH/JUMP contents from %s", BRANCH_JUMP_INIT_FILE);
       $readmemh(BRANCH_JUMP_INIT_FILE, memory,11, 50);
     end
-
+    waitrequest = 0; 
   end
   integer x;
   //we use byte addressing hence 2 LSB is ignored
