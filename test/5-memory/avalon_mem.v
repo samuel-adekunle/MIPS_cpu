@@ -54,48 +54,47 @@ module avalon_mem(  ///idk need to understand properly
       $display("AVALON : INIT : Loading BRANCH/JUMP contents from %s", BRANCH_JUMP_INIT_FILE);
       $readmemh(BRANCH_JUMP_INIT_FILE, memory,11, 50);
     end
-    waitrequest = 0; 
+    waitrequest = 0;
   end
   integer x;
   //we use byte addressing hence 2 LSB is ignored
   //combi read path
-  always_ff@(posedge clk) 
+  always @(posedge clk)
   begin
+    if ((address>>2) <= no_offset)
+    begin
+      //jump back to 11-20 or data 0-10
+      x = address>>2;
+    end
+    else if (address>=(rst+(branch_min))&&address<(rst+branch_min+40))
+    begin
+      x = ((address-(rst+branch_min))>>2)+branch_back_offset;
+    end
+    else if (address>=rst+branch_max && address <= rst+branch_max+40)
+    begin
+      x = ((address-rst-branch_max)>>2)+branch_forward_offset;
+      //branch forwards to addresses 32'hbfc1fffc + 10 addr
+    end
+    else if (address>=max_jump_addr&& address<=max_jump_addr+40)
+    begin
+      //jump forwards to addresses 32'hc0000000 + 10 addr
+      x = ((address-max_jump_addr)>>2)+jump_forward_offset;
+    end
+    else
+    begin
+      x = ((address-rst)>>2)+reset_offset;
+    end
     if (read)
     begin
-      if ((address>>2) <= no_offset)
+      //jump back to 11-20 or data 0-10
+      temp_read = memory[x];
+      //$display("address: %h, byteen %b temp read %h",address, byteenable, temp_read);
+      if (byteenable == 0)
       begin
-        //jump back to 11-20 or data 0-10
-        temp_read = memory[address>>2];
-        x = address>>2;
-      end
-      else if (address>=(rst+(branch_min))&&address<(rst+branch_min+40))
-      begin
-        x = ((address-(rst+branch_min))>>2)+branch_back_offset;
-        temp_read = memory[x];
-      end
-      else if (address>=rst+branch_max && address <= rst+branch_max+40)
-      begin
-        x = ((address-rst-branch_max)>>2)+branch_forward_offset;
-        //branch forwards to addresses 32'hbfc1fffc + 10 addr
-        temp_read= memory[x];
-      end
-      else if (address>=max_jump_addr&& address<=max_jump_addr+40)
-      begin
-        //jump forwards to addresses 32'hc0000000 + 10 addr
-        x = ((address-max_jump_addr)>>2)+jump_forward_offset;
-        temp_read = memory[x];
+        readdata = temp_read;
       end
       else
       begin
-        x = ((address-rst)>>2)+reset_offset;
-        temp_read = memory[x];
-      end
-      //$display("address: %h, byteen %b temp read %h",address, byteenable, temp_read);
-      if (byteenable == 0) begin
-        readdata = temp_read;
-      end
-      else begin
         readdata[31:24] = byteenable[3] ? temp_read[31:24] : 8'b0;
         readdata[23:16] = byteenable[2] ? temp_read[23:16] : 8'b0;
         readdata[15:8] = byteenable[1] ? temp_read[15:8] : 8'b0;
@@ -106,62 +105,23 @@ module avalon_mem(  ///idk need to understand properly
 
     else if (write)
     begin
-      if ((address>>2) <= no_offset)
+      temp_write = memory[x];
+      if (byteenable == 0)
       begin
-        //jump back to 11-20 or data 0-10
-        temp_write = memory[address>>2];
-        //sb
-        temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
-        temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
-        temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
-        temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
-        memory[address>>2] = temp_write;
-      end
-      else if (address>=(rst+(branch_min))&&address<(rst+branch_min+40))
-      begin
-        x = ((address-(rst+branch_min))>>2)+branch_back_offset;
-        temp_write = memory[x];
-        temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
-        temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
-        temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
-        temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
-        memory[x] = temp_write;
-      end
-      else if (address>=rst+branch_max && address <= rst+branch_max+40)
-      begin
-        x = ((address-rst-branch_max)>>2)+branch_forward_offset;
-        //branch forwards to addresses 32'hbfc1fffc + 10 addr
-        temp_write = memory[x];
-        temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
-        temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
-        temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
-        temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
-        memory[x] = temp_write;
-      end
-      else if (address>=max_jump_addr&& address<=max_jump_addr+40)
-      begin
-        //jump forwards to addresses 32'hc0000000 + 10 addr
-        x = ((address-max_jump_addr)>>2)+jump_forward_offset;
-        temp_write = memory[x];
-        temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
-        temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
-        temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
-        temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
-        memory[x] = temp_write;
+        memory[x] = writedata;
       end
       else
       begin
-        x = ((address-rst)>>2)+reset_offset;
         temp_write = memory[x];
-        temp_write[31:24] = byteenable[3] ? temp_write[31:24] : writedata[31:24];
-        temp_write[23:16] = byteenable[2] ? temp_write[23:16] : writedata[23:16];
-        temp_write[15:8] = byteenable[1] ? temp_write[15:8] : writedata[15:8];
-        temp_write[7:0] = byteenable[0] ? temp_write[7:0] : writedata[7:0];
+        temp_write[31:24] = byteenable[3] ? writedata[31:24]:temp_write[31:24];
+        temp_write[23:16] = byteenable[2] ? writedata[23:16]:temp_write[23:16];
+        temp_write[15:8] = byteenable[1] ? writedata[15:8]:temp_write[15:8];
+        temp_write[7:0] = byteenable[0] ? writedata[7:0]:temp_write[7:0];
         memory[x] = temp_write;
+        waitrequest = (read|write)&&(incomplete!=0);
       end
-      waitrequest = (read|write)&&(incomplete!=0);
     end
+
   end
 
 endmodule
-
