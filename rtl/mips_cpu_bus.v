@@ -1,6 +1,4 @@
-// wraps harvard and bus controller tgt
-
-module mips_cpu_bus_2(
+module mips_cpu_bus(
     /* Standard signals */
     input logic clk,
     input logic reset,
@@ -15,56 +13,34 @@ module mips_cpu_bus_2(
     output logic[31:0] writedata,
     output logic[3:0] byteenable,
     input logic[31:0] readdata
-);
+  );
 
-    // from harvard 
-    logic [31:0] instr_address;
-    logic [31:0] instr_readdata;
-    logic [31:0]  data_address;
-    logic [31:0]  data_writedata;
-    logic [31:0]   data_readdata;
-    logic data_write;
-    logic data_read;
-    wire clk_enable;
+  logic clk_enable;
+  logic[31:0] data_address;
+  logic[31:0] instr_address;
+  logic[31:0] instr_readdata;
+  logic[31:0] data_readdata;
+  /*
+    TODO - implementation of bus
+    need to map address to data_address and instr_address (going to memory)
+    need to map readdata (coming from mem) to instr_readdata and data_readdata
+    need to map clk_enable to waitrequest
+    need to control byteenable depending on the instruction
+   */
 
-    bus_controller busController(
-        .clk(clk),
-        .reset(reset),
-        .register_v0(register_v0),
-        .active(active),
-        .clk_enable(clk_enable),
+  mips_cpu_harvard cpu (
+                     .clk(clk),
+                     .reset(reset),
+                     .active(active),
+                     .register_v0(register_v0),
+                     .clk_enable(clk_enable),
+                     .instr_address(instr_address),
+                     .instr_readdata(instr_readdata),
+                     .data_address(data_address),
+                     .data_write(write),
+                     .data_read(read),
+                     .data_writedata(writedata),
+                     .data_readdata(readdata)
+                   );
 
-        .instr_address(instr_address),
-        .instr_readdata(instr_readdata),
-        .data_address(data_address),
-        .data_write(data_write),
-        .data_read(data_read),
-        .data_writedata(data_writedata),
-        .data_readdata(data_readdata),
-
-        //avalon bus controller
-        .av_address(address),
-        .av_byteenable(byteenable),
-        .av_read(read),
-        .av_write(write),
-        .av_waitrequest(waitrequest),
-        .av_readdata(readdata),
-        .av_writedata(writedata)
-    );
-
-    mips_cpu_harvard cpuHarvard(
-        .clk(clk),
-        .reset(reset),
-        .active(active),
-        .clk_enable(clk_enable),
-        .register_v0(register_v0),
-        .instr_address(instr_address),
-        .instr_readdata(instr_readdata),
-        .data_address(data_address),
-        .data_write(data_write),
-        .data_read(data_read),
-        .data_writedata(data_writedata),
-        .data_readdata(data_readdata)
-    );
 endmodule
-
