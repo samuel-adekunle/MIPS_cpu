@@ -478,10 +478,8 @@ void create_sllv(string afile) {
     //srand (time(NULL));
     unsigned int num1 = random_32();
     unsigned int num2 = random_32();
-    int ans = num1 << num2; //undefined behaviours in c++
-    if (num2 > 32) {
-        ans = 0;
-    }
+    unsigned int shamt = (num2<<27)>>27;
+    int ans = num1 << shamt; //undefined behaviours in c++
     int reg1 = rand_reg();
     int reg2 = reg1;
     while (reg2 == reg1) {
@@ -524,10 +522,9 @@ void create_srlv(string afile) {
     ofstream infile;
     ////srand (time(NULL));
     unsigned int num1 = random_32();
-    unsigned int min = 0;
-    unsigned int max = 31;
-    unsigned int num2 = rand() % (max - min + 1) + min;
-    unsigned int ans = num1 >> num2;
+    unsigned int num2 = random_32();
+    unsigned int shamt = (num2<<27)>>27;
+    int ans = num1 >> shamt; //undefined behaviours in c++
     int reg1 = rand_reg();
     int reg2 = reg1;
     while (reg2 == reg1) {
@@ -570,10 +567,9 @@ void create_srav(string afile) {
     ofstream infile;
     ////srand (time(NULL));
     int num1 = random_32();
-    int min = 0;
-    int max = 31;
-    int num2 = rand() % (max - min + 1) + min;
-    int ans = num1 >> num2;
+    int num2 = random_32();
+    unsigned int shamt = (num2<<27)>>27;
+    int ans = num1 >> shamt;
     int reg1 = rand_reg();
     int reg2 = reg1;
     while (reg2 == reg1) {

@@ -1,7 +1,9 @@
 desc random i
 lw $29, 4($zero)
+lw $17, 8($zero)
 sll $0, $0, 0
-sll $2, $29, 22
+sllv $2, $29, $17
 jr $0
 data 0x99253673
+data 22
 #0x9cc00000

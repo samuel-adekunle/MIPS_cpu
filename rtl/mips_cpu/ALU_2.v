@@ -101,7 +101,7 @@ module ALU_2 (
         6'h07 : //SRAV
         begin
           temp = rt_content;
-          for(i = 0; i < rs_content; i = i + 1)
+          for(i = 0; i < rs_content[4:0]; i = i + 1)
           begin
             temp = {temp[31],temp[31:1]};
             //add the lsb for msb
@@ -111,12 +111,12 @@ module ALU_2 (
         6'h02 : //SRL
           ALU_result = (rt_content >> shamt);
         6'h06 : //SRLV
-          ALU_result = (rt_content >> rs_content);
+          ALU_result = (rt_content >> rs_content[4:0]);
 
         6'h00 : //SLL
           ALU_result = (rt_content << shamt);
         6'h04 : //SLLV
-          ALU_result = (rt_content << rs_content);
+          ALU_result = (rt_content << rs_content[4:0]);
 
         6'h2b : //SLTU
         begin
