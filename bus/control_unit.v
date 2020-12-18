@@ -24,7 +24,7 @@ module control_unit (
     end
     else
     begin
-      IRwrite = 2'b00;
+      IRwrite = 2'b00; 
     end
   
 
