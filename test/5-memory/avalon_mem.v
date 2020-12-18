@@ -59,7 +59,7 @@ module avalon_mem(  ///idk need to understand properly
   integer x;
   //we use byte addressing hence 2 LSB is ignored
   //combi read path
-  always @(*)
+  always_ff@(posedge clk) 
   begin
     if (read)
     begin
@@ -91,7 +91,7 @@ module avalon_mem(  ///idk need to understand properly
         x = ((address-rst)>>2)+reset_offset;
         temp_read = memory[x];
       end
-      $display("address: %h, byteen %b temp read %h",address, byteenable, temp_read);
+      //$display("address: %h, byteen %b temp read %h",address, byteenable, temp_read);
       if (byteenable == 0) begin
         readdata = temp_read;
       end

@@ -11,11 +11,10 @@ module control_unit (
     output logic delay_early,
     input logic [5:0] opcode,
     input logic [5:0] funct,
-    input logic [5:0] rt,
-    input logic stall //for sb sh
+    input logic [5:0] rt
   );
 
-  always @(opcode, funct, rt, stall)
+  always @(opcode, funct, rt)
   begin
 
     // First, reset all signals
@@ -121,14 +120,7 @@ module control_unit (
     // SB, SH and SW use memory to write (SB SH only write in second cycle)
     if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b))
     begin
-      if (stall==1)
-      begin
-        MemRead = 1'b1;
-      end
-      else
-      begin
         MemWrite = 1'b1;
-      end
     end
     // For memory read operation
     // LW, LB, LBU, LH, LHU, LWL, LWR
