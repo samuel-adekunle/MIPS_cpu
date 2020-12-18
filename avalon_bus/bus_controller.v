@@ -176,6 +176,24 @@ module bus_controller(
           end
           endcase 
         end
+
+        if (av_write == 1)
+        begin
+          case (temp_offset)
+          2'b00: begin
+            data_writedata <= av_writedata; 
+          end
+          2'b01: begin
+            data_writedata <= av_writedata >> 8; //shift right by 1 byte
+          end
+          2'b10: begin
+            data_writedata <= av_writedata >> 16;
+          end
+          2'b11: begin
+            data_writedata <= av_writedata >> 24;
+          end
+          endcase 
+        end
       end
     end
 
