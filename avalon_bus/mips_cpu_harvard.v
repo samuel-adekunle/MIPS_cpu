@@ -17,10 +17,10 @@ module mips_cpu_harvard(
     output logic        data_write,
     output logic        data_read,
     output logic[31:0]  data_writedata,
-    input logic[31:0]   data_readdata 
+    input logic[31:0]   data_readdata, 
 
    //deactivate harvard
-   //input logic pause
+   input logic pause
   );
 
   initial
@@ -41,7 +41,7 @@ module mips_cpu_harvard(
   logic[31:0] PCplus4;
   add4 adder(.PC(instr_address), .PCplus4(PCplus4));
 
-  always_ff@(posedge clk)
+  always @(posedge clk)
   begin
     if (reset)
     begin

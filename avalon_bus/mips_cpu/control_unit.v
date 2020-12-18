@@ -18,7 +18,7 @@ module control_unit (
   always @(opcode, funct, rt, pause)
   begin
     if (pause) begin
-	    JR = 1'b0;
+	JR = 1'b0;
     	Jump = 1'b0;
     	MemRead  = 1'b0;
     	MemWrite = 1'b0;
