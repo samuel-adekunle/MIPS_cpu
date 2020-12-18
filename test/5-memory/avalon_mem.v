@@ -174,16 +174,16 @@ module avalon_mem(
       $display("AVALON : INIT : Loading DATA contents from %s", DATA_MEM_INIT_FILE);
       $readmemh(DATA_MEM_INIT_FILE, memory,1);
     end
-    // if (INSTR_MEM_INIT_FILE != "")
-    // begin
-    //   $display("AVALON : INIT : Loading INSTR contents from %s", INSTR_MEM_INIT_FILE);
-    //   $readmemh(INSTR_MEM_INIT_FILE, memory,reset_offset);
-    // end
-    // if (BRANCH_JUMP_INIT_FILE != "")
-    // begin
-    //   $display("AVALON : INIT : Loading BRANCH/JUMP contents from %s", BRANCH_JUMP_INIT_FILE);
-    //   $readmemh(BRANCH_JUMP_INIT_FILE, memory,11, 50);
-    // end
+    if (INSTR_MEM_INIT_FILE != "")
+    begin
+      $display("AVALON : INIT : Loading INSTR contents from %s", INSTR_MEM_INIT_FILE);
+      $readmemh(INSTR_MEM_INIT_FILE, memory,reset_offset);
+    end
+    if (BRANCH_JUMP_INIT_FILE != "")
+    begin
+      $display("AVALON : INIT : Loading BRANCH/JUMP contents from %s", BRANCH_JUMP_INIT_FILE);
+      $readmemh(BRANCH_JUMP_INIT_FILE, memory,11, 50);
+    end
     readdata = 0;
     waitrequest = 0;
     state = IDLE;
@@ -257,6 +257,7 @@ module avalon_mem(
       // place mem op here
       if(read)
       begin
+        //$display("be %b, reading from %h, simulating %d", byteenable, address, reset_addr);
         //read operation
         if ((address>>2) <= no_offset)
         begin
