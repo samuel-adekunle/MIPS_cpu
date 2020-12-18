@@ -26,6 +26,7 @@ module mips_cpu_bus(
     logic data_write;
     logic data_read;
     wire clk_enable;
+    logic pause; //from bus controller
 
     bus_controller busController(
         .clk(clk),
@@ -33,6 +34,7 @@ module mips_cpu_bus(
         .register_v0(register_v0),
         .active(active),
         .clk_enable(clk_enable),
+	.pause(pause), 
 
         .instr_address(instr_address),
         .instr_readdata(instr_readdata),
@@ -64,7 +66,8 @@ module mips_cpu_bus(
         .data_write(data_write),
         .data_read(data_read),
         .data_writedata(data_writedata),
-        .data_readdata(data_readdata)
+        .data_readdata(data_readdata),
+	.pause(pause)
     );
 endmodule
 

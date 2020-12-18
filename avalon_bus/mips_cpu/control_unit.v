@@ -11,12 +11,26 @@ module control_unit (
     output logic delay_early,
     input logic [5:0] opcode,
     input logic [5:0] funct,
-    input logic [5:0] rt
+    input logic [5:0] rt,
+    input logic pause
   );
 
-  always @(opcode, funct, rt)
+  always @(opcode, funct, rt, pause)
   begin
+    if (pause) begin
+	JR = 1'b0;
+    	Jump = 1'b0;
+    	MemRead  = 1'b0;
+    	MemWrite = 1'b0;
+    	RegWrite = 2'b0;
+    	RegDst   = 2'b0;
+    	MemtoReg = 3'b0;
+    	delay_early = 1'b0;
+    	HI_write = 0;
+    	LO_write = 0;
+    end
 
+    else begin
     // First, reset all signals
     JR = 1'b0;
     Jump = 1'b0;
@@ -160,6 +174,6 @@ module control_unit (
         end
       end
     end
-
+  end
   end
 endmodule

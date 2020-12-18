@@ -25,7 +25,10 @@ module bus_controller(
     input logic        data_write,
     input logic        data_read,
     input logic[31:0]  data_writedata,
-    output logic[31:0]   data_readdata
+    output logic[31:0]   data_readdata,
+
+   //deactivate harvard
+   output logic pause
 );
     //address alignment 
     logic [31:0] temp_address;
@@ -57,6 +60,7 @@ module bus_controller(
     av_writedata = 0;
     av_byteenable = 4'b1111;
     clk_enable = 1;
+    pause = 0; 
   end
 
   //case statement to set byteenable
@@ -85,6 +89,7 @@ module bus_controller(
     if (state == IDLE)
     begin
       clk_enable = 0;
+      pause = 0; 
       if (data_write ^ data_read)
       begin
         av_address = data_address;
@@ -108,6 +113,7 @@ module bus_controller(
       av_write = 0;
       av_read = 1;
       av_writedata = 0;
+      pause = 0; 
     end
 
     else if (state == FETCH_DATA)
@@ -135,6 +141,7 @@ module bus_controller(
       av_read = 0;
       av_write = 0;
       av_writedata = 0;
+      pause = 1; 
     end
   end
 

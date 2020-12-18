@@ -17,7 +17,10 @@ module mips_cpu_harvard(
     output logic        data_write,
     output logic        data_read,
     output logic[31:0]  data_writedata,
-    input logic[31:0]   data_readdata
+    input logic[31:0]   data_readdata, 
+
+   //deactivate harvard
+   input logic pause
   );
 
   initial
@@ -75,7 +78,7 @@ module mips_cpu_harvard(
                  .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_instr)
+                 .rt(rt_instr), .pause(pause)
                );
 
   //delay slot implementation
@@ -203,7 +206,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $monitor("CPU: instruction: %h, PC: %h\n ReadData2:%h data_address:%h data_writedata:%h selected_readdata:%h readdelayed:%h data_readdata:%h clk_enable:%b",instr_readdata, instr_address, rt_content, data_address, data_writedata, selected_readdata, data_readdelayed, data_readdata, clk_enable);
+    $monitor("CPU: instruction: %h, PC: %h\n write_data:%h",instr_readdata, instr_address, write_data);
   end
 
 endmodule
