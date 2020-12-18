@@ -9,24 +9,14 @@ module control_unit (
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
     output logic delay_early,
-    output logic [1:0] IRwrite, //added this for bus
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt,
-    input logic [2:0] state
+    input logic stall //for sb sh
   );
 
-  always @(opcode, funct, rt)
+  always @(opcode, funct, rt, stall)
   begin
-    if (state == EXEC1_INSTR)
-    begin
-      IRwrite = 2'b11;
-    end
-    else
-    begin
-      IRwrite = 2'b00;
-    end
-  
 
     // First, reset all signals
     JR = 1'b0;
@@ -128,10 +118,17 @@ module control_unit (
     end
 
     // For memory write operation
-    // SB, SH and SW use memory to write
+    // SB, SH and SW use memory to write (SB SH only write in second cycle)
     if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b))
     begin
-      MemWrite = 1'b1;
+      if (stall==1)
+      begin
+        MemRead = 1'b1;
+      end
+      else
+      begin
+        MemWrite = 1'b1;
+      end
     end
     // For memory read operation
     // LW, LB, LBU, LH, LHU, LWL, LWR
@@ -173,5 +170,4 @@ module control_unit (
     end
 
   end
-
 endmodule
