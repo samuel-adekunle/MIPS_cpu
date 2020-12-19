@@ -172,6 +172,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
   //states
   always_ff @(posedge clk)
   begin
+    
     if (state == IDLE)
     begin
       if (data_write ^ data_read)
@@ -246,9 +247,9 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
   end
 
-initial
-  begin
-    $monitor("bus controller: state:%d", state);
-  end
+always@(posedge clk) begin
+	    $display ("bus controller: state:%d", state);
+end
+
 
 endmodule
