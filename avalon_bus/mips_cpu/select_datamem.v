@@ -39,6 +39,7 @@ module select_datamem(
         0:
           ReadData = {{24{1'b0}}, fullread[7:0]};
       endcase
+      
     end
     //LH
     else if (opcode==6'h21)

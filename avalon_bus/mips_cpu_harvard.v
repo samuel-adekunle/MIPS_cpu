@@ -200,7 +200,7 @@ module mips_cpu_harvard(
   logic [31:0] PCplus8;
   assign PCplus8 = PCplus4 + 4;
   mux32_6 mux_datamem (
-            .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),.InputD(PCplus4),
+            .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8), .InputD(PCplus4),
             .HI_reg(HI_reg), .LO_reg(LO_reg),
             .CtlSig(MemtoReg),
             .Output(write_data)
@@ -208,7 +208,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $display("memto reg: %h", MemtoReg);
+    $monitor("CPU write_data: %h, data, %h seledcted read: %h, opcode %h",write_data,data_readdata , selected_readdata, instr_readdata);
     //$monitor("CPU: instruction: %h, PC: %h\n CPU: data_address: %h write_data:%h",instr_readdata, instr_address, data_address,write_data);
   end
 

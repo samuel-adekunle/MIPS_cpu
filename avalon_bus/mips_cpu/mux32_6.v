@@ -9,7 +9,7 @@ module mux32_6 (
     output logic [31:0] Output
   );
 
-  always_comb
+  always@(*)
   begin
     case (CtlSig)
       0:
@@ -25,5 +25,6 @@ module mux32_6 (
       5:
         Output = InputD;
     endcase
+    //$monitor("out %h, %h, sig : %h", Output, InputB, CtlSig);
   end
 endmodule

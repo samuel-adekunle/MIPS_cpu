@@ -34,6 +34,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
     logic [31:0] temp_address;
     logic[31:0] temp_writedata;   //added temp_writedata to handle the byte offsets for writedata
     logic [1:0] temp_offset;
+    logic[3:0] temp_byteenable;
     assign temp_address[31:2] = data_address[31:2];
     assign temp_address[1:0] = 2'b00;
     assign temp_offset = data_address[1:0];
@@ -69,30 +70,35 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
   always_comb
   begin
-    if (data_write) begin
-      case (temp_offset)
-          2'b00: begin
-            av_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
-            temp_writedata = data_writedata;
-          end
-          2'b01: begin
-            av_byteenable = 4'b1110;
-            temp_writedata = data_writedata << 8;
-          end
-          2'b10: begin
-            av_byteenable = 4'b1100;
-            temp_writedata = data_writedata << 16;
-          end
+    // if (data_write) begin
+    //   temp_writedata = data_writedata;
+    //   case (temp_offset)
+    //       2'b00: begin
+    //         temp_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
+    //         temp_writedata = data_writedata;
+    //       end
+    //       2'b01: begin
+    //         temp_byteenable = 4'b1110;
+    //         temp_writedata = data_writedata << 8;
+    //       end
+    //       2'b10: begin
+    //         temp_byteenable = 4'b1100;
+    //         temp_writedata = data_writedata << 16;
+    //       end
 
-          2'b11: begin
-            av_byteenable = 4'b1000;
-            temp_writedata = data_writedata << 24;
-          end
-      endcase
-    end
-    else begin
-      av_byteenable = 4'b1111;
-    end
+    //       2'b11: begin
+    //         temp_byteenable = 4'b1000;
+    //         temp_writedata = data_writedata << 24;
+    //       end
+    //   endcase
+    // end
+    // else begin
+    //   temp_byteenable = 4'b1111;
+    //   av_byteenable = 4'b1111;
+    // end
+        temp_byteenable = 4'b1111;
+    av_byteenable = 4'b1111;
+    temp_writedata = data_writedata;
 
   end
 
@@ -146,12 +152,13 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
     else if (state == INSTR_SET)
     begin
-      clk_enable = 0;
+      clk_enable = 0; //should it be 1?
       //pause = 0; 
-      av_address = instr_address; //feed instr address into avalon bus
-      av_write = 0;
-      av_read = 1;
-      av_writedata = 0;
+      av_address = temp_address; //feed instr address into avalon bus
+      av_write = data_write;
+      av_read = data_read;
+      av_writedata = temp_writedata;
+      av_byteenable = temp_byteenable;
     end
 
     else if (state == HALTED)
@@ -203,20 +210,21 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
         if (data_read == 1)   //changed av_read to data_read. Decisions are made based on the harvard inputs, not the avalon bus IOs
         begin
-          case (temp_offset)
-          2'b00: begin
-            data_readdata <= av_readdata; 
-          end
-          2'b01: begin
-            data_readdata <= av_readdata >> 8; //shift right by 1 byte
-          end
-          2'b10: begin
-            data_readdata <= av_readdata >> 16;
-          end
-          2'b11: begin
-            data_readdata <= av_readdata >> 24;
-          end
-          endcase 
+          data_readdata <= av_readdata;
+          // case (temp_offset)
+          // 2'b00: begin
+          //   data_readdata <= av_readdata; 
+          // end
+          // 2'b01: begin
+          //   data_readdata <= av_readdata >> 8; //shift right by 1 byte
+          // end
+          // 2'b10: begin
+          //   data_readdata <= av_readdata >> 16;
+          // end
+          // 2'b11: begin
+          //   data_readdata <= av_readdata >> 24;
+          // end
+          // endcase 
         end
       end
     end
