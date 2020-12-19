@@ -11,6 +11,10 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
     input logic reset,
 
+    input logic active,
+    input logic[31:0]  register_v0,
+
+
     /* Clock enable signal */
     output logic clk_enable,
 
