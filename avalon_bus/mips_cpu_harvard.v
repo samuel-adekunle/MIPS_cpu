@@ -199,8 +199,8 @@ module mips_cpu_harvard(
   //Connection of Mux between data memory and reg write data
   logic [31:0] PCplus8;
   assign PCplus8 = PCplus4 + 4;
-  mux32_5 mux_datamem (
-            .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),
+  mux32_6 mux_datamem (
+            .InputA(data_address), .InputB(selected_readdata), .InputC(PCplus8),.InputD(PCplus4),
             .HI_reg(HI_reg), .LO_reg(LO_reg),
             .CtlSig(MemtoReg),
             .Output(write_data)
@@ -208,7 +208,8 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $monitor("CPU: instruction: %h, PC: %h\n CPU: data_address: %h write_data:%h",instr_readdata, instr_address, data_address,write_data);
+    $display("memto reg: %h", MemtoReg);
+    //$monitor("CPU: instruction: %h, PC: %h\n CPU: data_address: %h write_data:%h",instr_readdata, instr_address, data_address,write_data);
   end
 
 

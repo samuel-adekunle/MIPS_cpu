@@ -26,7 +26,7 @@ module delayslot (
       //jump instructions (JR, JALR)
       else if (JR)
       begin
-        delay_addr <= rs_content-4;
+        delay_addr <= rs_content;
       end
       else
       begin

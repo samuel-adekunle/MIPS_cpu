@@ -5,7 +5,7 @@ module control_unit (
     output logic MemRead,
     output logic MemWrite,
     output logic [1:0] RegDst, // if this is 0 select rt, 1 select rd, 2 select $ra
-    output logic [2:0] MemtoReg, //if this is 2 select PCplus4, 3 select HI, 4 select LO
+    output logic [2:0] MemtoReg, //if this is 2 select PCplus4, 3 select HI, 4 select LO, 5 select PC-1
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
     output logic delay_early,
@@ -89,7 +89,7 @@ module control_unit (
       if (funct == 6'h09)
       begin
         JR = 1'b1;
-        MemtoReg = 2;
+        MemtoReg = 5;
         delay_early = 1'b1;
       end
       //if MFHI
@@ -154,7 +154,7 @@ module control_unit (
       if (opcode == 6'h03)
       begin
         RegDst = 2'b10;
-        MemtoReg = 3'b010;
+        MemtoReg = 3'b101;
         RegWrite = 2'b11;
       end
     end
@@ -169,7 +169,7 @@ module control_unit (
         if (rt==6'h11 | rt==6'h10)
         begin
           RegDst= 2'b10;
-          MemtoReg= 3'b010;
+          MemtoReg= 3'b101;
           RegWrite = 2'b11;
         end
       end
