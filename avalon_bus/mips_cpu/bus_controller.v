@@ -9,7 +9,7 @@ module bus_controller(
     output logic[3:0] av_byteenable,
     input logic[31:0] av_readdata,
 
-    output logic reset,
+    input logic reset,
     input logic active,
     input logic[31:0]  register_v0,
 
