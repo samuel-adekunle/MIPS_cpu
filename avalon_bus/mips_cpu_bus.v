@@ -40,10 +40,6 @@ module mips_cpu_bus(
     bus_controller busController(
         .clk(clk),
         .reset(reset),
-
-        .register_v0(register_v0),
-        .active(active),
-
         .clk_enable(clk_enable),
 	.pause(pause), 
 
