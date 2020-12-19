@@ -12,12 +12,12 @@ module control_unit (
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt,
-    input logic pause
+    input logic clk_en
   );
 
-  always @(opcode, funct, rt, pause)
+  always @(opcode, funct, rt, clk_en)
   begin
-    if (pause & !(opcode==6'h0 & (funct==6'h08|| funct==6'h09))) begin
+    if (clk_en & !(opcode==6'h0 & (funct==6'h08|| funct==6'h09))) begin
 	    JR = 1'b0;
     	Jump = 1'b0;
     	MemRead  = 1'b0;

@@ -80,7 +80,7 @@ module mips_cpu_harvard(
                  .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_instr), .pause(pause)
+                 .rt(rt_instr), .clk_en(clk_enable)
                );
 
   //delay slot implementation
@@ -129,7 +129,7 @@ module mips_cpu_harvard(
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
           .immediate(immediate),.rs_content(rs_content), .rt_content(rt_content), .rt_instr(rt_instr),
-          .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO), .pause(pause)
+          .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO), .clk_en(clk_enable)
         );
 
   //Connection of HI register to ALU
@@ -208,7 +208,8 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $monitor("CPU: instruction: %h, PC: %h\n write_data:%h",instr_readdata, instr_address, write_data);
+    $monitor("CPU: instruction: %h, PC: %h\n CPU: data_address: %h write_data:%h",instr_readdata, instr_address, data_address,write_data);
   end
+
 
 endmodule

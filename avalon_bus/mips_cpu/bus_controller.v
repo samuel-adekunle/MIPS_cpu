@@ -37,8 +37,6 @@ module bus_controller(  //added instr_read input on harvard instruction port and
     assign temp_address[31:2] = data_address[31:2];
     assign temp_address[1:0] = 2'b00;
     assign temp_offset = data_address[1:0];
-
-
   /* using enum to define CPU states. */
 
   typedef enum logic[2:0] {
@@ -104,12 +102,12 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
   //combinatorial
 
-  always_comb
+  always @(*)
   begin
     if (state == IDLE)
     begin
       clk_enable = !(data_write ^ data_read | instr_read);    //changed clk_enable to be dependent on the harvard read signals
-      pause = (data_write ^ data_read | instr_read); 
+      //pause = (data_write ^ data_read | instr_read); 
       if (data_write ^ data_read)
       begin
         av_address = temp_address;    //set av_address to word aligned address from data_address
@@ -126,23 +124,20 @@ module bus_controller(  //added instr_read input on harvard instruction port and
       end
     end
 
-
     else if (state == FETCH_INSTR)
     begin
       clk_enable = 0; //pause when fetching data
-      pause = 1; 
+      //pause = 0; 
       av_address = instr_address;
       av_write = 0;
       av_read = 1;
       av_writedata = 0;
     end
 
-
-
     else if (state == FETCH_DATA)
     begin
       clk_enable = 0;
-      pause = 1; 
+      //pause = 0; 
       av_address = temp_address;    //set av_address to word aligned address from data_address
       av_write = data_write;
       av_read = data_read;
@@ -152,7 +147,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
     else if (state == INSTR_SET)
     begin
       clk_enable = 0;
-      pause = 1; 
+      //pause = 0; 
       av_address = instr_address; //feed instr address into avalon bus
       av_write = 0;
       av_read = 1;
@@ -162,7 +157,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
     else if (state == HALTED)
     begin
       clk_enable = 1; //go into execution cycle
-      pause = 0; 
+      //pause = 0; 
       av_address = instr_address;
       av_read = 0;
       av_write = 0;
@@ -188,6 +183,9 @@ module bus_controller(  //added instr_read input on harvard instruction port and
       begin
         state <= FETCH_INSTR;
       end
+      // else if (state == HALTED & (data_write ^ data_read))begin
+      //   state <= FETCH_DATA;
+      // end
     end
 
 
@@ -228,8 +226,6 @@ module bus_controller(  //added instr_read input on harvard instruction port and
       state <= FETCH_INSTR;
     end
 
-
-
     else if (state == FETCH_INSTR)
     begin
       if (av_waitrequest == 0)
@@ -254,6 +250,9 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
 always@(posedge clk) begin
 	    $display ("bus controller: state:%d", state);
+      $display ("data address:%h, temp_address:%h", data_address,temp_address);
+      $display ("clk_E:%d \n", clk_enable);
+      $display ("data write:%d, data read :%d \n", data_write, data_read);
 end
 
 

@@ -7,7 +7,7 @@ module ALU_2 (
     input logic [5:0] rt_instr, //instr[20:16]
     input logic [31:0] rs_content,
     input logic [31:0] rt_content,
-    input logic pause,
+    input logic clk_en,
     //output
     output logic sig_branch,
     output logic [31:0] ALU_result,
@@ -21,9 +21,14 @@ module ALU_2 (
   logic signed [31:0] temp, signed_rs, signed_rt;
   logic [31:0] signExtend, zeroExtend;
 
-  always @ (functcode,opcode, rs_content, rt_content, shamt, immediate, pause)
+/*& !(opcode == 6'h1||opcode ==  6'h7 || opcode == 6'h6||opcode ==  6'h4 ||
+                   opcode == 6'h5||opcode ==6'h28 ||opcode ==6'h29 ||opcode ==6'h2b ||opcode ==6'h23 ||
+                   opcode ==6'h24 ||opcode ==6'h25||opcode ==6'h20 ||opcode ==6'h21 ||opcode ==6'h22 ||
+                   opcode ==6'h26)*/
+  always @ (functcode,opcode, rs_content, rt_content, shamt, immediate, clk_en)
   begin
-    if (!pause) begin
+    if (clk_en)
+    begin
       // signed value assigment for branch instructions
       signed_rs = rs_content;
       if (opcode == 6'h1||opcode ==  6'h7 || opcode == 6'h6)
@@ -157,7 +162,6 @@ module ALU_2 (
         case(opcode)
           6'h9 : //ADDIU
             ALU_result = rs_content + signExtend;
-
           6'h0c : // ANDI
             ALU_result = rs_content & zeroExtend;
 
