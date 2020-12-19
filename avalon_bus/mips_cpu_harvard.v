@@ -11,13 +11,14 @@ module mips_cpu_harvard(
     /* Combinatorial read access to instructions */
     output logic[31:0]  instr_address,
     input logic[31:0]   instr_readdata,
+    //output logic instr_read, 
 
     /* Combinatorial read and single-cycle write access to instructions */
     output logic[31:0]  data_address,
     output logic        data_write,
     output logic        data_read,
     output logic[31:0]  data_writedata,
-    input logic[31:0]   data_readdata, 
+    input logic[31:0]   data_readdata,
 
    //deactivate harvard
    input logic pause
@@ -26,10 +27,10 @@ module mips_cpu_harvard(
   initial
   begin
     active = 0;
+    //instr_read = 1; 
   end
 
   logic[31:0] PCin;
-
 
   // Program counter connection
   PC_1 pc (.PCin(PCin), .clk(clk), .reset(reset),
@@ -52,6 +53,8 @@ module mips_cpu_harvard(
       active <= 1'b0;
     end
   end
+
+
 
   // Instruction Memory connection
   //instr_mem_1 instrmem (.address(instr_address), .clk(clk), .instr(instr_readdata));

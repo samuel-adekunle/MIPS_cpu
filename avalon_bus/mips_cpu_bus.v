@@ -25,17 +25,27 @@ module mips_cpu_bus(
     logic data_read;
     wire clk_enable;
     logic pause; //from bus controller
+    logic instr_read; //input to bus controller, same value as active? 
+
+    initial begin 
+	instr_read = 1; 
+    end
+
+    always_ff@(posedge clk) begin
+	if (active == 0 & reset == 0) begin
+	   instr_read = 0;
+	end
+    end
 
     bus_controller busController(
         .clk(clk),
-        //.reset(reset),
-        .register_v0(register_v0),
-        .active(active),
+        .reset(reset),
         .clk_enable(clk_enable),
-	    .pause(pause), 
+	.pause(pause), 
 
         .instr_address(instr_address),
         .instr_readdata(instr_readdata),
+	.instr_read(instr_read), 
         .data_address(data_address),
         .data_write(data_write),
         .data_read(data_read),
@@ -66,5 +76,6 @@ module mips_cpu_bus(
         .data_writedata(data_writedata),
         .data_readdata(data_readdata),
 	.pause(pause)
+	//.instr_read(instr_read) 
     );
 endmodule
