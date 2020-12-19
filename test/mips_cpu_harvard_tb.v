@@ -57,7 +57,7 @@ module mips_cpu_harvard_tb;
   // Generate clock
   initial
   begin
-    $dumpfile("help.vcd");
+    $dumpfile("harvard.vcd");
     $dumpvars(0, mips_cpu_harvard_tb);
     clk=0;
 

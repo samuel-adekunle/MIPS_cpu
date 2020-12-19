@@ -108,7 +108,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
     begin
       clk_enable = !(data_write ^ data_read | instr_read);    //changed clk_enable to be dependent on the harvard read signals
       //pause = (data_write ^ data_read | instr_read); 
-      if (data_write ^ data_read)
+      if ((data_write ^ data_read) & !instr_read)
       begin
         av_address = temp_address;    //set av_address to word aligned address from data_address
         av_write = data_write;

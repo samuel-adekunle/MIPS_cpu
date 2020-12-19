@@ -17,7 +17,6 @@ module PC_1 (
     begin
       PCout <= PCin;
     end
-
   end
 
 

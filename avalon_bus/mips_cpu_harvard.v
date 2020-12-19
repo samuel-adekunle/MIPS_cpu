@@ -94,8 +94,8 @@ module mips_cpu_harvard(
   logic [31:0] delay_addr;
   delayslot delayreg (
               .clk(clk), .Branch(Branch), .Jump(Jump), .JR(JR), .branch_address(branch_address),
-              .jump_address(jump_address), .PCplus8(PCplus8), .rs_content(rs_content),
-              .delay_addr(delay_addr)
+              .jump_address(jump_address), .PCplus8(PCplus4), .rs_content(rs_content),
+              .delay_addr(delay_addr), .clk_en(clock_enable)
             );
 
   mux32 pcaddr (
