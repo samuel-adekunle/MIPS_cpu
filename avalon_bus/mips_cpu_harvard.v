@@ -129,7 +129,7 @@ module mips_cpu_harvard(
   ALU_2 alu (
           .functcode(functcode), .opcode(opcode), .shamt(shamt),
           .immediate(immediate),.rs_content(rs_content), .rt_content(rt_content), .rt_instr(rt_instr),
-          .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO)
+          .sig_branch(Branch), .ALU_result(data_address), .HI(HI), .LO(LO), .pause(pause)
         );
 
   //Connection of HI register to ALU

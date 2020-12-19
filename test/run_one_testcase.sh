@@ -45,7 +45,7 @@ fi
 # V0 contents
 PATTERN="TB : V0 :"
 NOTHING=""
-SUCCESS="success"
+SUCCESS="TB : success"
 set +e
 if grep -q "${SUCCESS}" test/3-output/mips_cpu_${VARIANT}_tb_${TESTCASE}.stdout; then
    REG_RESULT=0

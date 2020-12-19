@@ -71,25 +71,30 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
   always_comb
   begin
-    case (temp_offset)
-        2'b00: begin
-          av_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
-          temp_writedata = data_writedata;
-        end
-        2'b01: begin
-          av_byteenable = 4'b1110;
-          temp_writedata = data_writedata << 8;
-        end
-        2'b10: begin
-          av_byteenable = 4'b1100;
-          temp_writedata = data_writedata << 16;
-        end
+    if (data_write) begin
+      case (temp_offset)
+          2'b00: begin
+            av_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
+            temp_writedata = data_writedata;
+          end
+          2'b01: begin
+            av_byteenable = 4'b1110;
+            temp_writedata = data_writedata << 8;
+          end
+          2'b10: begin
+            av_byteenable = 4'b1100;
+            temp_writedata = data_writedata << 16;
+          end
 
-        2'b11: begin
-          av_byteenable = 4'b1000;
-          temp_writedata = data_writedata << 24;
-        end
-    endcase
+          2'b11: begin
+            av_byteenable = 4'b1000;
+            temp_writedata = data_writedata << 24;
+          end
+      endcase
+    end
+    else begin
+      av_byteenable = 4'b1111;
+    end
 
   end
 
