@@ -32,6 +32,7 @@ module bus_controller(
 );
     //address alignment 
     logic [31:0] temp_address;
+    logic[31:0] temp_writedata;   //added temp_writedata to handle the byte offsets for writedata
     logic [1:0] temp_offset;
     assign temp_address[31:2] = data_address[31:2];
     assign temp_address[1:0] = 2'b00;
@@ -69,15 +70,19 @@ module bus_controller(
     case (temp_offset)
         2'b00: begin
           av_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
+          temp_writedata = data_writedata;
         end
         2'b01: begin
           av_byteenable = 4'b1110;
+          temp_writedata = data_writedata << 8;
         end
         2'b10: begin
           av_byteenable = 4'b1100;
+          temp_writedata = data_writedata << 16;
         end
         2'b11: begin
           av_byteenable = 4'b1000;
+          temp_writedata = data_writedata << 24;
         end
     endcase
   end
@@ -88,14 +93,14 @@ module bus_controller(
   begin
     if (state == IDLE)
     begin
-      clk_enable = 0;
+      clk_enable = !(data_write ^ data_read | active);    //changed clk_enable to be dependent on the harvard read signals
       pause = 0; 
       if (data_write ^ data_read)
       begin
-        av_address = data_address;
+        av_address = temp_address;    //set av_address to word aligned address from data_address
         av_write = data_write;
         av_read = data_read;
-        av_writedata = data_writedata;
+        av_writedata = temp_writedata;
       end
       else 
       begin
@@ -119,10 +124,10 @@ module bus_controller(
     else if (state == FETCH_DATA)
     begin
       clk_enable = 0;
-      av_address = data_address;
+      av_address = temp_address;    //set av_address to word aligned address from data_address
       av_write = data_write;
       av_read = data_read;
-      av_writedata = data_writedata;
+      av_writedata = temp_writedata;
     end
 
     else if (state == INSTR_SET)
@@ -155,7 +160,7 @@ module bus_controller(
       begin
         state <= FETCH_DATA;
       end
-      else
+      else if (active)
       begin
         state <= FETCH_INSTR;
       end
@@ -165,8 +170,13 @@ module bus_controller(
     begin
       if (av_waitrequest == 0)
       begin
-        state <= INSTR_SET;
-        if (av_read == 1)
+        if (active) begin  //active now controls whether instruction is fetched after fetching data
+          state <= INSTR_SET;
+        end
+        else begin
+          state <= HALTED;
+        end
+        if (data_read == 1)   //changed av_read to data_read. Decisions are made based on the harvard inputs, not the avalon bus IOs
         begin
           case (temp_offset)
           2'b00: begin
@@ -183,24 +193,6 @@ module bus_controller(
           end
           endcase 
         end
-
-        if (av_write == 1)
-        begin
-          case (temp_offset)
-          2'b00: begin
-            av_writedata <= data_writedata; 
-          end
-          2'b01: begin
-            av_writedata <= data_writedata >> 8; //shift right by 1 byte
-          end
-          2'b10: begin
-            av_writedata <= data_writedata >> 16;
-          end
-          2'b11: begin
-            av_writedata <= data_writedata >> 24;
-          end
-          endcase 
-        end
       end
     end
 
@@ -214,7 +206,7 @@ module bus_controller(
       if (av_waitrequest == 0)
       begin
         state <= HALTED;
-        if (av_read == 1)
+        if (active == 1)
         begin
           instr_readdata <= av_readdata;
         end

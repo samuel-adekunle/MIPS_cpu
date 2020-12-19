@@ -32,7 +32,7 @@ module mips_cpu_bus(
         .register_v0(register_v0),
         .active(active),
         .clk_enable(clk_enable),
-	.pause(pause), 
+	    .pause(pause), 
 
         .instr_address(instr_address),
         .instr_readdata(instr_readdata),
