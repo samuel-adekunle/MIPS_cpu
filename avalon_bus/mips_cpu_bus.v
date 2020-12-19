@@ -33,7 +33,7 @@ module mips_cpu_bus(
 
     always_ff@(posedge clk) begin
 	if (active == 0 & reset == 0) begin
-	   instr_read = 0;
+	   instr_read <= 0;
 	end
     end
 

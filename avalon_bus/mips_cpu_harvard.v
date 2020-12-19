@@ -27,7 +27,6 @@ module mips_cpu_harvard(
   initial
   begin
     active = 0;
-    //instr_read = 1; 
   end
 
   logic[31:0] PCin;
