@@ -4,6 +4,7 @@ module mips_cpu_harvard_tb;
   parameter INSTR_MEM_INIT_FILE = "test/01-binary/addiu_1.txt";
   parameter ANSWER_FILE = "test/4-reference/addiu_1.txt";
   parameter BRANCH_JUMP_INIT_FILE = "test/5-memory/test_loadj.txt";
+  parameter WAVES="test/6-waveforms/waves.vcd";
 
   parameter TIMEOUT_CYCLES = 10000;
 
@@ -57,7 +58,7 @@ module mips_cpu_harvard_tb;
   // Generate clock
   initial
   begin
-    $dumpfile("harvard.vcd");
+    $dumpfile(WAVES);
     $dumpvars(0, mips_cpu_harvard_tb);
     clk=0;
 

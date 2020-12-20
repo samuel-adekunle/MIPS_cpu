@@ -11,5 +11,7 @@ rm -rf test/0-cases/*r1a.txt
 rm -rf test/0-cases/*r3b.txt
 rm -rf test/0-cases/*r2b.txt
 rm -rf test/0-cases/*r1b.txt
+rm -rf test/6-waveforms/*.vhd
+rm -rf test/6-waveforms/*.vcd
 rm -rf test/assembler
 rm -rf test/test_case_fns
