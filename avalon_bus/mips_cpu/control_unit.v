@@ -155,9 +155,9 @@ module control_unit (
       begin
         MemWrite = 1'b1;
  	case(opcode) 
-	6'h2b: store_type = 00; //sw
-	6'h29: store_type = 01; //sh
-	6'h28: store_type = 10; //sb
+	6'h2b: store_type = 2'b00; //sw
+	6'h29: store_type = 2'b01; //sh
+	6'h28: store_type = 2'b10; //sb
 	endcase
       end
       // For memory read operation

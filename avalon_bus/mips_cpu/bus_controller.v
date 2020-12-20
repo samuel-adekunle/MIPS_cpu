@@ -75,11 +75,11 @@ module bus_controller(  //added instr_read input on harvard instruction port and
   begin
     if (data_write) begin
        //temp_writedata = data_writedata;
-	if (store_type == 00) begin //sw
+	if (store_type == 2'b00) begin //sw
 		temp_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
              	temp_writedata = data_writedata;
 	end
-	else if (store_type == 01) begin //sh
+	if (store_type == 2'b01) begin //sh
 		case (temp_offset)
 		2'b00: begin
 			temp_byteenable = 4'b1100; 
@@ -91,7 +91,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 		end
 		endcase
 	end
-	else if (store_type == 10) begin //sb
+	if (store_type == 2'b10) begin //sb
        		case (temp_offset)
            	2'b00: begin
              		temp_byteenable = 4'b0001; 
@@ -116,10 +116,8 @@ module bus_controller(  //added instr_read input on harvard instruction port and
      else begin
        temp_byteenable = 4'b1111;
        av_byteenable = 4'b1111;
+	temp_writedata = data_writedata; 
      end
-        /*temp_byteenable = 4'b1111;
-        av_byteenable = 4'b1111;
-        temp_writedata = data_writedata;*/
 
   end
 
@@ -141,6 +139,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
         av_write = data_write;
         av_read = data_read;
         av_writedata = temp_writedata;
+	av_byteenable = temp_byteenable;
       end
       else 
       begin
@@ -148,6 +147,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
         av_write = 0;
         av_read = 1; // read 
         av_writedata = 0;
+	av_byteenable = 4'b1111;
       end
     end
 
@@ -159,6 +159,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
       av_write = 0;
       av_read = 1;
       av_writedata = 0;
+      av_byteenable = 4'b1111;
     end
 
     else if (state == FETCH_DATA)
@@ -169,6 +170,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
       av_write = data_write;
       av_read = data_read;
       av_writedata = temp_writedata;
+      av_byteenable = temp_byteenable;
     end
 
     else if (state == INSTR_SET)
@@ -190,6 +192,7 @@ module bus_controller(  //added instr_read input on harvard instruction port and
       av_read = 0;
       av_write = 0;
       av_writedata = 0;
+      av_byteenable = 4'b1111;
     end
   end
 
