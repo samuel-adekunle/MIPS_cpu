@@ -11,7 +11,7 @@ module control_unit (
     output logic delay_early,
     input logic [5:0] opcode,
     input logic [5:0] funct,
-    input logic [5:0] rt,
+    input logic [4:0] rt,
     input logic stall //for sb sh
   );
 
