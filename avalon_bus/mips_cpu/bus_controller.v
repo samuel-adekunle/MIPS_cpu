@@ -82,12 +82,12 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 	if (store_type == 2'b01) begin //sh
 		case (temp_offset)
 		2'b00: begin
-			temp_byteenable = 4'b1100; 
-             		temp_writedata = data_writedata << 16;
-		end
-		2'b10: begin
 			temp_byteenable = 4'b0011; 
              		temp_writedata = data_writedata;
+		end
+		2'b10: begin
+			temp_byteenable = 4'b1100; 
+             		temp_writedata = data_writedata << 16;
 		end
 		endcase
 	end
