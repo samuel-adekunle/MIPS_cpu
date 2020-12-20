@@ -66,7 +66,7 @@ module mips_cpu_harvard(
   logic [4:0] shamt;
   logic [15:0] immediate;
   logic [5:0] opcode;
-  logic [5:0] rt_instr;
+  logic [4:0] rt_instr;
   assign opcode = instr_readdata[31:26];
   assign functcode = instr_readdata[5:0];
   assign immediate = instr_readdata[15:0];
