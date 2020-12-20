@@ -27,7 +27,10 @@ module bus_controller(  //added instr_read input on harvard instruction port and
     output logic[31:0]   data_readdata,
 
     /*to harvard*/ 
-    output logic pause
+    output logic pause,
+
+    /*from harvard*/
+    input logic [1:0] store_type
 );
 
     //address alignment 
@@ -70,35 +73,53 @@ module bus_controller(  //added instr_read input on harvard instruction port and
 
   always_comb
   begin
-    // if (data_write) begin
-    //   temp_writedata = data_writedata;
-    //   case (temp_offset)
-    //       2'b00: begin
-    //         temp_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
-    //         temp_writedata = data_writedata;
-    //       end
-    //       2'b01: begin
-    //         temp_byteenable = 4'b1110;
-    //         temp_writedata = data_writedata << 8;
-    //       end
-    //       2'b10: begin
-    //         temp_byteenable = 4'b1100;
-    //         temp_writedata = data_writedata << 16;
-    //       end
+    if (data_write) begin
+       //temp_writedata = data_writedata;
+	if (store_type == 00) begin //sw
+		temp_byteenable = 4'b1111; //read the whole word bc word aligned, offset = 0
+             	temp_writedata = data_writedata;
+	end
+	else if (store_type == 01) begin //sh
+		case (temp_offset)
+		2'b00: begin
+			temp_byteenable = 4'b1100; 
+             		temp_writedata = data_writedata << 16;
+		end
+		2'b10: begin
+			temp_byteenable = 4'b0011; 
+             		temp_writedata = data_writedata;
+		end
+		endcase
+	end
+	else if (store_type == 10) begin //sb
+       		case (temp_offset)
+           	2'b00: begin
+             		temp_byteenable = 4'b0001; 
+             		temp_writedata = data_writedata;
+           	end
+           	2'b01: begin
+             		temp_byteenable = 4'b0010;
+             		temp_writedata = data_writedata << 8;
+           	end
+           	2'b10: begin
+             		temp_byteenable = 4'b0100;
+             		temp_writedata = data_writedata << 16;
+           	end
 
-    //       2'b11: begin
-    //         temp_byteenable = 4'b1000;
-    //         temp_writedata = data_writedata << 24;
-    //       end
-    //   endcase
-    // end
-    // else begin
-    //   temp_byteenable = 4'b1111;
-    //   av_byteenable = 4'b1111;
-    // end
-        temp_byteenable = 4'b1111;
-    av_byteenable = 4'b1111;
-    temp_writedata = data_writedata;
+           	2'b11: begin
+             		temp_byteenable = 4'b1000;
+             		temp_writedata = data_writedata << 24;
+           	end
+       		endcase
+	end
+     end
+     else begin
+       temp_byteenable = 4'b1111;
+       av_byteenable = 4'b1111;
+     end
+        /*temp_byteenable = 4'b1111;
+        av_byteenable = 4'b1111;
+        temp_writedata = data_writedata;*/
 
   end
 
@@ -260,7 +281,7 @@ always@(posedge clk) begin
 	    $display ("bus controller: state:%d", state);
       $display ("data address:%h, temp_address:%h", data_address,temp_address);
       $display ("clk_E:%d \n", clk_enable);
-      $display ("data write:%d, data read :%d \n", data_write, data_read);
+      $display ("data write:%d, data read :%d byteenable:%b\n", data_write, data_read, av_byteenable);
 end
 
 

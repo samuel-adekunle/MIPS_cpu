@@ -26,6 +26,7 @@ module mips_cpu_bus(
     wire clk_enable;
     logic pause; //from bus controller
     logic instr_read; //input to bus controller, same value as active? 
+    logic [1:0] store_type;
 
     initial begin 
 	instr_read = 1; 
@@ -42,6 +43,7 @@ module mips_cpu_bus(
         .reset(reset),
         .clk_enable(clk_enable),
 	.pause(pause), 
+	.store_type(store_type),
 
         .instr_address(instr_address),
         .instr_readdata(instr_readdata),
@@ -75,7 +77,8 @@ module mips_cpu_bus(
         .data_read(data_read),
         .data_writedata(data_writedata),
         .data_readdata(data_readdata),
-	.pause(pause)
-	//.instr_read(instr_read) 
+	.pause(pause),
+	//.instr_read(instr_read)
+	.store_type(store_type) 
     );
 endmodule

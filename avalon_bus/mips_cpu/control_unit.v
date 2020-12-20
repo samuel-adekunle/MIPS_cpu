@@ -9,6 +9,7 @@ module control_unit (
     output logic [1:0] HI_write,
     output logic [1:0] LO_write,
     output logic delay_early,
+    output logic [1:0] store_type,
     input logic [5:0] opcode,
     input logic [5:0] funct,
     input logic [5:0] rt,
@@ -153,6 +154,11 @@ module control_unit (
       if(opcode != 6'h0 & (opcode == 6'h28 | opcode == 6'h29 | opcode == 6'h2b))
       begin
         MemWrite = 1'b1;
+ 	case(opcode) 
+	6'h2b: store_type = 00; //sw
+	6'h29: store_type = 01; //sh
+	6'h28: store_type = 10; //sb
+	endcase
       end
       // For memory read operation
       // LW, LB, LBU, LH, LHU, LWL, LWR

@@ -21,7 +21,10 @@ module mips_cpu_harvard(
     input logic[31:0]   data_readdata,
 
    //deactivate harvard
-   input logic pause
+   input logic pause,
+
+   //indicate stores
+   output logic [1:0] store_type
   );
 
   initial
@@ -80,7 +83,7 @@ module mips_cpu_harvard(
                  .HI_write(HI_write), .LO_write(LO_write), .delay_early(delay_early),
                  .opcode(opcode),
                  .funct(functcode),
-                 .rt(rt_instr), .clk_en(clk_enable)
+                 .rt(rt_instr), .clk_en(clk_enable), .store_type(store_type)
                );
 
   //delay slot implementation
@@ -145,7 +148,7 @@ module mips_cpu_harvard(
              );
 
   //Connection of select_writedata as input to data mem
-  logic[31:0] data_readdelayed;
+  /*logic[31:0] data_readdelayed;
   always_ff@(posedge clk)
   begin
     data_readdelayed <= selected_readdata;
@@ -153,7 +156,11 @@ module mips_cpu_harvard(
   select_datawrite selectwrite (
                      .rt_content(rt_content), .data_readdata(data_readdelayed), .opcode(opcode),
                      .data_address2LSB(data_address[1:0]), .data_writedata(data_writedata)
-                   );
+                   );*/ 
+
+  always_comb begin 
+	data_writedata = rt_content; 
+  end
 
   //Connection of Sign Extend
   logic [31:0] Extend32;
@@ -208,7 +215,7 @@ module mips_cpu_harvard(
 
   initial
   begin
-    $monitor("CPU write_data: %h, data, %h seledcted read: %h, opcode %h",write_data,data_readdata , selected_readdata, instr_readdata);
+    $monitor("CPU write_data: %h, data:%h selected read: %h, opcode:%h store_type:%d",write_data, data_readdata , selected_readdata, instr_readdata, store_type);
     //$monitor("CPU: instruction: %h, PC: %h\n CPU: data_address: %h write_data:%h",instr_readdata, instr_address, data_address,write_data);
   end
 
