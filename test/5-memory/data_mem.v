@@ -3,7 +3,6 @@ module data_mem(
     input logic [31:0] WriteData,
     input logic MemWrite,
     input logic MemRead,
-    input logic [5:0] opcode,
     input clk,
     output logic [31:0] ReadData
   );
