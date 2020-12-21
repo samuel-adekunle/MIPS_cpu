@@ -1,3 +1,20 @@
+TEST CASE FILE CONVENTIONS: 
+
+desc prefaces file with a description 
+Lower case instructions 
+fields separated as follows: addiu $2, $2, 65535 
+# for expected final value of v0 , preface with 0x for hex
+data N will convert the denary value N into hex for reading into data 
+Data 0xN will directly write N 
+ Memory: 0-10 is assumed to be data 
+11-20 can be used for backwards jumps  
+21-30 used for max backwards branch  
+31-40 used for max forwards branch  
+41-50 used for max jump forwards branch  
+ALL other branch/jump within 0xBFC00000 range 
+
+
+
 Jumping backwards
 jump back to memory location 44
 containing:
